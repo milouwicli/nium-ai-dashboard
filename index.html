@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ops AI Initiatives — Nium</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #e8e6e1;
+    --surface: #ffffff;
+    --surface2: #f0ede8;
+    --border: #d4d1cb;
+    --border-strong: #b8b4ac;
+    --text: #0a0a0a;
+    --text-dim: #4a4845;
+    --text-muted: #9a978f;
+    --mint: #00f5c4;
+    --mint-dark: #00c9a0;
+    --mint-text: #006e55;
+    --mint-bg: rgba(0,245,196,0.12);
+    --mint-border: rgba(0,245,196,0.40);
+    --green: #00a878;
+    --green-bg: rgba(0,168,120,0.10);
+    --amber: #b87d0a;
+    --amber-bg: rgba(184,125,10,0.10);
+    --gray: #8a8780;
+    --gray-bg: rgba(138,135,128,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid var(--border-strong);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(232,230,225,0.96);
+    z-index: 100;
+    backdrop-filter: blur(16px);
+  }
+
+  .header-left { display: flex; align-items: center; gap: 20px; }
+
+  .nium-logo {
+    display: inline-flex;
+    align-items: center;
+    background: var(--mint);
+    padding: 6px 11px 5px;
+  }
+
+  .nium-logo span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    color: #0a0a0a;
+    text-transform: uppercase;
+  }
+
+  .header-divider { width: 1px; height: 20px; background: var(--border-strong); }
+
+  .header-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .header-stats { display: flex; align-items: stretch; height: 100%; }
+
+  .stat-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 24px;
+    border-left: 1px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-num.mint { color: var(--mint-text); }
+
+  .stat-lbl {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-top: 3px;
+  }
+
+  /* LAYOUT */
+  .layout {
+    display: grid;
+    grid-template-columns: 316px 1fr;
+    min-height: calc(100vh - 64px);
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    border-right: 1px solid var(--border-strong);
+    overflow-y: auto;
+    background: var(--surface2);
+  }
+
+  .sidebar-hd {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar-hd-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .sidebar-hd-ct {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .ini-card {
+    padding: 13px 20px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+
+  .ini-card:hover { background: rgba(255,255,255,0.55); }
+  .ini-card.active { background: var(--surface); border-left-color: var(--mint); }
+
+  .ini-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ini-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .ini-owner {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .badge-done { background: var(--green-bg); color: var(--green); }
+  .badge-inprogress { background: var(--mint-bg); color: var(--mint-text); border: 1px solid var(--mint-border); }
+  .badge-notstarted { background: var(--gray-bg); color: var(--gray); }
+
+  .mini-bar { height: 2px; background: var(--border); overflow: hidden; }
+  .mini-bar-fill { height: 100%; background: var(--mint); transition: width 0.4s; }
+
+  /* DETAIL */
+  .detail { overflow-y: auto; background: var(--surface2); }
+
+  .placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .placeholder-box {
+    width: 56px; height: 56px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 10px;
+    border: 1.5px solid var(--border-strong);
+    opacity: 0.35;
+  }
+  .placeholder-box span { background: var(--border-strong); display: block; }
+
+  .placeholder p {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* Detail inner */
+  .detail-banner {
+    background: #0a0a0a;
+    padding: 30px 40px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .detail-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.03) 19px, rgba(255,255,255,0.03) 20px),
+      repeating-linear-gradient(0deg,   transparent, transparent 19px, rgba(255,255,255,0.03) 19px, rgba(255,255,255,0.03) 20px);
+    pointer-events: none;
+  }
+
+  .banner-eye {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 10px;
+  }
+
+  .banner-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .banner-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255,255,255,0.14);
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: rgba(255,255,255,0.55);
+    position: relative;
+    z-index: 1;
+  }
+  .banner-pill.inprogress { border-color: var(--mint-border); color: var(--mint); }
+  .banner-pill.done { border-color: rgba(0,168,120,0.35); color: #5ee0b8; }
+
+  .pip { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .pip.blink { animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
+  /* Body */
+  .det-body { padding: 26px 40px 40px; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 13px 15px;
+  }
+  .info-card.hi { background: var(--mint-bg); border-color: var(--mint-border); }
+
+  .ic-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .ic-val {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .ic-val.mono { font-family: 'Space Mono', monospace; font-size: 12px; }
+  .ic-val.tbd { color: var(--text-muted); font-weight: 400; font-size: 12px; }
+
+  /* Progress */
+  .sec-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .prog-wrap { margin-bottom: 26px; }
+
+  .prog-track { height: 3px; background: var(--border); margin-bottom: 7px; }
+  .prog-fill { height: 100%; background: var(--mint); transition: width 0.5s; }
+
+  .prog-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .prog-foot span { font-size: 11px; color: var(--text-muted); }
+  .prog-foot .pv {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* Pipeline */
+  .pipeline { }
+
+  .st-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 150px 120px;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 3px;
+    transition: background 0.1s;
+  }
+  .st-row:hover { background: #fafaf8; }
+  .st-row.cur { border-color: var(--mint); background: var(--mint-bg); }
+
+  .st-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .st-range { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); }
+  .st-owner { font-size: 11px; color: var(--text-muted); text-align: right; }
+  .st-status { display: flex; justify-content: flex-end; }
+
+  .st-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .st-badge.done { background: var(--green-bg); color: var(--green); }
+  .st-badge.inprogress { background: var(--mint-bg); color: var(--mint-text); border: 1px solid var(--mint-border); }
+  .st-badge.notstarted { background: var(--gray-bg); color: var(--gray); }
+
+  /* Scroll */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); }
+
+  /* Description section */
+  .desc-section {
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .desc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .desc-pending-tag {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    background: var(--amber-bg);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  .desc-body { }
+
+  .desc-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .desc-row:last-child { border-bottom: none; }
+
+  .desc-row-lbl {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    padding: 13px 16px;
+    border-right: 1px solid var(--border);
+    background: var(--surface2);
+    letter-spacing: 0.01em;
+  }
+
+  .desc-row-val {
+    font-size: 13px;
+    color: var(--text);
+    padding: 13px 16px;
+    line-height: 1.6;
+  }
+
+  .desc-empty {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .ani { animation: fadeUp 0.2s ease forwards; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="nium-logo"><span>Nium</span></div>
+    <div class="header-divider"></div>
+    <span class="header-title">Ops AI Initiatives</span>
+  </div>
+  <div class="header-stats">
+    <div class="stat-block">
+      <div class="stat-num">11</div>
+      <div class="stat-lbl">Initiatives</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num mint" id="stat-active">—</div>
+      <div class="stat-lbl">In Progress</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num" id="stat-complete">—</div>
+      <div class="stat-lbl">Complete</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num" id="stat-proj-val">TBD</div>
+      <div class="stat-lbl">Total Projected Value</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num mint" id="stat-val-real">TBD</div>
+      <div class="stat-lbl">Total Value Realisation</div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-hd">
+      <span class="sidebar-hd-lbl">All Initiatives</span>
+      <span class="sidebar-hd-ct">11</span>
+    </div>
+    <div id="sidebar-list"></div>
+  </aside>
+  <main class="detail" id="detail-panel">
+    <div class="placeholder">
+      <div class="placeholder-box">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <p>Select an initiative</p>
+    </div>
+  </main>
+</div>
+
+<script>
+const raw = [
+  {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
+  {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Deployment',status:'In Progress',range:'2026-03-03 - 2026-05-15'},
+  {owner:'Ganesh Pandit',stage:'Monitoring',status:'Not Started',range:'2026-05-18 - 2026-05-29'},
+  {owner:'Umesh Jaiswal',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
+  {owner:'Umesh Jaiswal',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
+  {owner:'Umesh Jaiswal',stage:'Design',status:'In Progress',range:'2026-05-15 - 2026-05-15'},
+  {owner:'Umesh Jaiswal',stage:'Build',status:'Not Started',range:'2026-05-19 - 2026-05-19'},
+  {owner:'Umesh Jaiswal',stage:'Testing',status:'Not Started',range:'2026-05-22 - 2026-05-22'},
+  {owner:'Umesh Jaiswal',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
+  {owner:'Umesh Jaiswal',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
+  {owner:'Kavina Shah',stage:'Ideation',status:'In Progress',range:'2026-05-15 - 2026-05-29'},
+  {owner:'Kavina Shah',stage:'Feasibility',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Design',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Build',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Testing',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
+  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-04-15 - 2026-04-30'},
+  {owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
+  {owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
+  {owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
+  {owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
+  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'In Progress',range:'2026-04-21 - 2026-04-29'},
+  {owner:'Bela Mascrene (2)',stage:'Design',status:'Not Started',range:'2026-04-30 - 2026-05-08'},
+  {owner:'Bela Mascrene (2)',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-20'},
+  {owner:'Bela Mascrene (2)',stage:'Testing',status:'Not Started',range:'2026-04-21 - 2026-04-30'},
+  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
+  {owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
+  {owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
+  {owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
+  {owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
+  {owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
+  {owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
+  {owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
+  {owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Design',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Build',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
+  {owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
+  {owner:'Karan Patel',stage:'Design',status:'In Progress',range:'2026-05-04 - 2026-06-30'},
+  {owner:'Karan Patel',stage:'Build',status:'Not Started',range:'2026-07-01 - 2026-08-31'},
+  {owner:'Karan Patel',stage:'Testing',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {owner:'Karan Patel',stage:'Deployment',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {owner:'KT',stage:'Ideation',status:'In Progress',range:'2026-04-08 - 2026-05-01'},
+  {owner:'KT',stage:'Feasibility',status:'Not Started',range:'2026-04-28 - 2026-05-01'},
+  {owner:'KT',stage:'Design',status:'Not Started',range:'2026-05-04 - 2026-05-08'},
+  {owner:'KT',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-29'},
+  {owner:'KT',stage:'Testing',status:'Not Started',range:'2026-06-01 - 2026-08-31'},
+  {owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
+];
+
+const NAMES = [
+  'AI-Powered Automation','Intelligent Workflow Engine','Conversational AI Interface',
+  'Predictive Analytics Platform','Smart Document Processing','AI Operations Monitoring',
+  'NLP Integration Suite','Automated QA Framework','AI Data Pipeline',
+  'Customer Intelligence AI','Ops AI Tooling',
+];
+
+const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function sc(s) {
+  if (s==='Done'||s==='Complete') return 'done';
+  if (s==='In Progress') return 'inprogress';
+  return 'notstarted';
+}
+
+function fmtD(d) {
+  if (!d) return '—';
+  const [y,mo,day] = d.split('-');
+  return `${parseInt(day)} ${M[parseInt(mo)-1]} ${y}`;
+}
+
+function fmtR(r) {
+  if (!r) return '—';
+  return r.replace(/(\d{4})-(\d{2})-(\d{2})/g, (_,y,mo,d) => `${parseInt(d)} ${M[parseInt(mo)-1]}`);
+}
+
+const owners = [...new Set(raw.map(r=>r.owner))];
+const initiatives = owners.map((owner,i) => {
+  const stages = raw.filter(r=>r.owner===owner);
+  const done = stages.filter(s=>s.status==='Done').length;
+  const last = stages.filter(s=>s.range).pop();
+  const delivery = last ? last.range.split(' - ').pop() : null;
+  const pct = Math.round(done/7*100);
+  let status = 'Not Started';
+  if (done===7) status='Complete';
+  else if (stages.some(s=>s.status==='In Progress')||done>0) status='In Progress';
+  return {id:i, name:NAMES[i], owner:owner.replace(' (2)',''), stages, done, delivery, pct, status};
+});
+
+document.getElementById('stat-active').textContent = initiatives.filter(i=>i.status==='In Progress').length;
+document.getElementById('stat-complete').textContent = initiatives.filter(i=>i.status==='Complete').length;
+
+document.getElementById('sidebar-list').innerHTML = initiatives.map(ini=>`
+  <div class="ini-card" data-id="${ini.id}" onclick="sel(${ini.id})">
+    <div class="ini-card-title">${ini.name}</div>
+    <div class="ini-card-meta">
+      <span class="ini-owner">${ini.owner}</span>
+      <span class="badge badge-${sc(ini.status)}">${ini.status}</span>
+    </div>
+    <div class="mini-bar"><div class="mini-bar-fill" style="width:${ini.pct}%"></div></div>
+  </div>
+`).join('');
+
+function sel(id) {
+  document.querySelectorAll('.ini-card').forEach(el=>el.classList.toggle('active',+el.dataset.id===id));
+  const ini = initiatives[id];
+  const ipS = ini.stages.find(s=>s.status==='In Progress');
+  const ldS = [...ini.stages].reverse().find(s=>s.status==='Done');
+  let cp = 'Not Started';
+  if (ini.done===7) cp='Complete';
+  else if (ipS) cp=ipS.stage;
+  else if (ldS) cp=`Post-${ldS.stage}`;
+
+  const cls = sc(ini.status);
+  const pulse = ini.status==='In Progress';
+
+  document.getElementById('detail-panel').innerHTML = `
+    <div class="ani">
+      <div class="detail-banner">
+        <div class="banner-eye">Ops AI Initiatives &middot; ${ini.owner}</div>
+        <div class="banner-title">${ini.name}</div>
+        <div class="banner-pill ${cls}">
+          <span class="pip ${pulse?'blink':''}"></span>${ini.status}
+        </div>
+      </div>
+      <div class="det-body">
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="ic-lbl">Owner</div>
+            <div class="ic-val">${ini.owner}</div>
+          </div>
+          <div class="info-card hi">
+            <div class="ic-lbl">Current Point</div>
+            <div class="ic-val">${cp}</div>
+          </div>
+          <div class="info-card">
+            <div class="ic-lbl">Est. Delivery</div>
+            <div class="ic-val mono">${fmtD(ini.delivery)}</div>
+          </div>
+          <div class="info-card">
+            <div class="ic-lbl">Projected Value</div>
+            <div class="ic-val tbd">To be added</div>
+          </div>
+          <div class="info-card">
+            <div class="ic-lbl">Value Realisation</div>
+            <div class="ic-val tbd">To be added</div>
+          </div>
+          <div class="info-card">
+            <div class="ic-lbl">Stages Complete</div>
+            <div class="ic-val">${ini.done} <span style="color:var(--text-muted);font-weight:400">/ 7</span></div>
+          </div>
+        </div>
+
+        <div class="prog-wrap">
+          <div class="sec-lbl">Overall Progress</div>
+          <div class="prog-track"><div class="prog-fill" style="width:${ini.pct}%"></div></div>
+          <div class="prog-foot">
+            <span>${ini.done} of 7 stages complete</span>
+            <span class="pv">${ini.pct}%</span>
+          </div>
+        </div>
+
+        <div class="sec-lbl">Stage Pipeline</div>
+        <div class="pipeline">
+          ${ini.stages.map(s=>{
+            const c=sc(s.status), active=s.status==='In Progress';
+            return `<div class="st-row ${active?'cur':''}">
+              <div class="st-name">${s.stage}</div>
+              <div class="st-range">${fmtR(s.range)}</div>
+              <div class="st-owner">${s.owner.replace(' (2)','')}</div>
+              <div class="st-status">
+                <span class="st-badge ${c}">
+                  <span class="pip ${active?'blink':''}"></span>${s.status}
+                </span>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+
+        <div class="desc-section">
+          <div class="desc-header">
+            <div class="sec-lbl" style="margin:0">Objective & Description</div>
+            <span class="desc-pending-tag">Pending Input</span>
+          </div>
+          <div class="desc-body">
+            <div class="desc-row">
+              <div class="desc-row-lbl">Objective</div>
+              <div class="desc-row-val desc-empty">—</div>
+            </div>
+            <div class="desc-row">
+              <div class="desc-row-lbl">Description</div>
+              <div class="desc-row-val desc-empty">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+</script>
+</body>
+</html>
