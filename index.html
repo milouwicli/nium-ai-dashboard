@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ops AI Initiatives — Nium</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #e8e6e1;
@@ -16,14 +16,17 @@
     --text-dim: #4a4845;
     --text-muted: #9a978f;
     --mint: #00f5c4;
-    --mint-dark: #00c9a0;
     --mint-text: #006e55;
     --mint-bg: rgba(0,245,196,0.12);
     --mint-border: rgba(0,245,196,0.40);
     --green: #00a878;
     --green-bg: rgba(0,168,120,0.10);
     --amber: #b87d0a;
-    --amber-bg: rgba(184,125,10,0.10);
+    --amber-bg: rgba(184,125,10,0.12);
+    --amber-border: rgba(184,125,10,0.30);
+    --red: #c0392b;
+    --red-bg: rgba(192,57,43,0.10);
+    --red-border: rgba(192,57,43,0.30);
     --gray: #8a8780;
     --gray-bg: rgba(138,135,128,0.10);
   }
@@ -99,6 +102,8 @@
     line-height: 1;
   }
   .stat-num.mint { color: var(--mint-text); }
+  .stat-num.amber { color: var(--amber); }
+  .stat-num.red { color: var(--red); }
 
   .stat-lbl {
     font-size: 9px;
@@ -108,69 +113,116 @@
     margin-top: 3px;
   }
 
-  /* LAYOUT */
-  .layout {
+  /* MAIN */
+  .main {
+    padding: 32px 48px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Summary bar */
+  .summary-bar {
     display: grid;
-    grid-template-columns: 316px 1fr;
-    min-height: calc(100vh - 64px);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
   }
 
-  /* SIDEBAR */
-  .sidebar {
-    border-right: 1px solid var(--border-strong);
-    overflow-y: auto;
-    background: var(--surface2);
-  }
-
-  .sidebar-hd {
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .sidebar-hd-lbl {
+  .summary-card.on-track { border-top: 3px solid var(--green); }
+  .summary-card.behind { border-top: 3px solid var(--amber); }
+  .summary-card.at-risk { border-top: 3px solid var(--red); }
+  .summary-card.total { border-top: 3px solid var(--mint); }
+
+  .summary-card .sc-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .summary-card.on-track .sc-num { color: var(--green); }
+  .summary-card.behind .sc-num { color: var(--amber); }
+  .summary-card.at-risk .sc-num { color: var(--red); }
+  .summary-card.total .sc-num { color: var(--mint-text); }
+
+  .summary-card .sc-lbl {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
+
+  /* Section label */
+  .section-lbl {
     font-size: 9px;
     font-weight: 700;
-    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.16em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
   }
 
-  .sidebar-hd-ct {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
+  /* Table header */
+  .table-head {
+    display: grid;
+    grid-template-columns: 1.8fr 2.2fr 1.8fr 1.5fr 1.2fr;
+    gap: 16px;
+    padding: 8px 20px;
+    margin-bottom: 4px;
+  }
+
+  .th {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     color: var(--text-muted);
   }
 
-  .ini-card {
-    padding: 13px 20px;
-    cursor: pointer;
-    border-left: 3px solid transparent;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
+  .th.right { text-align: right; }
+
+  /* Initiative rows */
+  .ini-row {
+    display: grid;
+    grid-template-columns: 1.8fr 2.2fr 1.8fr 1.5fr 1.2fr;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 4px;
+    align-items: start;
+    transition: background 0.1s, box-shadow 0.1s;
+    cursor: default;
   }
 
-  .ini-card:hover { background: rgba(255,255,255,0.55); }
-  .ini-card.active { background: var(--surface); border-left-color: var(--mint); }
+  .ini-row:hover {
+    background: #fafaf8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
 
-  .ini-card-title {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+  .ini-row.behind-schedule { border-left: 3px solid var(--amber); }
+  .ini-row.at-risk { border-left: 3px solid var(--red); }
+  .ini-row.on-track { border-left: 3px solid var(--green); }
+
+  /* Name col */
+  .col-name {}
+
+  .ini-name {
+    font-size: 14px;
+    font-weight: 700;
     color: var(--text);
-    margin-bottom: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .ini-card-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
   }
 
   .ini-owner {
@@ -179,273 +231,130 @@
     color: var(--text-muted);
   }
 
-  .badge {
-    font-size: 9px;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-  }
-  .badge-done { background: var(--green-bg); color: var(--green); }
-  .badge-inprogress { background: var(--mint-bg); color: var(--mint-text); border: 1px solid var(--mint-border); }
-  .badge-notstarted { background: var(--gray-bg); color: var(--gray); }
+  /* Description col */
+  .col-desc {}
 
-  .mini-bar { height: 2px; background: var(--border); overflow: hidden; }
-  .mini-bar-fill { height: 100%; background: var(--mint); transition: width 0.4s; }
-
-  /* DETAIL */
-  .detail { overflow-y: auto; background: var(--surface2); }
-
-  .placeholder {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-  }
-
-  .placeholder-box {
-    width: 56px; height: 56px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 10px;
-    border: 1.5px solid var(--border-strong);
-    opacity: 0.35;
-  }
-  .placeholder-box span { background: var(--border-strong); display: block; }
-
-  .placeholder p {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-
-  /* Detail inner */
-  .detail-banner {
-    background: #0a0a0a;
-    padding: 30px 40px 26px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .detail-banner::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.03) 19px, rgba(255,255,255,0.03) 20px),
-      repeating-linear-gradient(0deg,   transparent, transparent 19px, rgba(255,255,255,0.03) 19px, rgba(255,255,255,0.03) 20px);
-    pointer-events: none;
-  }
-
-  .banner-eye {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--mint);
-    margin-bottom: 10px;
-  }
-
-  .banner-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin-bottom: 14px;
-  }
-
-  .banner-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid rgba(255,255,255,0.14);
-    padding: 5px 12px;
+  .ini-objective {
     font-size: 11px;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: rgba(255,255,255,0.55);
-    position: relative;
-    z-index: 1;
-  }
-  .banner-pill.inprogress { border-color: var(--mint-border); color: var(--mint); }
-  .banner-pill.done { border-color: rgba(0,168,120,0.35); color: #5ee0b8; }
-
-  .pip { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-  .pip.blink { animation: blink 2s infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
-
-  /* Body */
-  .det-body { padding: 26px 40px 40px; }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 26px;
-  }
-
-  .info-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 13px 15px;
-  }
-  .info-card.hi { background: var(--mint-bg); border-color: var(--mint-border); }
-
-  .ic-lbl {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-  }
-
-  .ic-val {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: -0.01em;
-  }
-  .ic-val.mono { font-family: 'Space Mono', monospace; font-size: 12px; }
-  .ic-val.tbd { color: var(--text-muted); font-weight: 400; font-size: 12px; }
-
-  /* Progress */
-  .sec-lbl {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-  }
-
-  .prog-wrap { margin-bottom: 26px; }
-
-  .prog-track { height: 3px; background: var(--border); margin-bottom: 7px; }
-  .prog-fill { height: 100%; background: var(--mint); transition: width 0.5s; }
-
-  .prog-foot {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-  .prog-foot span { font-size: 11px; color: var(--text-muted); }
-  .prog-foot .pv {
-    font-family: 'Space Mono', monospace;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  /* Pipeline */
-  .pipeline { }
-
-  .st-row {
-    display: grid;
-    grid-template-columns: 110px 1fr 150px 120px;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    margin-bottom: 3px;
-    transition: background 0.1s;
-  }
-  .st-row:hover { background: #fafaf8; }
-  .st-row.cur { border-color: var(--mint); background: var(--mint-bg); }
-
-  .st-name { font-size: 12px; font-weight: 600; color: var(--text); }
-  .st-range { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); }
-  .st-owner { font-size: 11px; color: var(--text-muted); text-align: right; }
-  .st-status { display: flex; justify-content: flex-end; }
-
-  .st-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 9px;
-    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    padding: 3px 8px;
-    border-radius: 2px;
-  }
-  .st-badge.done { background: var(--green-bg); color: var(--green); }
-  .st-badge.inprogress { background: var(--mint-bg); color: var(--mint-text); border: 1px solid var(--mint-border); }
-  .st-badge.notstarted { background: var(--gray-bg); color: var(--gray); }
-
-  /* Scroll */
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); }
-
-  /* Description section */
-  .desc-section {
-    margin-top: 24px;
-    border: 1px solid var(--border);
-    background: var(--surface);
+    color: var(--text-muted);
+    margin-bottom: 4px;
   }
 
-  .desc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface2);
-  }
-
-  .desc-pending-tag {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--amber);
-    background: var(--amber-bg);
-    padding: 2px 8px;
-    border-radius: 2px;
-  }
-
-  .desc-body { }
-
-  .desc-row {
-    display: grid;
-    grid-template-columns: 160px 1fr;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .desc-row:last-child { border-bottom: none; }
-
-  .desc-row-lbl {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-dim);
-    padding: 13px 16px;
-    border-right: 1px solid var(--border);
-    background: var(--surface2);
-    letter-spacing: 0.01em;
-  }
-
-  .desc-row-val {
+  .ini-desc {
     font-size: 13px;
-    color: var(--text);
-    padding: 13px 16px;
-    line-height: 1.6;
+    color: var(--text-dim);
+    line-height: 1.55;
   }
 
-  .desc-empty {
+  .ini-desc.empty {
     color: var(--text-muted);
     font-style: italic;
   }
 
+  /* Benefits col */
+  .col-benefits {}
+
+  .ini-benefits {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  .ini-benefits.empty {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Go live col */
+  .col-golive { text-align: right; }
+
+  .golive-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .golive-date.empty { color: var(--text-muted); font-weight: 400; }
+
+  .current-stage {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  /* Health col */
+  .col-health { display: flex; justify-content: flex-end; align-items: flex-start; }
+
+  .health-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 5px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .health-badge.on-track {
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .health-badge.behind-schedule {
+    background: var(--amber-bg);
+    color: var(--amber);
+    border: 1px solid var(--amber-border);
+  }
+
+  .health-badge.at-risk {
+    background: var(--red-bg);
+    color: var(--red);
+    border: 1px solid var(--red-border);
+  }
+
+  .health-badge.not-started {
+    background: var(--gray-bg);
+    color: var(--gray);
+  }
+
+  .hpip {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .hpip.blink { animation: blink 2s infinite; }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
+  /* Updated timestamp */
+  .updated {
+    margin-top: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); }
+
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .ani { animation: fadeUp 0.2s ease forwards; }
+
+  .ini-row { animation: fadeUp 0.2s ease both; }
+  ${[...Array(11)].map((_,i) => `.ini-row:nth-child(${i+1}) { animation-delay: ${i*0.04}s; }`).join('\n  ')}
 </style>
 </head>
 <body>
@@ -458,47 +367,70 @@
   </div>
   <div class="header-stats">
     <div class="stat-block">
-      <div class="stat-num">11</div>
+      <div class="stat-num" id="h-total">11</div>
       <div class="stat-lbl">Initiatives</div>
     </div>
     <div class="stat-block">
-      <div class="stat-num mint" id="stat-active">—</div>
-      <div class="stat-lbl">In Progress</div>
+      <div class="stat-num mint" id="h-ontrack">—</div>
+      <div class="stat-lbl">On Track</div>
     </div>
     <div class="stat-block">
-      <div class="stat-num" id="stat-complete">—</div>
-      <div class="stat-lbl">Complete</div>
+      <div class="stat-num amber" id="h-behind">—</div>
+      <div class="stat-lbl">Behind Schedule</div>
     </div>
     <div class="stat-block">
-      <div class="stat-num" id="stat-proj-val">TBD</div>
+      <div class="stat-num red" id="h-atrisk">—</div>
+      <div class="stat-lbl">At Risk</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num" id="h-projval">TBD</div>
       <div class="stat-lbl">Total Projected Value</div>
     </div>
     <div class="stat-block">
-      <div class="stat-num mint" id="stat-val-real">TBD</div>
+      <div class="stat-num mint" id="h-valreal">TBD</div>
       <div class="stat-lbl">Total Value Realisation</div>
     </div>
   </div>
 </header>
 
-<div class="layout">
-  <aside class="sidebar">
-    <div class="sidebar-hd">
-      <span class="sidebar-hd-lbl">All Initiatives</span>
-      <span class="sidebar-hd-ct">11</span>
+<div class="main">
+  <div class="summary-bar">
+    <div class="summary-card total">
+      <div class="sc-num" id="s-total">11</div>
+      <div class="sc-lbl">Total Initiatives</div>
     </div>
-    <div id="sidebar-list"></div>
-  </aside>
-  <main class="detail" id="detail-panel">
-    <div class="placeholder">
-      <div class="placeholder-box">
-        <span></span><span></span><span></span><span></span>
-      </div>
-      <p>Select an initiative</p>
+    <div class="summary-card on-track">
+      <div class="sc-num" id="s-ontrack">—</div>
+      <div class="sc-lbl">On Track</div>
     </div>
-  </main>
+    <div class="summary-card behind">
+      <div class="sc-num" id="s-behind">—</div>
+      <div class="sc-lbl">Behind Schedule</div>
+    </div>
+    <div class="summary-card at-risk">
+      <div class="sc-num" id="s-atrisk">—</div>
+      <div class="sc-lbl">At Risk</div>
+    </div>
+  </div>
+
+  <div class="section-lbl">All Initiatives</div>
+
+  <div class="table-head">
+    <div class="th">Initiative</div>
+    <div class="th">Objective & Description</div>
+    <div class="th">Projected Value</div>
+    <div class="th right">Target Go Live</div>
+    <div class="th right">Health</div>
+  </div>
+
+  <div id="ini-list"></div>
+
+  <div class="updated" id="updated-ts"></div>
 </div>
 
 <script>
+const TODAY = new Date('2026-05-12');
+
 const raw = [
   {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
   {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
@@ -586,147 +518,119 @@ const NAMES = [
   'Customer Intelligence AI','Ops AI Tooling',
 ];
 
+// Placeholder descriptions — to be populated
+const OBJECTIVES = Array(11).fill(null);
+const DESCRIPTIONS = Array(11).fill(null);
+const BENEFITS = Array(11).fill(null);
+
 const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-function sc(s) {
-  if (s==='Done'||s==='Complete') return 'done';
-  if (s==='In Progress') return 'inprogress';
-  return 'notstarted';
+function parseDate(str) {
+  if (!str) return null;
+  const [y,mo,d] = str.split('-');
+  return new Date(+y, +mo-1, +d);
 }
 
-function fmtD(d) {
-  if (!d) return '—';
-  const [y,mo,day] = d.split('-');
-  return `${parseInt(day)} ${M[parseInt(mo)-1]} ${y}`;
+function fmtDate(str) {
+  if (!str) return null;
+  const [y,mo,d] = str.split('-');
+  return `${parseInt(d)} ${M[parseInt(mo)-1]} ${y}`;
 }
 
-function fmtR(r) {
-  if (!r) return '—';
-  return r.replace(/(\d{4})-(\d{2})-(\d{2})/g, (_,y,mo,d) => `${parseInt(d)} ${M[parseInt(mo)-1]}`);
+function calcHealth(stages, goLiveDate) {
+  const allNotStarted = stages.every(s => s.status === 'Not Started') && stages.every(s => !s.range);
+  if (allNotStarted) return 'not-started';
+
+  // At Risk: go live date has passed and deployment not done
+  if (goLiveDate) {
+    const depStage = stages.find(s => s.stage === 'Deployment');
+    const goLive = parseDate(goLiveDate);
+    if (goLive && goLive < TODAY && depStage && depStage.status !== 'Done') {
+      return 'at-risk';
+    }
+  }
+
+  // Behind Schedule: any stage's end date has passed and it's not done
+  for (const s of stages) {
+    if (s.status === 'Done') continue;
+    if (s.range) {
+      const endStr = s.range.split(' - ')[1];
+      const end = parseDate(endStr);
+      if (end && end < TODAY) return 'behind-schedule';
+    }
+  }
+
+  return 'on-track';
 }
 
-const owners = [...new Set(raw.map(r=>r.owner))];
-const initiatives = owners.map((owner,i) => {
-  const stages = raw.filter(r=>r.owner===owner);
-  const done = stages.filter(s=>s.status==='Done').length;
-  const last = stages.filter(s=>s.range).pop();
-  const delivery = last ? last.range.split(' - ').pop() : null;
-  const pct = Math.round(done/7*100);
-  let status = 'Not Started';
-  if (done===7) status='Complete';
-  else if (stages.some(s=>s.status==='In Progress')||done>0) status='In Progress';
-  return {id:i, name:NAMES[i], owner:owner.replace(' (2)',''), stages, done, delivery, pct, status};
+const owners = [...new Set(raw.map(r => r.owner))];
+const initiatives = owners.map((owner, i) => {
+  const stages = raw.filter(r => r.owner === owner);
+  const depStage = stages.find(s => s.stage === 'Deployment');
+  const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
+  const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
+  const health = calcHealth(stages, goLiveDate);
+  return {
+    id: i,
+    name: NAMES[i],
+    owner: owner.replace(' (2)', ''),
+    stages,
+    goLiveDate,
+    currentStage,
+    health,
+    objective: OBJECTIVES[i],
+    description: DESCRIPTIONS[i],
+    benefits: BENEFITS[i],
+  };
 });
 
-document.getElementById('stat-active').textContent = initiatives.filter(i=>i.status==='In Progress').length;
-document.getElementById('stat-complete').textContent = initiatives.filter(i=>i.status==='Complete').length;
+// Health counts
+const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
+initiatives.forEach(i => counts[i.health]++);
 
-document.getElementById('sidebar-list').innerHTML = initiatives.map(ini=>`
-  <div class="ini-card" data-id="${ini.id}" onclick="sel(${ini.id})">
-    <div class="ini-card-title">${ini.name}</div>
-    <div class="ini-card-meta">
-      <span class="ini-owner">${ini.owner}</span>
-      <span class="badge badge-${sc(ini.status)}">${ini.status}</span>
-    </div>
-    <div class="mini-bar"><div class="mini-bar-fill" style="width:${ini.pct}%"></div></div>
-  </div>
-`).join('');
+['h-ontrack','s-ontrack'].forEach(id => document.getElementById(id).textContent = counts['on-track']);
+['h-behind','s-behind'].forEach(id => document.getElementById(id).textContent = counts['behind-schedule']);
+['h-atrisk','s-atrisk'].forEach(id => document.getElementById(id).textContent = counts['at-risk']);
 
-function sel(id) {
-  document.querySelectorAll('.ini-card').forEach(el=>el.classList.toggle('active',+el.dataset.id===id));
-  const ini = initiatives[id];
-  const ipS = ini.stages.find(s=>s.status==='In Progress');
-  const ldS = [...ini.stages].reverse().find(s=>s.status==='Done');
-  let cp = 'Not Started';
-  if (ini.done===7) cp='Complete';
-  else if (ipS) cp=ipS.stage;
-  else if (ldS) cp=`Post-${ldS.stage}`;
+const healthLabel = { 'on-track': 'On Track', 'behind-schedule': 'Behind Schedule', 'at-risk': 'At Risk', 'not-started': 'Not Started' };
 
-  const cls = sc(ini.status);
-  const pulse = ini.status==='In Progress';
+function renderRow(ini) {
+  const goLive = ini.goLiveDate ? fmtDate(ini.goLiveDate) : null;
+  const curStageName = ini.currentStage ? ini.currentStage.stage : '—';
+  const isPulsing = ini.health === 'behind-schedule' || ini.health === 'at-risk';
 
-  document.getElementById('detail-panel').innerHTML = `
-    <div class="ani">
-      <div class="detail-banner">
-        <div class="banner-eye">Ops AI Initiatives &middot; ${ini.owner}</div>
-        <div class="banner-title">${ini.name}</div>
-        <div class="banner-pill ${cls}">
-          <span class="pip ${pulse?'blink':''}"></span>${ini.status}
-        </div>
+  return `
+    <div class="ini-row ${ini.health}">
+      <div class="col-name">
+        <div class="ini-name">${ini.name}</div>
+        <div class="ini-owner">${ini.owner}</div>
       </div>
-      <div class="det-body">
-        <div class="info-grid">
-          <div class="info-card">
-            <div class="ic-lbl">Owner</div>
-            <div class="ic-val">${ini.owner}</div>
-          </div>
-          <div class="info-card hi">
-            <div class="ic-lbl">Current Point</div>
-            <div class="ic-val">${cp}</div>
-          </div>
-          <div class="info-card">
-            <div class="ic-lbl">Est. Delivery</div>
-            <div class="ic-val mono">${fmtD(ini.delivery)}</div>
-          </div>
-          <div class="info-card">
-            <div class="ic-lbl">Projected Value</div>
-            <div class="ic-val tbd">To be added</div>
-          </div>
-          <div class="info-card">
-            <div class="ic-lbl">Value Realisation</div>
-            <div class="ic-val tbd">To be added</div>
-          </div>
-          <div class="info-card">
-            <div class="ic-lbl">Stages Complete</div>
-            <div class="ic-val">${ini.done} <span style="color:var(--text-muted);font-weight:400">/ 7</span></div>
-          </div>
-        </div>
-
-        <div class="prog-wrap">
-          <div class="sec-lbl">Overall Progress</div>
-          <div class="prog-track"><div class="prog-fill" style="width:${ini.pct}%"></div></div>
-          <div class="prog-foot">
-            <span>${ini.done} of 7 stages complete</span>
-            <span class="pv">${ini.pct}%</span>
-          </div>
-        </div>
-
-        <div class="sec-lbl">Stage Pipeline</div>
-        <div class="pipeline">
-          ${ini.stages.map(s=>{
-            const c=sc(s.status), active=s.status==='In Progress';
-            return `<div class="st-row ${active?'cur':''}">
-              <div class="st-name">${s.stage}</div>
-              <div class="st-range">${fmtR(s.range)}</div>
-              <div class="st-owner">${s.owner.replace(' (2)','')}</div>
-              <div class="st-status">
-                <span class="st-badge ${c}">
-                  <span class="pip ${active?'blink':''}"></span>${s.status}
-                </span>
-              </div>
-            </div>`;
-          }).join('')}
-        </div>
-
-        <div class="desc-section">
-          <div class="desc-header">
-            <div class="sec-lbl" style="margin:0">Objective & Description</div>
-            <span class="desc-pending-tag">Pending Input</span>
-          </div>
-          <div class="desc-body">
-            <div class="desc-row">
-              <div class="desc-row-lbl">Objective</div>
-              <div class="desc-row-val desc-empty">—</div>
-            </div>
-            <div class="desc-row">
-              <div class="desc-row-lbl">Description</div>
-              <div class="desc-row-val desc-empty">—</div>
-            </div>
-          </div>
-        </div>
+      <div class="col-desc">
+        <div class="ini-objective">${ini.objective || 'Objective'}</div>
+        <div class="ini-desc ${!ini.description ? 'empty' : ''}">${ini.description || 'To be added'}</div>
+      </div>
+      <div class="col-benefits">
+        <div class="ini-benefits ${!ini.benefits ? 'empty' : ''}">${ini.benefits || 'To be added'}</div>
+      </div>
+      <div class="col-golive">
+        <div class="golive-date ${!goLive ? 'empty' : ''}">${goLive || '—'}</div>
+        <div class="current-stage">Stage: ${curStageName}</div>
+      </div>
+      <div class="col-health">
+        <span class="health-badge ${ini.health}">
+          <span class="hpip ${isPulsing ? 'blink' : ''}"></span>
+          ${healthLabel[ini.health]}
+        </span>
       </div>
     </div>`;
 }
+
+document.getElementById('ini-list').innerHTML = initiatives.map(renderRow).join('');
+
+// Updated timestamp
+const now = new Date();
+document.getElementById('updated-ts').textContent =
+  `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Data source: monday.com Ops AI Initiatives`;
 </script>
 </body>
 </html>
