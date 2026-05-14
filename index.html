@@ -488,10 +488,6 @@ const QUERY = `{
   }
 }`;
 
-// Show loading state
-document.getElementById('ini-list').innerHTML =
-  '<div style="padding:40px;text-align:center;color:var(--text-muted);font-family:'Space Mono',monospace;font-size:12px;">Loading from monday.com...</div>';
-
 async function fetchMonday() {
   try {
     const res = await fetch('/api/monday', {
