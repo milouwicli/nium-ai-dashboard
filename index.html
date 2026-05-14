@@ -379,6 +379,24 @@
     letter-spacing: 0.04em;
   }
   .more-btn:hover { color: var(--mint-text); }
+
+  .stats-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border-strong);
+    background: var(--surface2);
+  }
+  .sbar-stat { flex:1; padding:20px 32px; border-right:1px solid var(--border); text-align:center; }
+  .sbar-stat:last-child { border-right:none; }
+  .sbar-num { font-family:'Space Mono',monospace; font-size:36px; font-weight:700; color:var(--text); line-height:1; }
+  .sbar-num.green { color:var(--green); }
+  .sbar-num.amber { color:var(--amber); }
+  .sbar-num.red   { color:var(--red); }
+  .sbar-num.mint  { color:var(--mint-text); font-size:22px; }
+  .sbar-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-muted); margin-top:6px; }
+  .sbar-stat.clickable { cursor:pointer; position:relative; }
+  .sbar-stat.clickable:hover { background:rgba(0,0,0,0.02); }
+  .benefit-bullet { font-size:12px; color:var(--text-dim); line-height:1.7; }
+  .benefit-bullet strong { font-family:'Space Mono',monospace; font-size:12px; color:var(--mint-text); font-weight:700; }
 </style>
 </head>
 <body>
@@ -389,67 +407,69 @@
     <div class="header-divider"></div>
     <span class="header-title">Ops AI Initiatives</span>
   </div>
-  <div class="header-stats">
-    <div class="stat-block">
-      <div class="stat-num" id="h-total">11</div>
-      <div class="stat-lbl">Initiatives</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num mint" id="h-ontrack">—</div>
-      <div class="stat-lbl">On Track</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num amber" id="h-behind">—</div>
-      <div class="stat-lbl">Behind Schedule</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num red" id="h-atrisk">—</div>
-      <div class="stat-lbl">At Risk</div>
-    </div>
-    <div class="stat-block" id="benefits-trigger" onclick="toggleBenefits(event)" style="cursor:pointer;position:relative;align-items:flex-end;">
-      <div class="stat-num mint">600+ hrs/mo</div>
-      <div class="stat-lbl" style="display:flex;align-items:center;gap:4px;">Projected Value <span id="benefits-chevron" style="font-size:9px;background:var(--mint);color:#0a0a0a;padding:1px 5px;border-radius:2px;font-weight:700;">See all ▾</span></div>
-      <div id="benefits-panel" style="display:none;position:absolute;top:calc(100% + 1px);right:0;width:680px;background:#fff;border:1px solid var(--border-strong);border-top:3px solid var(--mint);box-shadow:0 8px 32px rgba(0,0,0,0.13);z-index:200;">
-        <div style="padding:12px 20px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;">
-          <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-muted);">Total Projected Value — All Initiatives</div>
-          <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs saved / month</div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="sbar-stat">
+    <div class="sbar-num" id="h-total">—</div>
+    <div class="sbar-lbl">Initiatives</div>
+  </div>
+  <div class="sbar-stat">
+    <div class="sbar-num green" id="h-ontrack">—</div>
+    <div class="sbar-lbl">On Track</div>
+  </div>
+  <div class="sbar-stat">
+    <div class="sbar-num amber" id="h-behind">—</div>
+    <div class="sbar-lbl">Behind Schedule</div>
+  </div>
+  <div class="sbar-stat">
+    <div class="sbar-num red" id="h-atrisk">—</div>
+    <div class="sbar-lbl">At Risk</div>
+  </div>
+  <div class="sbar-stat clickable" id="benefits-trigger" onclick="toggleBenefits(event)">
+    <div class="sbar-num mint">600+ hrs/mo</div>
+    <div class="sbar-lbl">Projected Value &nbsp;<span id="benefits-chevron" style="font-size:9px;background:var(--mint);color:#0a0a0a;padding:1px 6px;border-radius:2px;font-weight:700;">See all ▾</span></div>
+    <div id="benefits-panel" style="display:none;position:absolute;top:calc(100% + 1px);right:0;width:680px;background:#fff;border:1px solid var(--border-strong);border-top:3px solid var(--mint);box-shadow:0 8px 32px rgba(0,0,0,0.13);z-index:200;">
+      <div style="padding:12px 20px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;">
+        <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-muted);">Total Projected Value — All Initiatives</div>
+        <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs saved / month</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
+        <div style="padding:12px 20px;border-right:1px solid var(--border);">
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⏱ Time Saved / Month</div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Alert review &amp; TM triage</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200+ hrs</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank statement workflows</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">KYC onboarding</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Zendesk tickets</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">80-100 hrs</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card Ops settlements</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~30 hrs</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank charges report</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">4 hrs</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Compliance rostering</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~2 hrs</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0 2px;border-top:2px solid var(--border-strong);margin-top:2px;"><span style="font-size:11px;font-weight:700;color:var(--text);">Total</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs</span></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--border);">
-          <div style="padding:12px 20px;border-right:1px solid var(--border);">
-            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⏱ Time Saved / Month</div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Alert review & TM triage</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200+ hrs</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank statement workflows</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">KYC onboarding</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Zendesk tickets</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">80–100 hrs</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card Ops settlements</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~30 hrs</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank charges report</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">4 hrs</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Compliance rostering</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~2 hrs</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0 2px;border-top:2px solid var(--border-strong);margin-top:2px;"><span style="font-size:11px;font-weight:700;color:var(--text);">Total</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs</span></div>
-          </div>
-          <div style="padding:12px 20px;border-right:1px solid var(--border);">
-            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⚡ Speed & Quality</div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Zendesk ticket time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">15→2 min</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM case handling time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ 20–40%</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM analyst productivity</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ 15–25%</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Invoice audit time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Hours→mins</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card settlement errors</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">→ 0</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM SOP adherence</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ Measurably</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Rostering effort</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ 90%</span></div>
-          </div>
-          <div style="padding:12px 20px;">
-            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">💰 Revenue & Risk</div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Invoice overbilling caught</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ Leakage</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card funding failures</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Real-time alerts</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Payment error resolution</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Maker step removed</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Customer satisfaction</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ CSAT</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">First response time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Faster</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Manual compliance risk</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ Significantly</span></div>
-          </div>
+        <div style="padding:12px 20px;border-right:1px solid var(--border);">
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⚡ Speed &amp; Quality</div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Zendesk ticket time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">15→2 min</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM case handling time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ 20-40%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM analyst productivity</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ 15-25%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Invoice audit time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Hours→mins</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card settlement errors</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">→ 0</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM SOP adherence</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ Measurably</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Rostering effort</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ 90%</span></div>
+        </div>
+        <div style="padding:12px 20px;">
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">💰 Revenue &amp; Risk</div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Invoice overbilling caught</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ Leakage</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card funding failures</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Real-time alerts</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Payment error resolution</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Maker step removed</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Customer satisfaction</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ CSAT</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">First response time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Faster</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Manual compliance risk</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ Significantly</span></div>
         </div>
       </div>
     </div>
   </div>
-</header>
+</div>
 
 <div class="main">
   <div class="table-head">
@@ -466,11 +486,89 @@
 </div>
 
 <script>
-const TODAY = new Date('2026-05-14');
+const TODAY = new Date('2026-05-12');
 
+const raw = [
+  {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
+  {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Deployment',status:'In Progress',range:'2026-03-03 - 2026-05-15'},
+  {owner:'Ganesh Pandit',stage:'Monitoring',status:'Not Started',range:'2026-05-18 - 2026-05-29'},
+  {owner:'Umesh Jaiswal',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
+  {owner:'Umesh Jaiswal',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
+  {owner:'Umesh Jaiswal',stage:'Design',status:'In Progress',range:'2026-05-15 - 2026-05-15'},
+  {owner:'Umesh Jaiswal',stage:'Build',status:'Not Started',range:'2026-05-19 - 2026-05-19'},
+  {owner:'Umesh Jaiswal',stage:'Testing',status:'Not Started',range:'2026-05-22 - 2026-05-22'},
+  {owner:'Umesh Jaiswal',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
+  {owner:'Umesh Jaiswal',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
+  {owner:'Kavina Shah',stage:'Ideation',status:'In Progress',range:'2026-05-15 - 2026-05-29'},
+  {owner:'Kavina Shah',stage:'Feasibility',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Design',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Build',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Testing',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
+  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-04-15 - 2026-04-30'},
+  {owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
+  {owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
+  {owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
+  {owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
+  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'In Progress',range:'2026-04-21 - 2026-04-29'},
+  {owner:'Bela Mascrene (2)',stage:'Design',status:'Not Started',range:'2026-04-30 - 2026-05-08'},
+  {owner:'Bela Mascrene (2)',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-20'},
+  {owner:'Bela Mascrene (2)',stage:'Testing',status:'Not Started',range:'2026-04-21 - 2026-04-30'},
+  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
+  {owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
+  {owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
+  {owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
+  {owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
+  {owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
+  {owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
+  {owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
+  {owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Design',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Build',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
+  {owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
+  {owner:'Karan Patel',stage:'Design',status:'In Progress',range:'2026-05-04 - 2026-06-30'},
+  {owner:'Karan Patel',stage:'Build',status:'Not Started',range:'2026-07-01 - 2026-08-31'},
+  {owner:'Karan Patel',stage:'Testing',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {owner:'Karan Patel',stage:'Deployment',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {owner:'KT',stage:'Ideation',status:'In Progress',range:'2026-04-08 - 2026-05-01'},
+  {owner:'KT',stage:'Feasibility',status:'Not Started',range:'2026-04-28 - 2026-05-01'},
+  {owner:'KT',stage:'Design',status:'Not Started',range:'2026-05-04 - 2026-05-08'},
+  {owner:'KT',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-29'},
+  {owner:'KT',stage:'Testing',status:'Not Started',range:'2026-06-01 - 2026-08-31'},
+  {owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
+];
 
-
-// ── FROM EXCEL: project names, descriptions, benefits ────
+// ── FROM EXCEL: project names, descriptions, benefits ──
 const PROJECT_DATA = {
   'Ganesh Pandit': {
     name: 'AI Assisted Alert Review & Backlog Prioritization',
@@ -646,80 +744,37 @@ function calcHealth(stages, goLiveDate) {
   return 'on-track';
 }
 
+const owners = [...new Set(raw.map(r => r.owner))];
+const initiatives = owners.map((owner, i) => {
+  const stages = raw.filter(r => r.owner === owner);
+  const depStage = stages.find(s => s.stage === 'Deployment');
+  const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
+  const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
+  const health = calcHealth(stages, goLiveDate);
+  const pd = PROJECT_DATA[owner] || {};
+  return {
+    id: i,
+    name: pd.name || owner,
+    bu: pd.bu || '',
+    owner: owner.replace(' (2)', ''),
+    stages,
+    goLiveDate,
+    currentStage,
+    health,
+    objective: pd.objective || null,
+    description: pd.description || null,
+    benefits: pd.benefits || null,
+  };
+});
+
+const counts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0};
+initiatives.forEach(i => counts[i.health]++);
+document.getElementById('h-total').textContent   = initiatives.length;
+document.getElementById('h-ontrack').textContent = counts['on-track'];
+document.getElementById('h-behind').textContent  = counts['behind-schedule'];
+document.getElementById('h-atrisk').textContent  = counts['at-risk'];
+
 const healthLabel = { 'on-track': 'On Track', 'behind-schedule': 'Behind Schedule', 'at-risk': 'At Risk', 'not-started': 'Not Started' };
-
-function buildInitiatives(raw) {
-  // Group stages by initiative using the first valid owner per group
-  // We identify initiatives by finding all unique "blocks" of 7 stages
-  const validOwners = raw.map(r => r.owner).filter(o => o && o !== 'Product (TBC)');
-  
-  // Get all unique owners across all stages (use the active/in-progress owner as primary)
-  // Group items into initiatives: every 7 rows = 1 initiative
-  const stageNames = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring'];
-  
-  // Find all Ideation rows — each marks the start of an initiative
-  const ideations = raw.filter(r => r.stage === 'Ideation' && r.owner && r.owner !== 'Product (TBC)');
-  
-  return ideations.map((ideation, i) => {
-    // Get all 7 stages for this initiative by position in raw array
-    const ideationIdx = raw.indexOf(ideation);
-    const stages = raw.slice(ideationIdx, ideationIdx + 7).filter(r => stageNames.includes(r.stage));
-    
-    // Use the owner from the In Progress stage, else first non-TBC owner
-    const activeStage = stages.find(s => s.status === 'In Progress');
-    const primaryOwner = (activeStage?.owner && activeStage.owner !== 'Product (TBC)')
-      ? activeStage.owner
-      : stages.find(s => s.owner && s.owner !== 'Product (TBC)')?.owner || ideation.owner;
-    
-    const depStage = stages.find(s => s.stage === 'Deployment');
-    const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
-    const currentStage = activeStage || stages.find(s => s.status === 'Not Started');
-    const health = calcHealth(stages, goLiveDate);
-    
-    // Look up project data by primary owner or any owner in the stages
-    const pd = PROJECT_DATA[primaryOwner] 
-      || PROJECT_DATA[ideation.owner]
-      || {};
-    
-    return {
-      id: i,
-      name: pd.name || primaryOwner,
-      bu: pd.bu || '',
-      owner: primaryOwner.replace(' (2)', ''),
-      stages, goLiveDate, currentStage, health,
-      description: pd.description || null,
-      benefits: pd.benefits || null,
-    };
-  });
-}
-
-let activeFilter = 'all';
-function setFilter(f, btn) {
-  activeFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function renderList(initiatives) {
-  const list = activeFilter === 'all'
-    ? initiatives
-    : initiatives.filter(i => i.health === activeFilter);
-  document.getElementById('ini-list').innerHTML = list.map(renderRow).join('');
-}
-
-function applyInitiatives(initiatives, live) {
-  const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
-  initiatives.forEach(i => counts[i.health]++);
-  document.getElementById('h-total').textContent   = initiatives.length;
-  document.getElementById('h-ontrack').textContent = counts['on-track'];
-  document.getElementById('h-behind').textContent  = counts['behind-schedule'];
-  document.getElementById('h-atrisk').textContent  = counts['at-risk'];
-  renderList(initiatives);
-  const now = new Date();
-  const src = live ? '🟢 Live from monday.com' : 'Static data — deploy to Vercel for live updates';
-  document.getElementById('updated-ts').textContent =
-    `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · ${src}`;
-}
 
 function renderBullets(benefits) {
   if (!benefits || !benefits.length) return '<div style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</div>';
@@ -758,136 +813,11 @@ function renderRow(ini) {
     </div>`;
 }
 
+document.getElementById('ini-list').innerHTML = initiatives.map(renderRow).join('');
 
-// Hardcoded fallback (used when API not available e.g. local file preview)
-const raw = [
-  {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
-  {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Deployment',status:'In Progress',range:'2026-03-03 - 2026-05-18'},
-  {owner:'Ganesh Pandit',stage:'Monitoring',status:'Not Started',range:'2026-05-18 - 2026-05-29'},
-  {owner:'Umesh Jaiswal',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
-  {owner:'Umesh Jaiswal',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
-  {owner:'Umesh Jaiswal',stage:'Design',status:'In Progress',range:'2026-05-15 - 2026-05-15'},
-  {owner:'Umesh Jaiswal',stage:'Build',status:'Not Started',range:'2026-05-19 - 2026-05-19'},
-  {owner:'Umesh Jaiswal',stage:'Testing',status:'Not Started',range:'2026-05-22 - 2026-05-22'},
-  {owner:'Umesh Jaiswal',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
-  {owner:'Umesh Jaiswal',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
-  {owner:'Kavina Shah',stage:'Ideation',status:'In Progress',range:'2026-05-15 - 2026-05-29'},
-  {owner:'Kavina Shah',stage:'Feasibility',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Design',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Build',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Testing',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:null},
-  {owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
-  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-04-15 - 2026-04-30'},
-  {owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
-  {owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
-  {owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
-  {owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
-  {owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
-  {owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
-  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'In Progress',range:'2026-04-21 - 2026-04-29'},
-  {owner:'Bela Mascrene (2)',stage:'Design',status:'Not Started',range:'2026-04-30 - 2026-05-08'},
-  {owner:'Bela Mascrene (2)',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-20'},
-  {owner:'Bela Mascrene (2)',stage:'Testing',status:'Not Started',range:'2026-04-21 - 2026-04-30'},
-  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:null},
-  {owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
-  {owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
-  {owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
-  {owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
-  {owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
-  {owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
-  {owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
-  {owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
-  {owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
-  {owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
-  {owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Design',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Build',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
-  {owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
-  {owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
-  {owner:'Karan Patel',stage:'Design',status:'In Progress',range:'2026-05-04 - 2026-06-30'},
-  {owner:'Karan Patel',stage:'Build',status:'Not Started',range:'2026-07-01 - 2026-08-31'},
-  {owner:'Karan Patel',stage:'Testing',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
-  {owner:'Karan Patel',stage:'Deployment',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
-  {owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
-  {owner:'KT',stage:'Ideation',status:'In Progress',range:'2026-04-08 - 2026-05-01'},
-  {owner:'KT',stage:'Feasibility',status:'Not Started',range:'2026-04-28 - 2026-05-01'},
-  {owner:'KT',stage:'Design',status:'Not Started',range:'2026-05-04 - 2026-05-08'},
-  {owner:'KT',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-29'},
-  {owner:'KT',stage:'Testing',status:'Not Started',range:'2026-06-01 - 2026-08-31'},
-  {owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
-  {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
-];
-
-applyInitiatives(buildInitiatives(raw));
-
-// Silently try to update from live monday.com API
-(async () => {
-  try {
-    const res = await fetch('/api/monday', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: `{
-        boards(ids: [5095125236]) {
-          items_page(limit: 200) {
-            items {
-              id name
-              group { title }
-              column_values {
-                id text
-                ... on StatusValue { label }
-              }
-            }
-          }
-        }
-      }` }),
-    });
-    if (!res.ok) return;
-    const json = await res.json();
-    const items = json?.data?.boards?.[0]?.items_page?.items;
-    if (!items || items.length === 0) return;
-
-    // Map items to raw format
-    const liveRaw = [];
-    items.forEach(item => {
-      const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
-      const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
-      const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
-      const owner  = ownerCol?.text || '';
-      if (!owner || owner === 'Product (TBC)') return;
-      const status = statusCol?.label || 'Not Started';
-      const range  = rangeCol?.text  || null;
-      liveRaw.push({ owner, stage: item.name, status, range });
-    });
-
-    if (liveRaw.length > 0) {
-      applyInitiatives(buildInitiatives(liveRaw), true);
-    }
-  } catch(e) {
-    // Silently keep static data on any error
-  }
-})();
+const now = new Date();
+document.getElementById('updated-ts').textContent =
+  `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Owners & dates: monday.com · Descriptions & benefits: AI Use Case Template`;
 
 function toggleBenefits(e) {
   e.stopPropagation();
