@@ -734,6 +734,20 @@ function buildInitiatives(raw) {
   });
 }
 
+let activeFilter = 'all';
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function renderList(initiatives) {
+  const list = activeFilter === 'all'
+    ? initiatives
+    : initiatives.filter(i => i.health === activeFilter);
+  document.getElementById('ini-list').innerHTML = list.map(renderRow).join('');
+}
+
 function applyInitiatives(initiatives, live) {
   const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
   initiatives.forEach(i => counts[i.health]++);
@@ -785,19 +799,6 @@ function renderRow(ini) {
     </div>`;
 }
 
-let activeFilter = 'all';
-function setFilter(f, btn) {
-  activeFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function renderList(initiatives) {
-  const list = activeFilter === 'all'
-    ? initiatives
-    : initiatives.filter(i => i.health === activeFilter);
-  document.getElementById('ini-list').innerHTML = list.map(renderRow).join('');
-}
 
 // Hardcoded fallback (used when API not available e.g. local file preview)
 const FALLBACK_RAW = [
