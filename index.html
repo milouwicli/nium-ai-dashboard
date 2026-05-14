@@ -683,7 +683,7 @@ function renderList(initiatives) {
   document.getElementById('ini-list').innerHTML = list.map(renderRow).join('');
 }
 
-function applyInitiatives(initiatives) {
+function applyInitiatives(initiatives, live) {
   const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
   initiatives.forEach(i => counts[i.health]++);
   document.getElementById('h-total').textContent   = initiatives.length;
@@ -692,8 +692,9 @@ function applyInitiatives(initiatives) {
   document.getElementById('h-atrisk').textContent  = counts['at-risk'];
   renderList(initiatives);
   const now = new Date();
+  const src = live ? '🟢 Live from monday.com' : 'Static data — deploy to Vercel for live updates';
   document.getElementById('updated-ts').textContent =
-    `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Owners & dates: monday.com`;
+    `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · ${src}`;
 }
 
 function renderBullets(benefits) {
@@ -816,6 +817,53 @@ const raw = [
 ];
 
 applyInitiatives(buildInitiatives(raw));
+
+// Silently try to update from live monday.com API
+(async () => {
+  try {
+    const res = await fetch('/api/monday', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: `{
+        boards(ids: [5095125236]) {
+          items_page(limit: 200) {
+            items {
+              id name
+              group { title }
+              column_values {
+                id text
+                ... on StatusValue { label }
+              }
+            }
+          }
+        }
+      }` }),
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    const items = json?.data?.boards?.[0]?.items_page?.items;
+    if (!items || items.length === 0) return;
+
+    // Map items to raw format
+    const liveRaw = [];
+    items.forEach(item => {
+      const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
+      const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
+      const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
+      const owner  = ownerCol?.text || '';
+      if (!owner) return;
+      const status = statusCol?.label || 'Not Started';
+      const range  = rangeCol?.text  || null;
+      liveRaw.push({ owner, stage: item.name, status, range });
+    });
+
+    if (liveRaw.length > 0) {
+      applyInitiatives(buildInitiatives(liveRaw), true);
+    }
+  } catch(e) {
+    // Silently keep static data on any error
+  }
+})();
 
 function toggleBenefits(e) {
   e.stopPropagation();
