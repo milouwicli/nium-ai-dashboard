@@ -468,72 +468,7 @@
 <script>
 const TODAY = new Date();
 
-const BOARD_ID = '5095125236';
 
-const QUERY = `{
-  boards(ids: [${BOARD_ID}]) {
-    groups { id title }
-    items_page(limit: 200) {
-      items {
-        id name
-        group { id title }
-        column_values {
-          id text
-          ... on StatusValue { label }
-          ... on DateRangeValue { start_date end_date }
-          ... on TextValue { text }
-        }
-      }
-    }
-  }
-}`;
-
-async function fetchMonday() {
-  try {
-    const res = await fetch('/api/monday', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: QUERY }),
-    });
-    const json = await res.json();
-    const items = json?.data?.boards?.[0]?.items_page?.items || [];
-    return items;
-  } catch (e) {
-    console.error('Monday API error:', e);
-    return null;
-  }
-}
-
-function parseItems(items) {
-  // Group items by group title (each group = one initiative)
-  const groups = {};
-  items.forEach(item => {
-    const groupTitle = item.group?.title || 'Unknown';
-    if (!groups[groupTitle]) groups[groupTitle] = [];
-    // Find owner (text column), status (status column), date range
-    const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
-    const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
-    const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
-    const owner  = ownerCol?.text  || '';
-    const status = statusCol?.label || statusCol?.text || 'Not Started';
-    const range  = rangeCol?.text  || null;
-    groups[groupTitle].push({ stage: item.name, owner, status, range });
-  });
-  return groups;
-}
-
-function buildRaw(groups) {
-  // Convert to the same flat raw[] format the rest of the code expects
-  const raw = [];
-  Object.entries(groups).forEach(([groupTitle, stages]) => {
-    // Derive owner from first stage that has one
-    const owner = stages.find(s => s.owner)?.owner || groupTitle;
-    stages.forEach(s => {
-      raw.push({ owner, stage: s.stage, status: s.status, range: s.range });
-    });
-  });
-  return raw;
-}
 
 // ── FROM EXCEL: project names, descriptions, benefits ────
 const PROJECT_DATA = {
@@ -748,7 +683,7 @@ function renderList(initiatives) {
   document.getElementById('ini-list').innerHTML = list.map(renderRow).join('');
 }
 
-function applyInitiatives(initiatives, live) {
+function applyInitiatives(initiatives) {
   const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
   initiatives.forEach(i => counts[i.health]++);
   document.getElementById('h-total').textContent   = initiatives.length;
@@ -757,9 +692,8 @@ function applyInitiatives(initiatives, live) {
   document.getElementById('h-atrisk').textContent  = counts['at-risk'];
   renderList(initiatives);
   const now = new Date();
-  const src = live ? 'Live from monday.com' : 'Owners & dates: monday.com (deploy to Vercel for live data)';
   document.getElementById('updated-ts').textContent =
-    `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · ${src}`;
+    `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Owners & dates: monday.com`;
 }
 
 function renderBullets(benefits) {
@@ -801,7 +735,7 @@ function renderRow(ini) {
 
 
 // Hardcoded fallback (used when API not available e.g. local file preview)
-const FALLBACK_RAW = [
+const raw = [
   {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
   {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
   {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
@@ -881,25 +815,7 @@ const FALLBACK_RAW = [
   {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
 ];
 
-// Boot: always render fallback first, then silently try live API
-applyInitiatives(buildInitiatives(FALLBACK_RAW), false);
-
-(async () => {
-  try {
-    const items = await fetchMonday();
-    if (items && items.length > 0) {
-      const groups = parseItems(items);
-      const raw    = buildRaw(groups);
-      const live   = buildInitiatives(raw);
-      // Only update if we got meaningful data back
-      if (live && live.length > 0) {
-        applyInitiatives(live, true);
-      }
-    }
-  } catch(e) {
-    // Silently keep fallback data — never wipe the page
-  }
-})();
+applyInitiatives(buildInitiatives(raw));
 
 function toggleBenefits(e) {
   e.stopPropagation();
