@@ -846,16 +846,30 @@ document.getElementById('updated-ts').textContent =
     if (!items || items.length === 0) return;
 
     // Map live items to raw format
+    // Use a two-pass approach: first collect all items grouped by position (7 stages per initiative)
+    // Use the Ideation owner as the anchor, fill in that owner for all stages in the group
+    const STAGE_NAMES = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring'];
+    const SKIP_OWNERS = ['Product (TBC)', 'Product', ''];
+
+    // Group items into blocks of 7 (each initiative = 7 stage rows)
     const liveRaw = [];
+    let currentOwner = null;
     items.forEach(item => {
       const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
       const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
       const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
-      const owner  = ownerCol?.text || '';
-      if (!owner || owner === 'Product (TBC)') return;
-      const status = statusCol?.label || 'Not Started';
-      const range  = rangeCol?.text  || null;
-      liveRaw.push({ owner, stage: item.name, status, range });
+      const rawOwner  = ownerCol?.text || '';
+      const status    = statusCol?.label || 'Not Started';
+      const range     = rangeCol?.text  || null;
+
+      // When we see an Ideation stage with a valid owner, start a new initiative
+      if (item.name === 'Ideation' && !SKIP_OWNERS.includes(rawOwner)) {
+        currentOwner = rawOwner;
+      }
+      // Use the current initiative's owner for all stages
+      if (currentOwner && STAGE_NAMES.includes(item.name)) {
+        liveRaw.push({ owner: currentOwner, stage: item.name, status, range });
+      }
     });
 
     if (liveRaw.length === 0) return;
@@ -866,14 +880,17 @@ document.getElementById('updated-ts').textContent =
       const stages = liveRaw.filter(r => r.owner === owner);
       const depStage = stages.find(s => s.stage === 'Deployment');
       const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
-      const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
+      // Owner shown = owner of In Progress stage, else initiative owner
+      const activeStage = stages.find(s => s.status === 'In Progress');
+      const displayOwner = activeStage ? activeStage.owner : owner;
+      const currentStage = activeStage || stages.find(s => s.status === 'Not Started');
       const health = calcHealth(stages, goLiveDate);
       const pd = PROJECT_DATA[owner] || {};
       return {
         id: i,
         name: pd.name || owner.replace(' (2)', ''),
         bu: pd.bu || '',
-        owner: owner.replace(' (2)', ''),
+        owner: displayOwner.replace(' (2)', ''),
         stages, goLiveDate, currentStage, health,
         description: pd.description || null,
         benefits: pd.benefits || null,
