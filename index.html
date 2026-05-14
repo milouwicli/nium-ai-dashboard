@@ -355,6 +355,30 @@
 
   .ini-row { animation: fadeUp 0.2s ease both; }
   ${[...Array(11)].map((_,i) => `.ini-row:nth-child(${i+1}) { animation-delay: ${i*0.04}s; }`).join('\n  ')}
+
+  .benefit-bullet {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .benefit-bullet strong {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--mint-text);
+    font-weight: 700;
+  }
+  .more-btn {
+    margin-top: 4px;
+    background: none;
+    border: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.04em;
+  }
+  .more-btn:hover { color: var(--mint-text); }
 </style>
 </head>
 <body>
@@ -382,39 +406,52 @@
       <div class="stat-num red" id="h-atrisk">—</div>
       <div class="stat-lbl">At Risk</div>
     </div>
-    <div class="stat-block">
-      <div class="stat-num" id="h-projval">TBD</div>
-      <div class="stat-lbl">Total Projected Value</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-num mint" id="h-valreal">TBD</div>
-      <div class="stat-lbl">Total Value Realisation</div>
+    <div class="stat-block" id="benefits-trigger" onclick="toggleBenefits(event)" style="cursor:pointer;position:relative;align-items:flex-end;">
+      <div class="stat-num mint">600+ hrs/mo</div>
+      <div class="stat-lbl" style="display:flex;align-items:center;gap:4px;">Projected Value <span id="benefits-chevron" style="font-size:9px;background:var(--mint);color:#0a0a0a;padding:1px 5px;border-radius:2px;font-weight:700;">See all ▾</span></div>
+      <div id="benefits-panel" style="display:none;position:absolute;top:calc(100% + 1px);right:0;width:680px;background:#fff;border:1px solid var(--border-strong);border-top:3px solid var(--mint);box-shadow:0 8px 32px rgba(0,0,0,0.13);z-index:200;">
+        <div style="padding:12px 20px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;">
+          <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-muted);">Total Projected Value — All Initiatives</div>
+          <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs saved / month</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--border);">
+          <div style="padding:12px 20px;border-right:1px solid var(--border);">
+            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⏱ Time Saved / Month</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Alert review & TM triage</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200+ hrs</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank statement workflows</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">KYC onboarding</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Zendesk tickets</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">80–100 hrs</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card Ops settlements</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~30 hrs</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank charges report</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">4 hrs</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Compliance rostering</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~2 hrs</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0 2px;border-top:2px solid var(--border-strong);margin-top:2px;"><span style="font-size:11px;font-weight:700;color:var(--text);">Total</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs</span></div>
+          </div>
+          <div style="padding:12px 20px;border-right:1px solid var(--border);">
+            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⚡ Speed & Quality</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Zendesk ticket time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">15→2 min</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM case handling time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ 20–40%</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM analyst productivity</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ 15–25%</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Invoice audit time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Hours→mins</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card settlement errors</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">→ 0</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">TM SOP adherence</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ Measurably</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Rostering effort</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ 90%</span></div>
+          </div>
+          <div style="padding:12px 20px;">
+            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">💰 Revenue & Risk</div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Invoice overbilling caught</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ Leakage</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card funding failures</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Real-time alerts</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Payment error resolution</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Maker step removed</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Customer satisfaction</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↑ CSAT</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">First response time</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">Faster</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Manual compliance risk</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">↓ Significantly</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
 
 <div class="main">
-  <div class="summary-bar">
-    <div class="summary-card total">
-      <div class="sc-num" id="s-total">11</div>
-      <div class="sc-lbl">Total Initiatives</div>
-    </div>
-    <div class="summary-card on-track">
-      <div class="sc-num" id="s-ontrack">—</div>
-      <div class="sc-lbl">On Track</div>
-    </div>
-    <div class="summary-card behind">
-      <div class="sc-num" id="s-behind">—</div>
-      <div class="sc-lbl">Behind Schedule</div>
-    </div>
-    <div class="summary-card at-risk">
-      <div class="sc-num" id="s-atrisk">—</div>
-      <div class="sc-lbl">At Risk</div>
-    </div>
-  </div>
-
-  <div class="section-lbl">All Initiatives</div>
-
   <div class="table-head">
     <div class="th">Initiative</div>
     <div class="th">Objective & Description</div>
@@ -511,17 +548,141 @@ const raw = [
   {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
 ];
 
-const NAMES = [
-  'AI-Powered Automation','Intelligent Workflow Engine','Conversational AI Interface',
-  'Predictive Analytics Platform','Smart Document Processing','AI Operations Monitoring',
-  'NLP Integration Suite','Automated QA Framework','AI Data Pipeline',
-  'Customer Intelligence AI','Ops AI Tooling',
-];
-
-// Placeholder descriptions — to be populated
-const OBJECTIVES = Array(11).fill(null);
-const DESCRIPTIONS = Array(11).fill(null);
-const BENEFITS = Array(11).fill(null);
+// ── FROM EXCEL: project names, descriptions, benefits ──
+const PROJECT_DATA = {
+  'Ganesh Pandit': {
+    name: 'AI Assisted Alert Review & Backlog Prioritization',
+    bu: 'Compliance Ops - TM',
+    objective: 'Eliminate TM alert backlog',
+    description: 'Automates risk-scoring and triage of transaction monitoring alerts so analysts focus only on high-risk cases.',
+    benefits: [
+      {val:'200+ hrs/mo', label:' saved on manual triage'},
+      {val:'0%', label:' backlog target'},
+      {val:'Faster', label:' SLA compliance'},
+      {val:'AI-generated', label:' investigation report per alert'},
+    ]
+  },
+  'Umesh Jaiswal': {
+    name: 'AI Compliance Team Rostering',
+    bu: 'Compliance Ops - TM',
+    objective: 'Automate monthly shift scheduling',
+    description: 'Generates optimised monthly rosters automatically, replacing a manual Excel process done 4 weeks in advance.',
+    benefits: [
+      {val:'90%', label:' reduction in rostering effort'},
+      {val:'2 hrs/mo', label:' saved'},
+      {val:'Better', label:' shift coverage & distribution'},
+      {val:'1 month ahead', label:' scheduling maintained automatically'},
+    ]
+  },
+  'Kavina Shah': {
+    name: 'Consumer Onboarding AI',
+    bu: 'KYC Operations',
+    objective: 'Automate KYC document checks',
+    description: 'Reads and makes automated pass/fail decisions on ID and address documents submitted during consumer onboarding.',
+    benefits: [
+      {val:'200 hrs/mo', label:' saved for KYC Ops agents'},
+      {val:'Faster', label:' customer onboarding'},
+      {val:'Semi-automated', label:' pass/fail decisions'},
+      {val:'Daily', label:' processing cadence'},
+    ]
+  },
+  'Bela Mascrene': {
+    name: 'Bank Statement Download & Upload Automation',
+    bu: 'Fin Recon',
+    objective: 'Automate daily bank statement workflows',
+    description: 'Logs into bank portals, downloads statements, and uploads them to SPOC — replacing a fully manual daily process.',
+    benefits: [
+      {val:'200 hrs/mo', label:' saved'},
+      {val:'Improved', label:' SLA & accuracy'},
+      {val:'Auto-filing', label:' to correct bank folders'},
+      {val:'Eliminates', label:' manual portal logins'},
+    ]
+  },
+  'Bela Mascrene (2)': {
+    name: 'Bank Charges Report Automation',
+    bu: 'Fin Recon',
+    objective: 'Automate monthly charges reporting',
+    description: 'Downloads charges data from SPOC, generates a summary analysis, and emails the report — no manual pivot tables.',
+    benefits: [
+      {val:'4 hrs/mo', label:' saved'},
+      {val:'Same-day', label:' report delivery'},
+      {val:'No', label:' manual pivot tables'},
+      {val:'Auto email', label:' dispatch to stakeholders'},
+    ]
+  },
+  'Rohan Dass': {
+    name: 'AI Invoice Audit',
+    bu: 'Setup & Invoicing Ops',
+    objective: 'Catch billing errors before they cost us',
+    description: 'Cross-references contracts, invoices, and FX setup to flag mismatches and overbilling automatically.',
+    benefits: [
+      {val:'Hours → minutes', label:' per audit'},
+      {val:'Stops', label:' revenue leakage from overbilling'},
+      {val:'Catches', label:' FX setup mismatches automatically'},
+      {val:'Covers', label:' 4 monthly pilot clients'},
+    ]
+  },
+  'Vimal Kumar': {
+    name: 'Zendesk AI Ticket Automation',
+    bu: 'CSM',
+    objective: 'Cut ticket handling time by 87%',
+    description: 'Automatically triages, eligibility-checks, and drafts responses for cancellation tickets. Agents review only — no manual lookups.',
+    benefits: [
+      {val:'80–100 hrs/mo', label:' saved across support & ops'},
+      {val:'15 min → 2 min', label:' handling time per ticket'},
+      {val:'Standardised', label:' response templates'},
+      {val:'Zero', label:' manual database lookups'},
+    ]
+  },
+  'Saranesh K': {
+    name: 'Card Ops Settlement Automation',
+    bu: 'Card Ops / Funding Ops',
+    objective: 'Fully automate daily settlement runs',
+    description: 'Automates Mastercard & Visa settlement parsing, JPMC balance checks, Excel logging, reconciliation, and Slack alerts across 4 daily windows.',
+    benefits: [
+      {val:'60–90 min/day', label:' of manual work eliminated'},
+      {val:'0', label:' settlement errors'},
+      {val:'Same-day', label:' exception detection'},
+      {val:'Real-time', label:' JPMC balance alerts'},
+    ]
+  },
+  'Avinash': {
+    name: 'RAYO – Agentic AI for TM Team',
+    bu: 'Compliance Ops - TM',
+    objective: 'Automate repetitive TM analyst tasks',
+    description: 'Captures real analyst desktop workflows, spots inefficiencies, and deploys AI agents to handle data gathering, form filling, and drafting.',
+    benefits: [
+      {val:'↓ 20–40%', label:' case handling time'},
+      {val:'↑ 15–25%', label:' analyst productivity'},
+      {val:'Reduced', label:' SOP deviations'},
+      {val:'Human-in-the-loop', label:' control maintained'},
+    ]
+  },
+  'Karan Patel': {
+    name: 'Agentic AI for Customer Experience',
+    bu: 'Customer Experience',
+    objective: 'Resolve customer queries without agents',
+    description: 'Live agentic AI handles customer queries end-to-end — transaction status, SLAs, and issue resolution — reducing agent workload.',
+    benefits: [
+      {val:'↑ CSAT', label:' score'},
+      {val:'Faster', label:' first response time'},
+      {val:'19 agents', label:' supported'},
+      {val:'Fewer', label:' repetitive tickets reaching agents'},
+    ]
+  },
+  'KT': {
+    name: 'Agentic AI for PPUI Payment Errors',
+    bu: 'Payment Operations',
+    objective: 'Remove manual maker step from payment errors',
+    description: 'Phase 1: AI highlights recommended actions on PPUI errors. Phase 2: Fully auto-resolves known error types, removing the maker-checker delay.',
+    benefits: [
+      {val:'Maker step', label:' eliminated for known errors'},
+      {val:'Faster', label:' payment processing TAT'},
+      {val:'Reduced', label:' ops team dependency'},
+      {val:'Phase 2:', label:' full auto-resolution of confirmed errors'},
+    ]
+  },
+};
 
 const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -570,17 +731,19 @@ const initiatives = owners.map((owner, i) => {
   const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
   const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
   const health = calcHealth(stages, goLiveDate);
+  const pd = PROJECT_DATA[owner] || {};
   return {
     id: i,
-    name: NAMES[i],
+    name: pd.name || owner,
+    bu: pd.bu || '',
     owner: owner.replace(' (2)', ''),
     stages,
     goLiveDate,
     currentStage,
     health,
-    objective: OBJECTIVES[i],
-    description: DESCRIPTIONS[i],
-    benefits: BENEFITS[i],
+    objective: pd.objective || null,
+    description: pd.description || null,
+    benefits: pd.benefits || null,
   };
 });
 
@@ -588,29 +751,35 @@ const initiatives = owners.map((owner, i) => {
 const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
 initiatives.forEach(i => counts[i.health]++);
 
-['h-ontrack','s-ontrack'].forEach(id => document.getElementById(id).textContent = counts['on-track']);
-['h-behind','s-behind'].forEach(id => document.getElementById(id).textContent = counts['behind-schedule']);
-['h-atrisk','s-atrisk'].forEach(id => document.getElementById(id).textContent = counts['at-risk']);
+document.getElementById('h-ontrack').textContent = counts['on-track'];
+document.getElementById('h-behind').textContent = counts['behind-schedule'];
+document.getElementById('h-atrisk').textContent = counts['at-risk'];
 
 const healthLabel = { 'on-track': 'On Track', 'behind-schedule': 'Behind Schedule', 'at-risk': 'At Risk', 'not-started': 'Not Started' };
+
+function renderBullets(benefits) {
+  if (!benefits || !benefits.length) return '<div style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</div>';
+  return benefits.map(b =>
+    `<div class="benefit-bullet">· <strong>${b.val}</strong>${b.label}</div>`
+  ).join('');
+}
 
 function renderRow(ini) {
   const goLive = ini.goLiveDate ? fmtDate(ini.goLiveDate) : null;
   const curStageName = ini.currentStage ? ini.currentStage.stage : '—';
   const isPulsing = ini.health === 'behind-schedule' || ini.health === 'at-risk';
-
   return `
     <div class="ini-row ${ini.health}">
       <div class="col-name">
         <div class="ini-name">${ini.name}</div>
+        <div class="ini-owner" style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:2px;">${ini.bu}</div>
         <div class="ini-owner">${ini.owner}</div>
       </div>
       <div class="col-desc">
-        <div class="ini-objective">${ini.objective || 'Objective'}</div>
         <div class="ini-desc ${!ini.description ? 'empty' : ''}">${ini.description || 'To be added'}</div>
       </div>
       <div class="col-benefits">
-        <div class="ini-benefits ${!ini.benefits ? 'empty' : ''}">${ini.benefits || 'To be added'}</div>
+        ${renderBullets(ini.benefits)}
       </div>
       <div class="col-golive">
         <div class="golive-date ${!goLive ? 'empty' : ''}">${goLive || '—'}</div>
@@ -627,10 +796,23 @@ function renderRow(ini) {
 
 document.getElementById('ini-list').innerHTML = initiatives.map(renderRow).join('');
 
-// Updated timestamp
 const now = new Date();
 document.getElementById('updated-ts').textContent =
-  `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Data source: monday.com Ops AI Initiatives`;
+  `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Owners & dates: monday.com · Descriptions & benefits: AI Use Case Template`;
+
+function toggleBenefits(e) {
+  e.stopPropagation();
+  const panel = document.getElementById('benefits-panel');
+  const chevron = document.getElementById('benefits-chevron');
+  const open = panel.style.display === 'block';
+  panel.style.display = open ? 'none' : 'block';
+  chevron.textContent = open ? '▼' : '▲';
+}
+document.addEventListener('click', function() {
+  const panel = document.getElementById('benefits-panel');
+  const chevron = document.getElementById('benefits-chevron');
+  if (panel) { panel.style.display = 'none'; chevron.textContent = '▼'; }
+});
 </script>
 </body>
 </html>
