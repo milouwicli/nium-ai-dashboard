@@ -649,7 +649,7 @@ function calcHealth(stages, goLiveDate) {
 const healthLabel = { 'on-track': 'On Track', 'behind-schedule': 'Behind Schedule', 'at-risk': 'At Risk', 'not-started': 'Not Started' };
 
 function buildInitiatives(raw) {
-  const owners = [...new Set(raw.map(r => r.owner))];
+  const owners = [...new Set(raw.map(r => r.owner))].filter(o => o !== 'Product (TBC)');
   return owners.map((owner, i) => {
     const stages = raw.filter(r => r.owner === owner);
     const depStage = stages.find(s => s.stage === 'Deployment');
@@ -851,7 +851,7 @@ applyInitiatives(buildInitiatives(raw));
       const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
       const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
       const owner  = ownerCol?.text || '';
-      if (!owner) return;
+      if (!owner || owner === 'Product (TBC)') return;
       const status = statusCol?.label || 'Not Started';
       const range  = rangeCol?.text  || null;
       liveRaw.push({ owner, stage: item.name, status, range });
