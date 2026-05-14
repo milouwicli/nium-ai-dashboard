@@ -649,19 +649,43 @@ function calcHealth(stages, goLiveDate) {
 const healthLabel = { 'on-track': 'On Track', 'behind-schedule': 'Behind Schedule', 'at-risk': 'At Risk', 'not-started': 'Not Started' };
 
 function buildInitiatives(raw) {
-  const owners = [...new Set(raw.map(r => r.owner))].filter(o => o !== 'Product (TBC)');
-  return owners.map((owner, i) => {
-    const stages = raw.filter(r => r.owner === owner);
+  // Group stages by initiative using the first valid owner per group
+  // We identify initiatives by finding all unique "blocks" of 7 stages
+  const validOwners = raw.map(r => r.owner).filter(o => o && o !== 'Product (TBC)');
+  
+  // Get all unique owners across all stages (use the active/in-progress owner as primary)
+  // Group items into initiatives: every 7 rows = 1 initiative
+  const stageNames = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring'];
+  
+  // Find all Ideation rows — each marks the start of an initiative
+  const ideations = raw.filter(r => r.stage === 'Ideation' && r.owner && r.owner !== 'Product (TBC)');
+  
+  return ideations.map((ideation, i) => {
+    // Get all 7 stages for this initiative by position in raw array
+    const ideationIdx = raw.indexOf(ideation);
+    const stages = raw.slice(ideationIdx, ideationIdx + 7).filter(r => stageNames.includes(r.stage));
+    
+    // Use the owner from the In Progress stage, else first non-TBC owner
+    const activeStage = stages.find(s => s.status === 'In Progress');
+    const primaryOwner = (activeStage?.owner && activeStage.owner !== 'Product (TBC)')
+      ? activeStage.owner
+      : stages.find(s => s.owner && s.owner !== 'Product (TBC)')?.owner || ideation.owner;
+    
     const depStage = stages.find(s => s.stage === 'Deployment');
     const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
-    const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
+    const currentStage = activeStage || stages.find(s => s.status === 'Not Started');
     const health = calcHealth(stages, goLiveDate);
-    const pd = PROJECT_DATA[owner] || {};
+    
+    // Look up project data by primary owner or any owner in the stages
+    const pd = PROJECT_DATA[primaryOwner] 
+      || PROJECT_DATA[ideation.owner]
+      || {};
+    
     return {
       id: i,
-      name: pd.name || owner,
+      name: pd.name || primaryOwner,
       bu: pd.bu || '',
-      owner: owner.replace(' (2)', ''),
+      owner: primaryOwner.replace(' (2)', ''),
       stages, goLiveDate, currentStage, health,
       description: pd.description || null,
       benefits: pd.benefits || null,
