@@ -813,11 +813,95 @@ function renderRow(ini) {
     </div>`;
 }
 
+// Render static data immediately — page is never blank
 document.getElementById('ini-list').innerHTML = initiatives.map(renderRow).join('');
 
 const now = new Date();
 document.getElementById('updated-ts').textContent =
   `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Owners & dates: monday.com · Descriptions & benefits: AI Use Case Template`;
+
+// Silently fetch live data from monday.com and update if successful
+(async () => {
+  try {
+    const res = await fetch('/api/monday', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: `{
+        boards(ids: [5095125236]) {
+          items_page(limit: 200) {
+            items {
+              name
+              column_values {
+                id text
+                ... on StatusValue { label }
+              }
+            }
+          }
+        }
+      }` }),
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    const items = json?.data?.boards?.[0]?.items_page?.items;
+    if (!items || items.length === 0) return;
+
+    // Map live items to raw format
+    const liveRaw = [];
+    items.forEach(item => {
+      const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
+      const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
+      const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
+      const owner  = ownerCol?.text || '';
+      if (!owner || owner === 'Product (TBC)') return;
+      const status = statusCol?.label || 'Not Started';
+      const range  = rangeCol?.text  || null;
+      liveRaw.push({ owner, stage: item.name, status, range });
+    });
+
+    if (liveRaw.length === 0) return;
+
+    // Rebuild initiatives from live data
+    const liveOwners = [...new Set(liveRaw.map(r => r.owner))];
+    const liveInitiatives = liveOwners.map((owner, i) => {
+      const stages = liveRaw.filter(r => r.owner === owner);
+      const depStage = stages.find(s => s.stage === 'Deployment');
+      const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
+      const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
+      const health = calcHealth(stages, goLiveDate);
+      const pd = PROJECT_DATA[owner] || {};
+      return {
+        id: i,
+        name: pd.name || owner.replace(' (2)', ''),
+        bu: pd.bu || '',
+        owner: owner.replace(' (2)', ''),
+        stages, goLiveDate, currentStage, health,
+        description: pd.description || null,
+        benefits: pd.benefits || null,
+      };
+    });
+
+    if (liveInitiatives.length === 0) return;
+
+    // Update counts
+    const liveCounts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0};
+    liveInitiatives.forEach(i => liveCounts[i.health]++);
+    document.getElementById('h-total').textContent   = liveInitiatives.length;
+    document.getElementById('h-ontrack').textContent = liveCounts['on-track'];
+    document.getElementById('h-behind').textContent  = liveCounts['behind-schedule'];
+    document.getElementById('h-atrisk').textContent  = liveCounts['at-risk'];
+
+    // Update table
+    document.getElementById('ini-list').innerHTML = liveInitiatives.map(renderRow).join('');
+
+    // Update timestamp
+    const liveNow = new Date();
+    document.getElementById('updated-ts').textContent =
+      `Last updated: ${liveNow.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} ${liveNow.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})} · 🟢 Live from monday.com`;
+
+  } catch(e) {
+    // Silently keep static data on any error
+  }
+})();
 
 function toggleBenefits(e) {
   e.stopPropagation();
