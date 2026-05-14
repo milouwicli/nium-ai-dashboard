@@ -466,89 +466,80 @@
 </div>
 
 <script>
-const TODAY = new Date('2026-05-12');
+const TODAY = new Date();
 
-const raw = [
-  {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
-  {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Deployment',status:'In Progress',range:'2026-03-03 - 2026-05-15'},
-  {owner:'Ganesh Pandit',stage:'Monitoring',status:'Not Started',range:'2026-05-18 - 2026-05-29'},
-  {owner:'Umesh Jaiswal',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
-  {owner:'Umesh Jaiswal',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
-  {owner:'Umesh Jaiswal',stage:'Design',status:'In Progress',range:'2026-05-15 - 2026-05-15'},
-  {owner:'Umesh Jaiswal',stage:'Build',status:'Not Started',range:'2026-05-19 - 2026-05-19'},
-  {owner:'Umesh Jaiswal',stage:'Testing',status:'Not Started',range:'2026-05-22 - 2026-05-22'},
-  {owner:'Umesh Jaiswal',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
-  {owner:'Umesh Jaiswal',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
-  {owner:'Kavina Shah',stage:'Ideation',status:'In Progress',range:'2026-05-15 - 2026-05-29'},
-  {owner:'Kavina Shah',stage:'Feasibility',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Design',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Build',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Testing',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:null},
-  {owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
-  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-04-15 - 2026-04-30'},
-  {owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
-  {owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
-  {owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
-  {owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
-  {owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
-  {owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
-  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'In Progress',range:'2026-04-21 - 2026-04-29'},
-  {owner:'Bela Mascrene (2)',stage:'Design',status:'Not Started',range:'2026-04-30 - 2026-05-08'},
-  {owner:'Bela Mascrene (2)',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-20'},
-  {owner:'Bela Mascrene (2)',stage:'Testing',status:'Not Started',range:'2026-04-21 - 2026-04-30'},
-  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:null},
-  {owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
-  {owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
-  {owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
-  {owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
-  {owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
-  {owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
-  {owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
-  {owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
-  {owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
-  {owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
-  {owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Design',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Build',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
-  {owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
-  {owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
-  {owner:'Karan Patel',stage:'Design',status:'In Progress',range:'2026-05-04 - 2026-06-30'},
-  {owner:'Karan Patel',stage:'Build',status:'Not Started',range:'2026-07-01 - 2026-08-31'},
-  {owner:'Karan Patel',stage:'Testing',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
-  {owner:'Karan Patel',stage:'Deployment',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
-  {owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
-  {owner:'KT',stage:'Ideation',status:'In Progress',range:'2026-04-08 - 2026-05-01'},
-  {owner:'KT',stage:'Feasibility',status:'Not Started',range:'2026-04-28 - 2026-05-01'},
-  {owner:'KT',stage:'Design',status:'Not Started',range:'2026-05-04 - 2026-05-08'},
-  {owner:'KT',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-29'},
-  {owner:'KT',stage:'Testing',status:'Not Started',range:'2026-06-01 - 2026-08-31'},
-  {owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
-  {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
-];
+const BOARD_ID = '5095125236';
 
-// ── FROM EXCEL: project names, descriptions, benefits ──
+const QUERY = `{
+  boards(ids: [${BOARD_ID}]) {
+    groups { id title }
+    items_page(limit: 200) {
+      items {
+        id name
+        group { id title }
+        column_values {
+          id text
+          ... on StatusValue { label }
+          ... on DateRangeValue { start_date end_date }
+          ... on TextValue { text }
+        }
+      }
+    }
+  }
+}`;
+
+// Show loading state
+document.getElementById('ini-list').innerHTML =
+  '<div style="padding:40px;text-align:center;color:var(--text-muted);font-family:'Space Mono',monospace;font-size:12px;">Loading from monday.com...</div>';
+
+async function fetchMonday() {
+  try {
+    const res = await fetch('/api/monday', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: QUERY }),
+    });
+    const json = await res.json();
+    const items = json?.data?.boards?.[0]?.items_page?.items || [];
+    return items;
+  } catch (e) {
+    console.error('Monday API error:', e);
+    return null;
+  }
+}
+
+function parseItems(items) {
+  // Group items by group title (each group = one initiative)
+  const groups = {};
+  items.forEach(item => {
+    const groupTitle = item.group?.title || 'Unknown';
+    if (!groups[groupTitle]) groups[groupTitle] = [];
+    // Find owner (text column), status (status column), date range
+    const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
+    const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
+    const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
+    const owner  = ownerCol?.text  || '';
+    const status = statusCol?.label || statusCol?.text || 'Not Started';
+    const range  = rangeCol?.text  || null;
+    groups[groupTitle].push({ stage: item.name, owner, status, range });
+  });
+  return groups;
+}
+
+function buildRaw(groups) {
+  // Convert to the same flat raw[] format the rest of the code expects
+  const raw = [];
+  Object.entries(groups).forEach(([groupTitle, stages]) => {
+    // Derive owner from first stage that has one
+    const owner = stages.find(s => s.owner)?.owner || groupTitle;
+    stages.forEach(s => {
+      raw.push({ owner, stage: s.stage, status: s.status, range: s.range });
+    });
+  });
+  return raw;
+}
+
+// ── FROM EXCEL: project names, descriptions, benefits ────
 const PROJECT_DATA = {
   'Ganesh Pandit': {
     name: 'AI Assisted Alert Review & Backlog Prioritization',
@@ -724,38 +715,42 @@ function calcHealth(stages, goLiveDate) {
   return 'on-track';
 }
 
-const owners = [...new Set(raw.map(r => r.owner))];
-const initiatives = owners.map((owner, i) => {
-  const stages = raw.filter(r => r.owner === owner);
-  const depStage = stages.find(s => s.stage === 'Deployment');
-  const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
-  const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
-  const health = calcHealth(stages, goLiveDate);
-  const pd = PROJECT_DATA[owner] || {};
-  return {
-    id: i,
-    name: pd.name || owner,
-    bu: pd.bu || '',
-    owner: owner.replace(' (2)', ''),
-    stages,
-    goLiveDate,
-    currentStage,
-    health,
-    objective: pd.objective || null,
-    description: pd.description || null,
-    benefits: pd.benefits || null,
-  };
-});
-
-// Health counts
-const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
-initiatives.forEach(i => counts[i.health]++);
-
-document.getElementById('h-ontrack').textContent = counts['on-track'];
-document.getElementById('h-behind').textContent = counts['behind-schedule'];
-document.getElementById('h-atrisk').textContent = counts['at-risk'];
-
 const healthLabel = { 'on-track': 'On Track', 'behind-schedule': 'Behind Schedule', 'at-risk': 'At Risk', 'not-started': 'Not Started' };
+
+function buildInitiatives(raw) {
+  const owners = [...new Set(raw.map(r => r.owner))];
+  return owners.map((owner, i) => {
+    const stages = raw.filter(r => r.owner === owner);
+    const depStage = stages.find(s => s.stage === 'Deployment');
+    const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
+    const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
+    const health = calcHealth(stages, goLiveDate);
+    const pd = PROJECT_DATA[owner] || {};
+    return {
+      id: i,
+      name: pd.name || owner,
+      bu: pd.bu || '',
+      owner: owner.replace(' (2)', ''),
+      stages, goLiveDate, currentStage, health,
+      description: pd.description || null,
+      benefits: pd.benefits || null,
+    };
+  });
+}
+
+function applyInitiatives(initiatives, live) {
+  const counts = { 'on-track': 0, 'behind-schedule': 0, 'at-risk': 0, 'not-started': 0 };
+  initiatives.forEach(i => counts[i.health]++);
+  document.getElementById('h-total').textContent   = initiatives.length;
+  document.getElementById('h-ontrack').textContent = counts['on-track'];
+  document.getElementById('h-behind').textContent  = counts['behind-schedule'];
+  document.getElementById('h-atrisk').textContent  = counts['at-risk'];
+  renderList(initiatives);
+  const now = new Date();
+  const src = live ? 'Live from monday.com' : 'Owners & dates: monday.com (deploy to Vercel for live data)';
+  document.getElementById('updated-ts').textContent =
+    `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · ${src}`;
+}
 
 function renderBullets(benefits) {
   if (!benefits || !benefits.length) return '<div style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</div>';
@@ -794,11 +789,114 @@ function renderRow(ini) {
     </div>`;
 }
 
-document.getElementById('ini-list').innerHTML = initiatives.map(renderRow).join('');
+let activeFilter = 'all';
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
 
-const now = new Date();
-document.getElementById('updated-ts').textContent =
-  `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Owners & dates: monday.com · Descriptions & benefits: AI Use Case Template`;
+function renderList(initiatives) {
+  const list = activeFilter === 'all'
+    ? initiatives
+    : initiatives.filter(i => i.health === activeFilter);
+  document.getElementById('ini-list').innerHTML = list.map(renderRow).join('');
+}
+
+// Hardcoded fallback (used when API not available e.g. local file preview)
+const FALLBACK_RAW = [
+  {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
+  {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {owner:'Ganesh Pandit',stage:'Deployment',status:'In Progress',range:'2026-03-03 - 2026-05-15'},
+  {owner:'Ganesh Pandit',stage:'Monitoring',status:'Not Started',range:'2026-05-18 - 2026-05-29'},
+  {owner:'Umesh Jaiswal',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
+  {owner:'Umesh Jaiswal',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
+  {owner:'Umesh Jaiswal',stage:'Design',status:'In Progress',range:'2026-05-15 - 2026-05-15'},
+  {owner:'Umesh Jaiswal',stage:'Build',status:'Not Started',range:'2026-05-19 - 2026-05-19'},
+  {owner:'Umesh Jaiswal',stage:'Testing',status:'Not Started',range:'2026-05-22 - 2026-05-22'},
+  {owner:'Umesh Jaiswal',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
+  {owner:'Umesh Jaiswal',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
+  {owner:'Kavina Shah',stage:'Ideation',status:'In Progress',range:'2026-05-15 - 2026-05-29'},
+  {owner:'Kavina Shah',stage:'Feasibility',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Design',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Build',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Testing',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
+  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-04-15 - 2026-04-30'},
+  {owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
+  {owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
+  {owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
+  {owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
+  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'In Progress',range:'2026-04-21 - 2026-04-29'},
+  {owner:'Bela Mascrene (2)',stage:'Design',status:'Not Started',range:'2026-04-30 - 2026-05-08'},
+  {owner:'Bela Mascrene (2)',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-20'},
+  {owner:'Bela Mascrene (2)',stage:'Testing',status:'Not Started',range:'2026-04-21 - 2026-04-30'},
+  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
+  {owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
+  {owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
+  {owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
+  {owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
+  {owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {owner:'Saranesh K',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
+  {owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
+  {owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
+  {owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Design',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Build',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
+  {owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
+  {owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
+  {owner:'Karan Patel',stage:'Design',status:'In Progress',range:'2026-05-04 - 2026-06-30'},
+  {owner:'Karan Patel',stage:'Build',status:'Not Started',range:'2026-07-01 - 2026-08-31'},
+  {owner:'Karan Patel',stage:'Testing',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {owner:'Karan Patel',stage:'Deployment',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {owner:'KT',stage:'Ideation',status:'In Progress',range:'2026-04-08 - 2026-05-01'},
+  {owner:'KT',stage:'Feasibility',status:'Not Started',range:'2026-04-28 - 2026-05-01'},
+  {owner:'KT',stage:'Design',status:'Not Started',range:'2026-05-04 - 2026-05-08'},
+  {owner:'KT',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-29'},
+  {owner:'KT',stage:'Testing',status:'Not Started',range:'2026-06-01 - 2026-08-31'},
+  {owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
+];
+
+// Boot: try live API, fall back to hardcoded data
+(async () => {
+  // Always render fallback immediately so the page is never blank
+  applyInitiatives(buildInitiatives(FALLBACK_RAW), false);
+
+  // Then try to fetch live data
+  const items = await fetchMonday();
+  if (items && items.length > 0) {
+    const groups = parseItems(items);
+    const raw    = buildRaw(groups);
+    applyInitiatives(buildInitiatives(raw), true);
+  }
+})();
 
 function toggleBenefits(e) {
   e.stopPropagation();
