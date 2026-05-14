@@ -880,17 +880,23 @@ const FALLBACK_RAW = [
   {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
 ];
 
-// Boot: try live API, fall back to hardcoded data
-(async () => {
-  // Always render fallback immediately so the page is never blank
-  applyInitiatives(buildInitiatives(FALLBACK_RAW), false);
+// Boot: always render fallback first, then silently try live API
+applyInitiatives(buildInitiatives(FALLBACK_RAW), false);
 
-  // Then try to fetch live data
-  const items = await fetchMonday();
-  if (items && items.length > 0) {
-    const groups = parseItems(items);
-    const raw    = buildRaw(groups);
-    applyInitiatives(buildInitiatives(raw), true);
+(async () => {
+  try {
+    const items = await fetchMonday();
+    if (items && items.length > 0) {
+      const groups = parseItems(items);
+      const raw    = buildRaw(groups);
+      const live   = buildInitiatives(raw);
+      // Only update if we got meaningful data back
+      if (live && live.length > 0) {
+        applyInitiatives(live, true);
+      }
+    }
+  } catch(e) {
+    // Silently keep fallback data — never wipe the page
   }
 })();
 
