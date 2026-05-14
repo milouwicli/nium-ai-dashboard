@@ -875,17 +875,34 @@ document.getElementById('updated-ts').textContent =
     if (liveRaw.length === 0) return;
 
     // Rebuild initiatives from live data
-    const liveOwners = [...new Set(liveRaw.map(r => r.owner))];
-    const liveInitiatives = liveOwners.map((owner, i) => {
-      const stages = liveRaw.filter(r => r.owner === owner);
-      const depStage = stages.find(s => s.stage === 'Deployment');
+    // Use PROJECT_DATA by position (keys in order) to handle duplicate owners like Bela Mascrene
+    const PD_KEYS = Object.keys(PROJECT_DATA);
+
+    // Split liveRaw into initiative blocks by Ideation markers
+    const liveBlocks = [];
+    let currentBlock = null;
+    liveRaw.forEach(item => {
+      if (item.stage === 'Ideation') {
+        if (currentBlock) liveBlocks.push(currentBlock);
+        currentBlock = { owner: item.owner, stages: [item] };
+      } else if (currentBlock) {
+        currentBlock.stages.push(item);
+      }
+    });
+    if (currentBlock) liveBlocks.push(currentBlock);
+
+    const liveInitiatives = liveBlocks.map((block, i) => {
+      const stages    = block.stages;
+      const owner     = block.owner;
+      const depStage  = stages.find(s => s.stage === 'Deployment');
       const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
-      // Owner shown = owner of In Progress stage, else initiative owner
       const activeStage = stages.find(s => s.status === 'In Progress');
-      const displayOwner = activeStage ? activeStage.owner : owner;
+      const displayOwner = (activeStage?.owner && !['Product','Product (TBC)',''].includes(activeStage.owner))
+        ? activeStage.owner : owner;
       const currentStage = activeStage || stages.find(s => s.status === 'Not Started');
       const health = calcHealth(stages, goLiveDate);
-      const pd = PROJECT_DATA[owner] || {};
+      // Match PROJECT_DATA by position first, then by owner name as fallback
+      const pd = PROJECT_DATA[PD_KEYS[i]] || PROJECT_DATA[owner] || {};
       return {
         id: i,
         name: pd.name || owner.replace(' (2)', ''),
