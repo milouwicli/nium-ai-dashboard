@@ -486,44 +486,51 @@
 </div>
 
 <script>
-const TODAY = new Date('2026-05-12');
+const TODAY = new Date('2026-05-21');
+
 
 const raw = [
+  // 1. AI Alert Review (Ganesh Pandit) — Monitoring In Progress
   {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
   {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
   {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
   {owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
   {owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Deployment',status:'In Progress',range:'2026-03-03 - 2026-05-15'},
-  {owner:'Ganesh Pandit',stage:'Monitoring',status:'Not Started',range:'2026-05-18 - 2026-05-29'},
-  {owner:'Umesh Jaiswal',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
-  {owner:'Umesh Jaiswal',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
-  {owner:'Umesh Jaiswal',stage:'Design',status:'In Progress',range:'2026-05-15 - 2026-05-15'},
-  {owner:'Umesh Jaiswal',stage:'Build',status:'Not Started',range:'2026-05-19 - 2026-05-19'},
-  {owner:'Umesh Jaiswal',stage:'Testing',status:'Not Started',range:'2026-05-22 - 2026-05-22'},
-  {owner:'Umesh Jaiswal',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
-  {owner:'Umesh Jaiswal',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
-  {owner:'Kavina Shah',stage:'Ideation',status:'In Progress',range:'2026-05-15 - 2026-05-29'},
-  {owner:'Kavina Shah',stage:'Feasibility',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Design',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Build',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Testing',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Ganesh Pandit',stage:'Deployment',status:'Done',range:'2026-05-18 - 2026-05-18'},
+  {owner:'Ganesh Pandit',stage:'Monitoring',status:'In Progress',range:'2026-05-18 - 2026-05-29'},
+  // 2. AI Compliance Rostering (now Avinash on board, but Umesh in Excel — keep Avinash_r key)
+  {owner:'Avinash_r',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
+  {owner:'Avinash_r',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
+  {owner:'Avinash_r',stage:'Design',status:'Done',range:'2026-05-15 - 2026-05-15'},
+  {owner:'Avinash_r',stage:'Build',status:'Done',range:'2026-05-19 - 2026-05-19'},
+  {owner:'Avinash_r',stage:'Testing',status:'In Progress',range:'2026-05-22 - 2026-05-22'},
+  {owner:'Avinash_r',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
+  {owner:'Avinash_r',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
+  // 3. Consumer Onboarding (Kavina Shah) — Testing In Progress
+  {owner:'Kavina Shah',stage:'Ideation',status:'Done',range:'2026-04-10 - 2026-04-13'},
+  {owner:'Kavina Shah',stage:'Feasibility',status:'Done',range:'2026-04-14 - 2026-04-17'},
+  {owner:'Kavina Shah',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-24'},
+  {owner:'Kavina Shah',stage:'Build',status:'Done',range:'2026-04-27 - 2026-05-06'},
+  {owner:'Kavina Shah',stage:'Testing',status:'In Progress',range:'2026-05-07 - 2026-05-29'},
+  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-05'},
+  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:'2026-06-08 - 2026-06-12'},
+  // 4. Bank Statement Automation (Bela Mascrene)
   {owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
-  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-04-15 - 2026-04-30'},
+  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
   {owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
   {owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
   {owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
   {owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
   {owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  // 5. Bank Charges Report (Bela Mascrene 2) — Testing In Progress
   {owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
-  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'In Progress',range:'2026-04-21 - 2026-04-29'},
-  {owner:'Bela Mascrene (2)',stage:'Design',status:'Not Started',range:'2026-04-30 - 2026-05-08'},
-  {owner:'Bela Mascrene (2)',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-20'},
-  {owner:'Bela Mascrene (2)',stage:'Testing',status:'Not Started',range:'2026-04-21 - 2026-04-30'},
-  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:null},
+  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'Done',range:'2026-04-21 - 2026-04-29'},
+  {owner:'Bela Mascrene (2)',stage:'Design',status:'Done',range:'2026-04-30 - 2026-05-08'},
+  {owner:'Bela Mascrene (2)',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-20'},
+  {owner:'Bela Mascrene (2)',stage:'Testing',status:'In Progress',range:'2026-05-21 - 2026-05-25'},
+  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:'2026-05-26 - 2026-06-01'},
+  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
+  // 6. AI Invoice Audit (Rohan Dass) — Build In Progress
   {owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
   {owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
   {owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
@@ -531,6 +538,7 @@ const raw = [
   {owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
   {owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
   {owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  // 7. Zendesk Ticket Automation (Vimal Kumar) — Testing In Progress
   {owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
@@ -538,13 +546,15 @@ const raw = [
   {owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
   {owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
   {owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
+  // 8. Card Ops Settlement (Saranesh K) — Deployment In Progress
   {owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
-  {owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
+  {owner:'Saranesh K',stage:'Testing',status:'Done',range:'2026-04-01 - 2026-05-29'},
+  {owner:'Saranesh K',stage:'Deployment',status:'In Progress',range:'2026-06-01 - 2026-06-30'},
   {owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
+  // 9. RAYO TM (Avinash) — Not Started
   {owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
   {owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
   {owner:'Avinash',stage:'Design',status:'Not Started',range:null},
@@ -552,197 +562,123 @@ const raw = [
   {owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
   {owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
   {owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
+  // 10. Agentic AI CE Chats (Karan Patel) — Deployment In Progress
   {owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
   {owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
-  {owner:'Karan Patel',stage:'Design',status:'In Progress',range:'2026-05-04 - 2026-06-30'},
-  {owner:'Karan Patel',stage:'Build',status:'Not Started',range:'2026-07-01 - 2026-08-31'},
-  {owner:'Karan Patel',stage:'Testing',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
-  {owner:'Karan Patel',stage:'Deployment',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {owner:'Karan Patel',stage:'Design',status:'Done',range:'2026-05-04 - 2026-06-30'},
+  {owner:'Karan Patel',stage:'Build',status:'Done',range:'2026-07-01 - 2026-08-31'},
+  {owner:'Karan Patel',stage:'Testing',status:'Done',range:'2026-09-01 - 2026-09-30'},
+  {owner:'Karan Patel',stage:'Deployment',status:'In Progress',range:'2026-10-01 - 2026-10-30'},
   {owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
-  {owner:'KT',stage:'Ideation',status:'In Progress',range:'2026-04-08 - 2026-05-01'},
-  {owner:'KT',stage:'Feasibility',status:'Not Started',range:'2026-04-28 - 2026-05-01'},
-  {owner:'KT',stage:'Design',status:'Not Started',range:'2026-05-04 - 2026-05-08'},
-  {owner:'KT',stage:'Build',status:'Not Started',range:'2026-05-11 - 2026-05-29'},
-  {owner:'KT',stage:'Testing',status:'Not Started',range:'2026-06-01 - 2026-08-31'},
+  // 11. Agentic AI PPUI (KT) — Testing In Progress
+  {owner:'KT',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-05-01'},
+  {owner:'KT',stage:'Feasibility',status:'Done',range:'2026-04-28 - 2026-05-01'},
+  {owner:'KT',stage:'Design',status:'Done',range:'2026-05-04 - 2026-05-08'},
+  {owner:'KT',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-29'},
+  {owner:'KT',stage:'Testing',status:'In Progress',range:'2026-06-01 - 2026-08-31'},
   {owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
   {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
+  // 12. Client Servicing Dashboard (Sonika Bisht) — Build In Progress
+  {owner:'Sonika Bisht',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-04-28'},
+  {owner:'Sonika Bisht',stage:'Feasibility',status:'Done',range:'2026-04-29 - 2026-05-15'},
+  {owner:'Sonika Bisht',stage:'Design',status:'Done',range:'2026-05-18 - 2026-06-05'},
+  {owner:'Sonika Bisht',stage:'Build',status:'In Progress',range:'2026-06-08 - 2026-06-16'},
+  {owner:'Sonika Bisht',stage:'Testing',status:'Not Started',range:'2026-06-17 - 2026-06-26'},
+  {owner:'Sonika Bisht',stage:'Deployment',status:'Not Started',range:'2026-06-26 - 2026-07-03'},
+  {owner:'Sonika Bisht',stage:'Monitoring',status:'Not Started',range:'2026-07-03 - 2026-07-07'},
+  // 13. Client Communication Tool (Girija Kanade) — Build+Testing In Progress
+  {owner:'Girija Kanade',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-15'},
+  {owner:'Girija Kanade',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {owner:'Girija Kanade',stage:'Design',status:'Done',range:'2026-05-01 - 2026-05-04'},
+  {owner:'Girija Kanade',stage:'Build',status:'In Progress',range:'2026-05-05 - 2026-06-10'},
+  {owner:'Girija Kanade',stage:'Testing',status:'In Progress',range:'2026-06-11 - 2026-06-19'},
+  {owner:'Girija Kanade',stage:'Deployment',status:'Not Started',range:'2026-06-22 - 2026-06-25'},
+  {owner:'Girija Kanade',stage:'Monitoring',status:'Not Started',range:'2026-06-26 - 2026-06-30'},
+  // 14. Ops Issue Tracker (Bela Mascrene 3) — Monitoring In Progress (fully live)
+  {owner:'Bela Mascrene (3)',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-16'},
+  {owner:'Bela Mascrene (3)',stage:'Feasibility',status:'Done',range:'2026-04-17 - 2026-04-17'},
+  {owner:'Bela Mascrene (3)',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-21'},
+  {owner:'Bela Mascrene (3)',stage:'Build',status:'Done',range:'2026-04-22 - 2026-04-24'},
+  {owner:'Bela Mascrene (3)',stage:'Testing',status:'Done',range:'2026-04-27 - 2026-04-27'},
+  {owner:'Bela Mascrene (3)',stage:'Deployment',status:'Done',range:'2026-04-28 - 2026-04-30'},
+  {owner:'Bela Mascrene (3)',stage:'Monitoring',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
+  // 15. AI-Powered CS Triage Agent (Sunil Rangpadiya) — Build In Progress
+  {owner:'Sunil Rangpadiya',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-20'},
+  {owner:'Sunil Rangpadiya',stage:'Feasibility',status:'Done',range:'2026-03-23 - 2026-03-27'},
+  {owner:'Sunil Rangpadiya',stage:'Design',status:'Done',range:'2026-03-30 - 2026-04-03'},
+  {owner:'Sunil Rangpadiya',stage:'Build',status:'In Progress',range:'2026-04-06 - 2026-05-29'},
+  {owner:'Sunil Rangpadiya',stage:'Testing',status:'In Progress',range:'2026-04-06 - 2026-04-30'},
+  {owner:'Sunil Rangpadiya',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-03'},
+  {owner:'Sunil Rangpadiya',stage:'Monitoring',status:'Not Started',range:'2026-06-04 - 2026-06-12'},
 ];
 
-// ── FROM EXCEL: project names, descriptions, benefits ──
 const PROJECT_DATA = {
-  'Ganesh Pandit': {
-    name: 'AI Assisted Alert Review & Backlog Prioritization',
-    bu: 'Compliance Ops - TM',
-    objective: 'Eliminate TM alert backlog',
-    description: 'Automates risk-scoring and triage of transaction monitoring alerts so analysts focus only on high-risk cases.',
-    benefits: [
-      {val:'200+ hrs/mo', label:' saved on manual triage'},
-      {val:'0%', label:' backlog target'},
-      {val:'Faster', label:' SLA compliance'},
-      {val:'AI-generated', label:' investigation report per alert'},
-    ]
-  },
-  'Umesh Jaiswal': {
-    name: 'AI Compliance Team Rostering',
-    bu: 'Compliance Ops - TM',
-    objective: 'Automate monthly shift scheduling',
-    description: 'Generates optimised monthly rosters automatically, replacing a manual Excel process done 4 weeks in advance.',
-    benefits: [
-      {val:'90%', label:' reduction in rostering effort'},
-      {val:'2 hrs/mo', label:' saved'},
-      {val:'Better', label:' shift coverage & distribution'},
-      {val:'1 month ahead', label:' scheduling maintained automatically'},
-    ]
-  },
-  'Kavina Shah': {
-    name: 'Consumer Onboarding AI',
-    bu: 'KYC Operations',
-    objective: 'Automate KYC document checks',
-    description: 'Reads and makes automated pass/fail decisions on ID and address documents submitted during consumer onboarding.',
-    benefits: [
-      {val:'200 hrs/mo', label:' saved for KYC Ops agents'},
-      {val:'Faster', label:' customer onboarding'},
-      {val:'Semi-automated', label:' pass/fail decisions'},
-      {val:'Daily', label:' processing cadence'},
-    ]
-  },
-  'Bela Mascrene': {
-    name: 'Bank Statement Download & Upload Automation',
-    bu: 'Fin Recon',
-    objective: 'Automate daily bank statement workflows',
-    description: 'Logs into bank portals, downloads statements, and uploads them to SPOC — replacing a fully manual daily process.',
-    benefits: [
-      {val:'200 hrs/mo', label:' saved'},
-      {val:'Improved', label:' SLA & accuracy'},
-      {val:'Auto-filing', label:' to correct bank folders'},
-      {val:'Eliminates', label:' manual portal logins'},
-    ]
-  },
-  'Bela Mascrene (2)': {
-    name: 'Bank Charges Report Automation',
-    bu: 'Fin Recon',
-    objective: 'Automate monthly charges reporting',
-    description: 'Downloads charges data from SPOC, generates a summary analysis, and emails the report — no manual pivot tables.',
-    benefits: [
-      {val:'4 hrs/mo', label:' saved'},
-      {val:'Same-day', label:' report delivery'},
-      {val:'No', label:' manual pivot tables'},
-      {val:'Auto email', label:' dispatch to stakeholders'},
-    ]
-  },
-  'Rohan Dass': {
-    name: 'AI Invoice Audit',
-    bu: 'Setup & Invoicing Ops',
-    objective: 'Catch billing errors before they cost us',
-    description: 'Cross-references contracts, invoices, and FX setup to flag mismatches and overbilling automatically.',
-    benefits: [
-      {val:'Hours → minutes', label:' per audit'},
-      {val:'Stops', label:' revenue leakage from overbilling'},
-      {val:'Catches', label:' FX setup mismatches automatically'},
-      {val:'Covers', label:' 4 monthly pilot clients'},
-    ]
-  },
-  'Vimal Kumar': {
-    name: 'Zendesk AI Ticket Automation',
-    bu: 'CSM',
-    objective: 'Cut ticket handling time by 87%',
-    description: 'Automatically triages, eligibility-checks, and drafts responses for cancellation tickets. Agents review only — no manual lookups.',
-    benefits: [
-      {val:'80–100 hrs/mo', label:' saved across support & ops'},
-      {val:'15 min → 2 min', label:' handling time per ticket'},
-      {val:'Standardised', label:' response templates'},
-      {val:'Zero', label:' manual database lookups'},
-    ]
-  },
-  'Saranesh K': {
-    name: 'Card Ops Settlement Automation',
-    bu: 'Card Ops / Funding Ops',
-    objective: 'Fully automate daily settlement runs',
-    description: 'Automates Mastercard & Visa settlement parsing, JPMC balance checks, Excel logging, reconciliation, and Slack alerts across 4 daily windows.',
-    benefits: [
-      {val:'60–90 min/day', label:' of manual work eliminated'},
-      {val:'0', label:' settlement errors'},
-      {val:'Same-day', label:' exception detection'},
-      {val:'Real-time', label:' JPMC balance alerts'},
-    ]
-  },
-  'Avinash': {
-    name: 'RAYO – Agentic AI for TM Team',
-    bu: 'Compliance Ops - TM',
-    objective: 'Automate repetitive TM analyst tasks',
-    description: 'Captures real analyst desktop workflows, spots inefficiencies, and deploys AI agents to handle data gathering, form filling, and drafting.',
-    benefits: [
-      {val:'↓ 20–40%', label:' case handling time'},
-      {val:'↑ 15–25%', label:' analyst productivity'},
-      {val:'Reduced', label:' SOP deviations'},
-      {val:'Human-in-the-loop', label:' control maintained'},
-    ]
-  },
-  'Karan Patel': {
-    name: 'Agentic AI for Customer Experience',
-    bu: 'Customer Experience',
-    objective: 'Resolve customer queries without agents',
-    description: 'Live agentic AI handles customer queries end-to-end — transaction status, SLAs, and issue resolution — reducing agent workload.',
-    benefits: [
-      {val:'↑ CSAT', label:' score'},
-      {val:'Faster', label:' first response time'},
-      {val:'19 agents', label:' supported'},
-      {val:'Fewer', label:' repetitive tickets reaching agents'},
-    ]
-  },
-  'KT': {
-    name: 'Agentic AI for PPUI Payment Errors',
-    bu: 'Payment Operations',
-    objective: 'Remove manual maker step from payment errors',
-    description: 'Phase 1: AI highlights recommended actions on PPUI errors. Phase 2: Fully auto-resolves known error types, removing the maker-checker delay.',
-    benefits: [
-      {val:'Maker step', label:' eliminated for known errors'},
-      {val:'Faster', label:' payment processing TAT'},
-      {val:'Reduced', label:' ops team dependency'},
-      {val:'Phase 2:', label:' full auto-resolution of confirmed errors'},
-    ]
-  },
+  'Ganesh Pandit': { name:'AI Alert Review & Backlog Prioritization', bu:'Compliance Ops - TM',
+    description:'Auto-scores and prioritises TM alerts by risk. Analysts review high-risk cases only.',
+    benefits:[{val:'200+ hrs/mo',label:' saved on manual triage'},{val:'0%',label:' backlog target'},{val:'Faster',label:' SLA compliance'},{val:'AI-generated',label:' investigation report per alert'}]},
+  'Avinash_r': { name:'AI Compliance Rostering', bu:'Compliance Ops - TM',
+    description:'Auto-generates monthly shift rosters. Replaces manual Excel scheduling.',
+    benefits:[{val:'90%',label:' reduction in rostering effort'},{val:'2 hrs/mo',label:' saved'},{val:'Better',label:' shift coverage & distribution'},{val:'1 month ahead',label:' scheduling maintained automatically'}]},
+  'Kavina Shah': { name:'Consumer Onboarding AI', bu:'KYC Operations',
+    description:'Reads ID & address docs, returns pass/fail decisions automatically.',
+    benefits:[{val:'200 hrs/mo',label:' saved for KYC Ops agents'},{val:'Faster',label:' customer onboarding'},{val:'Semi-automated',label:' pass/fail decisions'},{val:'Daily',label:' processing cadence'}]},
+  'Bela Mascrene': { name:'Bank Statement Download & Upload Automation', bu:'Fin Recon',
+    description:'Logs into bank portals, downloads statements, uploads to SPOC daily.',
+    benefits:[{val:'200 hrs/mo',label:' saved'},{val:'Improved',label:' SLA & accuracy'},{val:'Auto-filing',label:' to correct bank folders'},{val:'Eliminates',label:' manual portal logins'}]},
+  'Bela Mascrene (2)': { name:'Bank Charges and Interest Report Automation', bu:'Fin Recon',
+    description:'Pulls SPOC charges data, builds analysis, emails report automatically.',
+    benefits:[{val:'4 hrs/mo',label:' saved'},{val:'Same-day',label:' report delivery'},{val:'No',label:' manual pivot tables'},{val:'Auto email',label:' dispatch to stakeholders'}]},
+  'Rohan Dass': { name:'AI-Powered Invoice Audit', bu:'Setup & Invoicing Ops',
+    description:'Flags mismatches between contracts, invoices and FX setup automatically.',
+    benefits:[{val:'Hours \u2192 minutes',label:' per audit'},{val:'Stops',label:' revenue leakage from overbilling'},{val:'Catches',label:' FX setup mismatches automatically'},{val:'Covers',label:' 4 monthly pilot clients'}]},
+  'Vimal Kumar': { name:'Zendesk AI Ticket Automation', bu:'CSM',
+    description:'Auto-triages and drafts responses for cancellation tickets. Agents review only.',
+    benefits:[{val:'80\u2013100 hrs/mo',label:' saved'},{val:'15 min \u2192 2 min',label:' handling time per ticket'},{val:'Standardised',label:' response templates'},{val:'Zero',label:' manual database lookups'}]},
+  'Saranesh K': { name:'Card Ops Settlement Automation', bu:'Card Ops / Funding Ops',
+    description:'Automates MC & Visa settlement runs, balance checks, reconciliation and Slack alerts.',
+    benefits:[{val:'60\u201390 min/day',label:' of manual work eliminated'},{val:'0',label:' settlement errors'},{val:'Same-day',label:' exception detection'},{val:'Real-time',label:' JPMC balance alerts'}]},
+  'Avinash': { name:'RAYO \u2013 Agentic AI for TM Team', bu:'Compliance Ops - TM',
+    description:'Captures analyst workflows, spots inefficiencies, automates repetitive TM tasks.',
+    benefits:[{val:'\u2193 20\u201340%',label:' case handling time'},{val:'\u2191 15\u201325%',label:' analyst productivity'},{val:'Reduced',label:' SOP deviations'},{val:'Human-in-the-loop',label:' control maintained'}]},
+  'Karan Patel': { name:'Agentic AI for Customer Experience', bu:'Customer Experience',
+    description:'Live agentic AI handles customer queries end-to-end, reducing agent workload.',
+    benefits:[{val:'\u2191 CSAT',label:' score'},{val:'Faster',label:' first response time'},{val:'19 agents',label:' supported'},{val:'Fewer',label:' repetitive tickets reaching agents'}]},
+  'KT': { name:'Agentic AI for PPUI Payment Errors', bu:'Payment Operations',
+    description:'Phase 1: AI recommends actions. Phase 2: Auto-resolves known PPUI error types, removing the maker step.',
+    benefits:[{val:'Maker step',label:' eliminated for known errors'},{val:'Faster',label:' payment processing TAT'},{val:'Reduced',label:' ops team dependency'},{val:'Phase 2:',label:' full auto-resolution of confirmed errors'}]},
+  'Sonika Bisht': { name:'Client Servicing Dashboard', bu:'Customer Servicing',
+    description:'Centralises all key client information for faster retrieval, easier follow-ups and smoother shift handovers.',
+    benefits:[{val:'Faster',label:' information retrieval'},{val:'Reduced',label:' investigation time'},{val:'Smoother',label:' shift handovers'},{val:'Single view',label:' of case updates & follow-ups'}]},
+  'Girija Kanade': { name:'Client Communication Tool', bu:'Client Servicing',
+    description:'Centralises and automates email scheduling, tracking and monitoring for the client servicing team.',
+    benefits:[{val:'200 hrs/mo',label:' saved'},{val:'Full',label:' audit trail & tracking'},{val:'Centralized',label:' client communication'},{val:'Manual effort',label:' reduced to seconds'}]},
+  'Bela Mascrene (3)': { name:'Ops Issue Tracker', bu:'Fin Recon',
+    description:'Eliminates Excel-based issue tracking with a centralised system for visibility, follow-up and collaboration.',
+    benefits:[{val:'No more',label:' Excel-based tracking'},{val:'Centralised',label:' issue management'},{val:'Improved',label:' visibility & follow-up tracking'},{val:'Deployed',label:' & in monitoring'}]},
+  'Sunil Rangpadiya': { name:'AI-Powered CS Triage Agent', bu:'Customer Experience',
+    description:'Auto-classifies Zendesk tickets, fetches live transaction data and drafts a policy-compliant reply in seconds.',
+    benefits:[{val:'40\u201350%',label:' of CS ticket volume automated'},{val:'5\u20138 min',label:' saved per ticket'},{val:'First response:',label:' hours \u2192 under 5 min'},{val:'No',label:' manual lookup or drafting needed'}]},
 };
 
 const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-function parseDate(str) {
-  if (!str) return null;
-  const [y,mo,d] = str.split('-');
-  return new Date(+y, +mo-1, +d);
-}
-
-function fmtDate(str) {
-  if (!str) return null;
-  const [y,mo,d] = str.split('-');
-  return `${parseInt(d)} ${M[parseInt(mo)-1]} ${y}`;
-}
+function parseDate(s) { if(!s) return null; const[y,mo,d]=s.split('-'); return new Date(+y,+mo-1,+d); }
+function fmtDate(s) { if(!s) return null; const[y,mo,d]=s.split('-'); return `${parseInt(d)} ${M[parseInt(mo)-1]} ${y}`; }
 
 function calcHealth(stages, goLiveDate) {
-  const allNotStarted = stages.every(s => s.status === 'Not Started') && stages.every(s => !s.range);
-  if (allNotStarted) return 'not-started';
-
-  // At Risk: go live date has passed and deployment not done
+  const allNS = stages.every(s => s.status === 'Not Started') && stages.every(s => !s.range);
+  if (allNS) return 'not-started';
   if (goLiveDate) {
-    const depStage = stages.find(s => s.stage === 'Deployment');
-    const goLive = parseDate(goLiveDate);
-    if (goLive && goLive < TODAY && depStage && depStage.status !== 'Done') {
-      return 'at-risk';
-    }
+    const dep = stages.find(s => s.stage === 'Deployment');
+    if (parseDate(goLiveDate) < TODAY && dep && dep.status !== 'Done') return 'at-risk';
   }
-
-  // Behind Schedule: any stage's end date has passed and it's not done
   for (const s of stages) {
     if (s.status === 'Done') continue;
-    if (s.range) {
-      const endStr = s.range.split(' - ')[1];
-      const end = parseDate(endStr);
-      if (end && end < TODAY) return 'behind-schedule';
-    }
+    if (s.range) { const end = parseDate(s.range.split(' - ')[1]); if (end && end < TODAY) return 'behind-schedule'; }
   }
-
   return 'on-track';
 }
+
+const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started'};
 
 const owners = [...new Set(raw.map(r => r.owner))];
 const initiatives = owners.map((owner, i) => {
@@ -754,14 +690,10 @@ const initiatives = owners.map((owner, i) => {
   const pd = PROJECT_DATA[owner] || {};
   return {
     id: i,
-    name: pd.name || owner,
+    name: pd.name || owner.replace(/ \([23]\)$/,'').replace('_r',''),
     bu: pd.bu || '',
-    owner: owner.replace(' (2)', ''),
-    stages,
-    goLiveDate,
-    currentStage,
-    health,
-    objective: pd.objective || null,
+    owner: owner.replace(/ \([23]\)$/,'').replace('_r',''),
+    stages, goLiveDate, currentStage, health,
     description: pd.description || null,
     benefits: pd.benefits || null,
   };
@@ -774,56 +706,61 @@ document.getElementById('h-ontrack').textContent = counts['on-track'];
 document.getElementById('h-behind').textContent  = counts['behind-schedule'];
 document.getElementById('h-atrisk').textContent  = counts['at-risk'];
 
-const healthLabel = { 'on-track': 'On Track', 'behind-schedule': 'Behind Schedule', 'at-risk': 'At Risk', 'not-started': 'Not Started' };
-
 function renderBullets(benefits) {
-  if (!benefits || !benefits.length) return '<div style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</div>';
-  return benefits.map(b =>
-    `<div class="benefit-bullet">· <strong>${b.val}</strong>${b.label}</div>`
-  ).join('');
+  if (!benefits||!benefits.length) return '<span style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</span>';
+  return benefits.map(b => `<div class="benefit-bullet">\u00b7 <strong>${b.val}</strong>${b.label}</div>`).join('');
 }
 
 function renderRow(ini) {
   const goLive = ini.goLiveDate ? fmtDate(ini.goLiveDate) : null;
-  const curStageName = ini.currentStage ? ini.currentStage.stage : '—';
+  const curStageName = ini.currentStage ? ini.currentStage.stage : '\u2014';
   const isPulsing = ini.health === 'behind-schedule' || ini.health === 'at-risk';
   return `
     <div class="ini-row ${ini.health}">
       <div class="col-name">
         <div class="ini-name">${ini.name}</div>
-        <div class="ini-owner" style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:2px;">${ini.bu}</div>
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:2px;">${ini.bu}</div>
         <div class="ini-owner">${ini.owner}</div>
       </div>
       <div class="col-desc">
-        <div class="ini-desc ${!ini.description ? 'empty' : ''}">${ini.description || 'To be added'}</div>
+        <div class="ini-desc ${!ini.description?'empty':''}">${ini.description||'To be added'}</div>
       </div>
-      <div class="col-benefits">
-        ${renderBullets(ini.benefits)}
-      </div>
+      <div class="col-benefits">${renderBullets(ini.benefits)}</div>
       <div class="col-golive">
-        <div class="golive-date ${!goLive ? 'empty' : ''}">${goLive || '—'}</div>
+        <div class="golive-date ${!goLive?'empty':''}">${goLive||'\u2014'}</div>
         <div class="current-stage">Stage: ${curStageName}</div>
       </div>
       <div class="col-health">
         <span class="health-badge ${ini.health}">
-          <span class="hpip ${isPulsing ? 'blink' : ''}"></span>
+          <span class="hpip ${isPulsing?'blink':''}"></span>
           ${healthLabel[ini.health]}
         </span>
       </div>
     </div>`;
 }
 
-// Render static data immediately — page is never blank
-document.getElementById('ini-list').innerHTML = initiatives.map(renderRow).join('');
+let activeFilter = 'all';
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderList(initiatives);
+}
+function renderList(list) {
+  const filtered = activeFilter === 'all' ? list : list.filter(i => i.health === activeFilter);
+  document.getElementById('ini-list').innerHTML = filtered.map(renderRow).join('');
+}
+
+renderList(initiatives);
 
 const now = new Date();
 document.getElementById('updated-ts').textContent =
-  `Last updated: ${now.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})} · Owners & dates: monday.com · Descriptions & benefits: AI Use Case Template`;
+  `Last updated: ${now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} \u00b7 Owners & dates: monday.com \u00b7 Descriptions & benefits: AI Use Case Template`;
 
 // Silently fetch live data from monday.com and update if successful
 (async () => {
   try {
-    const res = await fetch('/api/monday', {
+    const res = await fetch('/.netlify/functions/monday', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: `{
@@ -849,7 +786,7 @@ document.getElementById('updated-ts').textContent =
     // Use a two-pass approach: first collect all items grouped by position (7 stages per initiative)
     // Use the Ideation owner as the anchor, fill in that owner for all stages in the group
     const STAGE_NAMES = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring'];
-    const SKIP_OWNERS = ['Product (TBC)', 'Product', ''];
+    const SKIP_OWNERS = ['Product (TBC)', 'Product', '', 'Avinash_r'];
 
     // Group items into blocks of 7 (each initiative = 7 stage rows)
     const liveRaw = [];
@@ -907,7 +844,7 @@ document.getElementById('updated-ts').textContent =
         id: i,
         name: pd.name || owner.replace(' (2)', ''),
         bu: pd.bu || '',
-        owner: displayOwner.replace(' (2)', ''),
+        owner: displayOwner.replace(' (2)', '').replace(' (3)', '').replace('_r', ''),
         stages, goLiveDate, currentStage, health,
         description: pd.description || null,
         benefits: pd.benefits || null,
@@ -936,6 +873,9 @@ document.getElementById('updated-ts').textContent =
     // Silently keep static data on any error
   }
 })();
+
+// Auto-refresh every 5 minutes
+setInterval(() => location.reload(), 5 * 60 * 1000);
 
 function toggleBenefits(e) {
   e.stopPropagation();
