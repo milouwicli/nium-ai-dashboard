@@ -614,50 +614,50 @@ const raw = [
 
 const PROJECT_DATA = {
   'Ganesh Pandit': { name:'AI Alert Review & Backlog Prioritization', bu:'Compliance Ops - TM',
-    description:'Auto-scores and prioritises TM alerts by risk. Analysts review high-risk cases only.',
-    benefits:[{val:'200+ hrs/mo',label:' saved on manual triage'},{val:'0%',label:' backlog target'},{val:'Faster',label:' SLA compliance'},{val:'AI-generated',label:' investigation report per alert'}]},
+    description:'Automates risk-scoring and triage of transaction monitoring alerts so analysts focus only on high-risk cases.',
+    benefits:'200+ hrs/mo saved on manual triage · 0% backlog target · Faster SLA compliance · AI-generated investigation report per alert'},
   'Avinash_r': { name:'AI Compliance Rostering', bu:'Compliance Ops - TM',
-    description:'Auto-generates monthly shift rosters. Replaces manual Excel scheduling.',
-    benefits:[{val:'90%',label:' reduction in rostering effort'},{val:'2 hrs/mo',label:' saved'},{val:'Better',label:' shift coverage & distribution'},{val:'1 month ahead',label:' scheduling maintained automatically'}]},
+    description:'Generates optimised monthly rosters automatically, replacing a manual Excel process done 4 weeks in advance.',
+    benefits:'90% reduction in rostering effort · 2 hrs/mo saved · Better shift coverage & distribution · 1 month ahead scheduling maintained automatically'},
   'Kavina Shah': { name:'Consumer Onboarding AI', bu:'KYC Operations',
-    description:'Reads ID & address docs, returns pass/fail decisions automatically.',
-    benefits:[{val:'200 hrs/mo',label:' saved for KYC Ops agents'},{val:'Faster',label:' customer onboarding'},{val:'Semi-automated',label:' pass/fail decisions'},{val:'Daily',label:' processing cadence'}]},
+    description:'Reads and makes automated pass/fail decisions on ID and address documents submitted during consumer onboarding.',
+    benefits:'200 hrs/mo saved for KYC Ops agents · Faster customer onboarding · Semi-automated pass/fail decisions · Daily processing cadence'},
   'Bela Mascrene': { name:'Bank Statement Download & Upload Automation', bu:'Fin Recon',
-    description:'Logs into bank portals, downloads statements, uploads to SPOC daily.',
-    benefits:[{val:'200 hrs/mo',label:' saved'},{val:'Improved',label:' SLA & accuracy'},{val:'Auto-filing',label:' to correct bank folders'},{val:'Eliminates',label:' manual portal logins'}]},
+    description:'Logs into bank portals, downloads statements, and uploads them to SPOC — replacing a fully manual daily process.',
+    benefits:'200 hrs/mo saved · Improved SLA & accuracy · Auto-filing to correct bank folders · Eliminates manual portal logins'},
   'Bela Mascrene (2)': { name:'Bank Charges and Interest Report Automation', bu:'Fin Recon',
-    description:'Pulls SPOC charges data, builds analysis, emails report automatically.',
-    benefits:[{val:'4 hrs/mo',label:' saved'},{val:'Same-day',label:' report delivery'},{val:'No',label:' manual pivot tables'},{val:'Auto email',label:' dispatch to stakeholders'}]},
+    description:'Downloads charges data from SPOC, generates a summary analysis, and emails the report — no manual pivot tables.',
+    benefits:'4 hrs/mo saved · Same-day report delivery · No manual pivot tables · Auto email dispatch to stakeholders'},
   'Rohan Dass': { name:'AI-Powered Invoice Audit', bu:'Setup & Invoicing Ops',
-    description:'Flags mismatches between contracts, invoices and FX setup automatically.',
-    benefits:[{val:'Hours \u2192 minutes',label:' per audit'},{val:'Stops',label:' revenue leakage from overbilling'},{val:'Catches',label:' FX setup mismatches automatically'},{val:'Covers',label:' 4 monthly pilot clients'}]},
+    description:'Cross-references contracts, invoices, and FX setup to flag mismatches and overbilling automatically.',
+    benefits:'Hours → minutes per audit · Stops revenue leakage from overbilling · Catches FX setup mismatches automatically · Covers 4 monthly pilot clients'},
   'Vimal Kumar': { name:'Zendesk AI Ticket Automation', bu:'CSM',
-    description:'Auto-triages and drafts responses for cancellation tickets. Agents review only.',
-    benefits:[{val:'80\u2013100 hrs/mo',label:' saved'},{val:'15 min \u2192 2 min',label:' handling time per ticket'},{val:'Standardised',label:' response templates'},{val:'Zero',label:' manual database lookups'}]},
+    description:'Automatically triages, eligibility-checks, and drafts responses for cancellation tickets. Agents review only — no manual lookups.',
+    benefits:'80–100 hrs/mo saved across support & ops · 15 min → 2 min handling time per ticket · Standardised response templates · Zero manual database lookups'},
   'Saranesh K': { name:'Card Ops Settlement Automation', bu:'Card Ops / Funding Ops',
-    description:'Automates MC & Visa settlement runs, balance checks, reconciliation and Slack alerts.',
-    benefits:[{val:'60\u201390 min/day',label:' of manual work eliminated'},{val:'0',label:' settlement errors'},{val:'Same-day',label:' exception detection'},{val:'Real-time',label:' JPMC balance alerts'}]},
-  'Avinash': { name:'RAYO \u2013 Agentic AI for TM Team', bu:'Compliance Ops - TM',
-    description:'Captures analyst workflows, spots inefficiencies, automates repetitive TM tasks.',
-    benefits:[{val:'\u2193 20\u201340%',label:' case handling time'},{val:'\u2191 15\u201325%',label:' analyst productivity'},{val:'Reduced',label:' SOP deviations'},{val:'Human-in-the-loop',label:' control maintained'}]},
+    description:'Automates Mastercard & Visa settlement parsing, JPMC balance checks, Excel logging, reconciliation, and Slack alerts across 4 daily windows.',
+    benefits:'60–90 min/day of manual work eliminated · 0 settlement errors · Same-day exception detection · Real-time JPMC balance alerts'},
+  'Avinash': { name:'RAYO – Agentic AI for TM Team', bu:'Compliance Ops - TM',
+    description:'Captures real analyst desktop workflows, spots inefficiencies, and deploys AI agents to handle data gathering, form filling, and drafting.',
+    benefits:'↓ 20–40% case handling time · ↑ 15–25% analyst productivity · Reduced SOP deviations · Human-in-the-loop control maintained'},
   'Karan Patel': { name:'Agentic AI for Customer Experience', bu:'Customer Experience',
-    description:'Live agentic AI handles customer queries end-to-end, reducing agent workload.',
-    benefits:[{val:'\u2191 CSAT',label:' score'},{val:'Faster',label:' first response time'},{val:'19 agents',label:' supported'},{val:'Fewer',label:' repetitive tickets reaching agents'}]},
+    description:'Live agentic AI handles customer queries end-to-end — transaction status, SLAs, and issue resolution — reducing agent workload.',
+    benefits:'↑ CSAT score · Faster first response time · 19 agents supported · Fewer repetitive tickets reaching agents'},
   'KT': { name:'Agentic AI for PPUI Payment Errors', bu:'Payment Operations',
-    description:'Phase 1: AI recommends actions. Phase 2: Auto-resolves known PPUI error types, removing the maker step.',
-    benefits:[{val:'Maker step',label:' eliminated for known errors'},{val:'Faster',label:' payment processing TAT'},{val:'Reduced',label:' ops team dependency'},{val:'Phase 2:',label:' full auto-resolution of confirmed errors'}]},
+    description:'Phase 1: AI highlights recommended actions on PPUI errors. Phase 2: Fully auto-resolves known error types, removing the maker-checker delay.',
+    benefits:'Maker step eliminated for known errors · Faster payment processing TAT · Reduced ops team dependency · Phase 2: full auto-resolution of confirmed errors'},
   'Sonika Bisht': { name:'Client Servicing Dashboard', bu:'Customer Servicing',
-    description:'Centralises all key client information for faster retrieval, easier follow-ups and smoother shift handovers.',
-    benefits:[{val:'Faster',label:' information retrieval'},{val:'Reduced',label:' investigation time'},{val:'Smoother',label:' shift handovers'},{val:'Single view',label:' of case updates & follow-ups'}]},
+    description:'Centralizes all key client information in one place for better visibility, faster information retrieval, reduced investigation time, and smoother shift handovers.',
+    benefits:'Centralized client information access · Faster information retrieval · Reduced investigation time · Smoother shift handovers · Easy access to case updates & follow-ups'},
   'Girija Kanade': { name:'Client Communication Tool', bu:'Client Servicing',
-    description:'Centralises and automates email scheduling, tracking and monitoring for the client servicing team.',
-    benefits:[{val:'200 hrs/mo',label:' saved'},{val:'Full',label:' audit trail & tracking'},{val:'Centralized',label:' client communication'},{val:'Manual effort',label:' reduced to seconds'}]},
+    description:'Centralises communication processes, helping the client servicing team schedule, track and monitor email communications.',
+    benefits:'200 hrs/mo saved · Centralized client communication · Full audit trail & tracking · Reduces manual effort to seconds · Improved accuracy'},
   'Bela Mascrene (3)': { name:'Ops Issue Tracker', bu:'Fin Recon',
-    description:'Eliminates Excel-based issue tracking with a centralised system for visibility, follow-up and collaboration.',
-    benefits:[{val:'No more',label:' Excel-based tracking'},{val:'Centralised',label:' issue management'},{val:'Improved',label:' visibility & follow-up tracking'},{val:'Deployed',label:' & in monitoring'}]},
+    description:'Eliminates Excel-based issue tracking with a streamlined system that improves visibility, follow-up management, collaboration, and operational efficiency.',
+    benefits:'Eliminates manual issue tracker maintenance · No longer requires Excel-based tracking · Centralized issue management · Improved visibility & follow-up tracking'},
   'Sunil Rangpadiya': { name:'AI-Powered CS Triage Agent', bu:'Customer Experience',
-    description:'Auto-classifies Zendesk tickets, fetches live transaction data and drafts a policy-compliant reply in seconds.',
-    benefits:[{val:'40\u201350%',label:' of CS ticket volume automated'},{val:'5\u20138 min',label:' saved per ticket'},{val:'First response:',label:' hours \u2192 under 5 min'},{val:'No',label:' manual lookup or drafting needed'}]},
+    description:'Auto-classify Zendesk tickets, fetch live transaction data, and generate a policy-compliant draft reply within seconds. Agent reviews and sends — no manual lookup or drafting needed.',
+    benefits:'Automates ~40–50% of CS ticket volume · Saves 5–8 min per ticket · First response: hrs → under 5 min · No manual lookup or drafting needed'},
 };
 
 const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -707,8 +707,18 @@ document.getElementById('h-behind').textContent  = counts['behind-schedule'];
 document.getElementById('h-atrisk').textContent  = counts['at-risk'];
 
 function renderBullets(benefits) {
-  if (!benefits||!benefits.length) return '<span style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</span>';
-  return benefits.map(b => `<div class="benefit-bullet">\u00b7 <strong>${b.val}</strong>${b.label}</div>`).join('');
+  if (!benefits) return '<span style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</span>';
+  if (typeof benefits === 'string') {
+    return benefits.split('·').map(s => s.trim()).filter(Boolean).map(s => {
+      // Bold the first word/number/metric (everything up to the first space after the metric)
+      const match = s.match(/^([^\s]+(?:\s+[^\s]+)?(?:\s*[\u2192\u2193\u2191→↓↑%+])?)\s+(.*)/);
+      if (match) {
+        return `<div class="benefit-bullet">· <strong style="font-family:'Space Mono',monospace;color:var(--mint-text);">${match[1]}</strong> ${match[2]}</div>`;
+      }
+      return `<div class="benefit-bullet">· ${s}</div>`;
+    }).join('');
+  }
+  return benefits.map(b => `<div class="benefit-bullet">· <strong style="font-family:'Space Mono',monospace;color:var(--mint-text);">${b.val}</strong>${b.label}</div>`).join('');
 }
 
 function renderRow(ini) {
@@ -771,6 +781,7 @@ document.getElementById('updated-ts').textContent =
               column_values {
                 id text
                 ... on StatusValue { label }
+                ... on LongTextValue { text }
               }
             }
           }
@@ -783,27 +794,35 @@ document.getElementById('updated-ts').textContent =
     if (!items || items.length === 0) return;
 
     // Map live items to raw format
-    // Use a two-pass approach: first collect all items grouped by position (7 stages per initiative)
-    // Use the Ideation owner as the anchor, fill in that owner for all stages in the group
     const STAGE_NAMES = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring'];
     const SKIP_OWNERS = ['Product (TBC)', 'Product', '', 'Avinash_r'];
 
-    // Group items into blocks of 7 (each initiative = 7 stage rows)
     const liveRaw = [];
+    const liveDetails = {}; // owner -> { description, benefits }
     let currentOwner = null;
+
     items.forEach(item => {
       const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
       const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
       const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
+      const descCol   = item.column_values.find(c => c.id === 'long_text_mm3hr8w4');
+      const benfCol   = item.column_values.find(c => c.id === 'long_text_mm3hkmjz');
       const rawOwner  = ownerCol?.text || '';
       const status    = statusCol?.label || 'Not Started';
       const range     = rangeCol?.text  || null;
 
-      // When we see an Ideation stage with a valid owner, start a new initiative
+      // Initiative Details row — store description & benefits keyed to current initiative
+      if (item.name === 'Initiative Details' && currentOwner) {
+        liveDetails[currentOwner] = {
+          description: descCol?.text || null,
+          benefits: benfCol?.text || null,
+        };
+        return;
+      }
+
       if (item.name === 'Ideation' && !SKIP_OWNERS.includes(rawOwner)) {
         currentOwner = rawOwner;
       }
-      // Use the current initiative's owner for all stages
       if (currentOwner && STAGE_NAMES.includes(item.name)) {
         liveRaw.push({ owner: currentOwner, stage: item.name, status, range });
       }
@@ -840,14 +859,15 @@ document.getElementById('updated-ts').textContent =
       const health = calcHealth(stages, goLiveDate);
       // Match PROJECT_DATA by position first, then by owner name as fallback
       const pd = PROJECT_DATA[PD_KEYS[i]] || PROJECT_DATA[owner] || {};
+      const det = liveDetails[owner] || {};
       return {
         id: i,
         name: pd.name || owner.replace(' (2)', ''),
         bu: pd.bu || '',
         owner: displayOwner.replace(' (2)', '').replace(' (3)', '').replace('_r', ''),
         stages, goLiveDate, currentStage, health,
-        description: pd.description || null,
-        benefits: pd.benefits || null,
+        description: det.description || pd.description || null,
+        benefits: det.benefits || pd.benefits || null,
       };
     });
 
