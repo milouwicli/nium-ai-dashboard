@@ -211,6 +211,8 @@
   }
 
   .ini-row.behind-schedule { border-left: 3px solid var(--amber); }
+  .ini-row.deployed  { border-left: 3px solid var(--mint-text); }
+  .ini-row.monitoring { border-left: 3px solid #2563eb; }
   .ini-row.at-risk { border-left: 3px solid var(--red); }
   .ini-row.on-track { border-left: 3px solid var(--green); }
 
@@ -324,6 +326,16 @@
     background: var(--gray-bg);
     color: var(--gray);
   }
+  .health-badge.deployed {
+    background: var(--mint-bg);
+    color: var(--mint-text);
+    border: 1px solid var(--mint-border);
+  }
+  .health-badge.monitoring {
+    background: rgba(79,142,255,0.10);
+    color: #2563eb;
+    border: 1px solid rgba(79,142,255,0.25);
+  }
 
   .hpip {
     width: 6px; height: 6px;
@@ -426,6 +438,10 @@
   <div class="sbar-stat">
     <div class="sbar-num red" id="h-atrisk">—</div>
     <div class="sbar-lbl">At Risk</div>
+  </div>
+  <div class="sbar-stat">
+    <div class="sbar-num" style="color:var(--mint-text);" id="h-deployed">—</div>
+    <div class="sbar-lbl">Deployed</div>
   </div>
   <div class="sbar-stat clickable" id="benefits-trigger" onclick="toggleBenefits(event)">
     <div class="sbar-num mint">600+ hrs/mo</div>
@@ -667,9 +683,17 @@ function fmtDate(s) { if(!s) return null; const[y,mo,d]=s.split('-'); return `${
 function calcHealth(stages, goLiveDate) {
   const allNS = stages.every(s => s.status === 'Not Started') && stages.every(s => !s.range);
   if (allNS) return 'not-started';
+
+  // Monitoring in progress = also Deployed
+  const monStage = stages.find(s => s.stage === 'Monitoring');
+  if (monStage && monStage.status === 'In Progress') return 'deployed';
+
+  // Fully deployed (Deployment Done)
+  const depStage = stages.find(s => s.stage === 'Deployment');
+  if (depStage && depStage.status === 'Done') return 'deployed';
+
   if (goLiveDate) {
-    const dep = stages.find(s => s.stage === 'Deployment');
-    if (parseDate(goLiveDate) < TODAY && dep && dep.status !== 'Done') return 'at-risk';
+    if (parseDate(goLiveDate) < TODAY && depStage && depStage.status !== 'Done') return 'at-risk';
   }
   for (const s of stages) {
     if (s.status === 'Done') continue;
@@ -678,7 +702,7 @@ function calcHealth(stages, goLiveDate) {
   return 'on-track';
 }
 
-const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started'};
+const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','deployed':'Deployed','monitoring':'Monitoring'};
 
 const owners = [...new Set(raw.map(r => r.owner))];
 const initiatives = owners.map((owner, i) => {
@@ -699,12 +723,13 @@ const initiatives = owners.map((owner, i) => {
   };
 });
 
-const counts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0};
+const counts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0,'deployed':0,'monitoring':0};
 initiatives.forEach(i => counts[i.health]++);
-document.getElementById('h-total').textContent   = initiatives.length;
-document.getElementById('h-ontrack').textContent = counts['on-track'];
-document.getElementById('h-behind').textContent  = counts['behind-schedule'];
-document.getElementById('h-atrisk').textContent  = counts['at-risk'];
+document.getElementById('h-total').textContent    = initiatives.length;
+document.getElementById('h-ontrack').textContent  = counts['on-track'];
+document.getElementById('h-behind').textContent   = counts['behind-schedule'];
+document.getElementById('h-atrisk').textContent   = counts['at-risk'];
+document.getElementById('h-deployed').textContent = (counts['deployed'] || 0);
 
 function renderBullets(benefits) {
   if (!benefits) return '<span style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</span>';
@@ -758,7 +783,12 @@ function setFilter(f, btn) {
 }
 function renderList(list) {
   const filtered = activeFilter === 'all' ? list : list.filter(i => i.health === activeFilter);
-  document.getElementById('ini-list').innerHTML = filtered.map(renderRow).join('');
+  // Deployed always floats to the top
+  const sorted = [
+    ...filtered.filter(i => i.health === 'deployed'),
+    ...filtered.filter(i => i.health !== 'deployed'),
+  ];
+  document.getElementById('ini-list').innerHTML = sorted.map(renderRow).join('');
 }
 
 renderList(initiatives);
@@ -874,15 +904,20 @@ document.getElementById('updated-ts').textContent =
     if (liveInitiatives.length === 0) return;
 
     // Update counts
-    const liveCounts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0};
+    const liveCounts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0,'deployed':0,'monitoring':0};
     liveInitiatives.forEach(i => liveCounts[i.health]++);
-    document.getElementById('h-total').textContent   = liveInitiatives.length;
-    document.getElementById('h-ontrack').textContent = liveCounts['on-track'];
-    document.getElementById('h-behind').textContent  = liveCounts['behind-schedule'];
-    document.getElementById('h-atrisk').textContent  = liveCounts['at-risk'];
+    document.getElementById('h-total').textContent    = liveInitiatives.length;
+    document.getElementById('h-ontrack').textContent  = liveCounts['on-track'];
+    document.getElementById('h-behind').textContent   = liveCounts['behind-schedule'];
+    document.getElementById('h-atrisk').textContent   = liveCounts['at-risk'];
+    document.getElementById('h-deployed').textContent = (liveCounts['deployed'] || 0);
 
     // Update table
-    document.getElementById('ini-list').innerHTML = liveInitiatives.map(renderRow).join('');
+    const liveSorted = [
+      ...liveInitiatives.filter(i => i.health === 'deployed'),
+      ...liveInitiatives.filter(i => i.health !== 'deployed'),
+    ];
+    document.getElementById('ini-list').innerHTML = liveSorted.map(renderRow).join('');
 
     // Update timestamp
     const liveNow = new Date();
