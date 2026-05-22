@@ -502,7 +502,7 @@
 </div>
 
 <script>
-const TODAY = new Date('2026-05-21');
+const TODAY = new Date();
 
 
 const raw = [
@@ -684,7 +684,7 @@ function calcHealth(stages, goLiveDate) {
   const allNS = stages.every(s => s.status === 'Not Started') && stages.every(s => !s.range);
   if (allNS) return 'not-started';
 
-  // Monitoring in progress = also Deployed
+  // Monitoring in progress = Deployed
   const monStage = stages.find(s => s.stage === 'Monitoring');
   if (monStage && monStage.status === 'In Progress') return 'deployed';
 
@@ -692,13 +692,20 @@ function calcHealth(stages, goLiveDate) {
   const depStage = stages.find(s => s.stage === 'Deployment');
   if (depStage && depStage.status === 'Done') return 'deployed';
 
+  // At Risk: go-live date has passed and not deployed
   if (goLiveDate) {
     if (parseDate(goLiveDate) < TODAY && depStage && depStage.status !== 'Done') return 'at-risk';
   }
+
+  // Behind Schedule: any stage end date has passed and the stage is not Done
   for (const s of stages) {
     if (s.status === 'Done') continue;
-    if (s.range) { const end = parseDate(s.range.split(' - ')[1]); if (end && end < TODAY) return 'behind-schedule'; }
+    if (s.range) {
+      const end = parseDate(s.range.split(' - ')[1]);
+      if (end && end < TODAY) return 'behind-schedule';
+    }
   }
+
   return 'on-track';
 }
 
