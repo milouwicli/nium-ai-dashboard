@@ -507,125 +507,125 @@ const TODAY = new Date('2026-05-21');
 
 const raw = [
   // 1. AI Alert Review (Ganesh Pandit) — Monitoring In Progress
-  {owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
-  {owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
-  {owner:'Ganesh Pandit',stage:'Deployment',status:'Done',range:'2026-05-18 - 2026-05-18'},
-  {owner:'Ganesh Pandit',stage:'Monitoring',status:'In Progress',range:'2026-05-18 - 2026-05-29'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Build',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Deployment',status:'Done',range:'2026-05-18 - 2026-05-18'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Monitoring',status:'In Progress',range:'2026-05-18 - 2026-05-29'},
   // 2. AI Compliance Rostering (now Avinash on board, but Umesh in Excel — keep Avinash_r key)
-  {owner:'Avinash_r',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
-  {owner:'Avinash_r',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
-  {owner:'Avinash_r',stage:'Design',status:'Done',range:'2026-05-15 - 2026-05-15'},
-  {owner:'Avinash_r',stage:'Build',status:'Done',range:'2026-05-19 - 2026-05-19'},
-  {owner:'Avinash_r',stage:'Testing',status:'In Progress',range:'2026-05-22 - 2026-05-22'},
-  {owner:'Avinash_r',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
-  {owner:'Avinash_r',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Design',status:'Done',range:'2026-05-15 - 2026-05-15'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Build',status:'Done',range:'2026-05-19 - 2026-05-19'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Testing',status:'In Progress',range:'2026-05-22 - 2026-05-22'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Deployment',status:'Not Started',range:'2026-05-25 - 2026-05-25'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Monitoring',status:'Not Started',range:'2026-05-15 - 2026-06-30'},
   // 3. Consumer Onboarding (Kavina Shah) — Testing In Progress
-  {owner:'Kavina Shah',stage:'Ideation',status:'Done',range:'2026-04-10 - 2026-04-13'},
-  {owner:'Kavina Shah',stage:'Feasibility',status:'Done',range:'2026-04-14 - 2026-04-17'},
-  {owner:'Kavina Shah',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-24'},
-  {owner:'Kavina Shah',stage:'Build',status:'Done',range:'2026-04-27 - 2026-05-06'},
-  {owner:'Kavina Shah',stage:'Testing',status:'In Progress',range:'2026-05-07 - 2026-05-29'},
-  {owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-05'},
-  {owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:'2026-06-08 - 2026-06-12'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Ideation',status:'Done',range:'2026-04-10 - 2026-04-13'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Feasibility',status:'Done',range:'2026-04-14 - 2026-04-17'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-24'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Build',status:'Done',range:'2026-04-27 - 2026-05-06'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Testing',status:'In Progress',range:'2026-05-07 - 2026-05-29'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-05'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:'2026-06-08 - 2026-06-12'},
   // 4. Bank Statement Automation (Bela Mascrene)
-  {owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
-  {owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
-  {owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
-  {owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
-  {owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
-  {owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
-  {owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {groupKey:'g04',owner:'Bela Mascrene',stage:'Ideation',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
+  {groupKey:'g04',owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
+  {groupKey:'g04',owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
+  {groupKey:'g04',owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
+  {groupKey:'g04',owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
+  {groupKey:'g04',owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
+  {groupKey:'g04',owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
   // 5. Bank Charges Report (Bela Mascrene 2) — Testing In Progress
-  {owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
-  {owner:'Bela Mascrene (2)',stage:'Feasibility',status:'Done',range:'2026-04-21 - 2026-04-29'},
-  {owner:'Bela Mascrene (2)',stage:'Design',status:'Done',range:'2026-04-30 - 2026-05-08'},
-  {owner:'Bela Mascrene (2)',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-20'},
-  {owner:'Bela Mascrene (2)',stage:'Testing',status:'In Progress',range:'2026-05-21 - 2026-05-25'},
-  {owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:'2026-05-26 - 2026-06-01'},
-  {owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
+  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
+  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Feasibility',status:'Done',range:'2026-04-21 - 2026-04-29'},
+  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Design',status:'Done',range:'2026-04-30 - 2026-05-08'},
+  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-20'},
+  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Testing',status:'In Progress',range:'2026-05-21 - 2026-05-25'},
+  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:'2026-05-26 - 2026-06-01'},
+  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
   // 6. AI Invoice Audit (Rohan Dass) — Build In Progress
-  {owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
-  {owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
-  {owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
-  {owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {groupKey:'g06',owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g06',owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g06',owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g06',owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
+  {groupKey:'g06',owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-05-21 - 2026-06-15'},
+  {groupKey:'g06',owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
+  {groupKey:'g06',owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-06-16 - 2026-06-30'},
   // 7. Zendesk Ticket Automation (Vimal Kumar) — Testing In Progress
-  {owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
-  {owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
-  {owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
+  {groupKey:'g07',owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g07',owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g07',owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g07',owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g07',owner:'Vimal Kumar',stage:'Testing',status:'In Progress',range:'2026-04-01 - 2026-05-29'},
+  {groupKey:'g07',owner:'Vimal Kumar',stage:'Deployment',status:'Not Started',range:'2026-06-12 - 2026-06-12'},
+  {groupKey:'g07',owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
   // 8. Card Ops Settlement (Saranesh K) — Deployment In Progress
-  {owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {owner:'Saranesh K',stage:'Testing',status:'Done',range:'2026-04-01 - 2026-05-29'},
-  {owner:'Saranesh K',stage:'Deployment',status:'In Progress',range:'2026-06-01 - 2026-06-30'},
-  {owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
+  {groupKey:'g08',owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g08',owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g08',owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g08',owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g08',owner:'Saranesh K',stage:'Testing',status:'Done',range:'2026-04-01 - 2026-05-29'},
+  {groupKey:'g08',owner:'Saranesh K',stage:'Deployment',status:'In Progress',range:'2026-06-01 - 2026-06-30'},
+  {groupKey:'g08',owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
   // 9. RAYO TM (Avinash) — Not Started
-  {owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Design',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Build',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
-  {owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
+  {groupKey:'g09',owner:'Avinash',stage:'Ideation',status:'Not Started',range:null},
+  {groupKey:'g09',owner:'Avinash',stage:'Feasibility',status:'Not Started',range:null},
+  {groupKey:'g09',owner:'Avinash',stage:'Design',status:'Not Started',range:null},
+  {groupKey:'g09',owner:'Avinash',stage:'Build',status:'Not Started',range:null},
+  {groupKey:'g09',owner:'Avinash',stage:'Testing',status:'Not Started',range:null},
+  {groupKey:'g09',owner:'Avinash',stage:'Deployment',status:'Not Started',range:null},
+  {groupKey:'g09',owner:'Avinash',stage:'Monitoring',status:'Not Started',range:null},
   // 10. Agentic AI CE Chats (Karan Patel) — Deployment In Progress
-  {owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
-  {owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
-  {owner:'Karan Patel',stage:'Design',status:'Done',range:'2026-05-04 - 2026-06-30'},
-  {owner:'Karan Patel',stage:'Build',status:'Done',range:'2026-07-01 - 2026-08-31'},
-  {owner:'Karan Patel',stage:'Testing',status:'Done',range:'2026-09-01 - 2026-09-30'},
-  {owner:'Karan Patel',stage:'Deployment',status:'In Progress',range:'2026-10-01 - 2026-10-30'},
-  {owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
+  {groupKey:'g10',owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
+  {groupKey:'g10',owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
+  {groupKey:'g10',owner:'Karan Patel',stage:'Design',status:'Done',range:'2026-05-04 - 2026-06-30'},
+  {groupKey:'g10',owner:'Karan Patel',stage:'Build',status:'Done',range:'2026-07-01 - 2026-08-31'},
+  {groupKey:'g10',owner:'Karan Patel',stage:'Testing',status:'Done',range:'2026-09-01 - 2026-09-30'},
+  {groupKey:'g10',owner:'Karan Patel',stage:'Deployment',status:'In Progress',range:'2026-10-01 - 2026-10-30'},
+  {groupKey:'g10',owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
   // 11. Agentic AI PPUI (KT) — Testing In Progress
-  {owner:'KT',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-05-01'},
-  {owner:'KT',stage:'Feasibility',status:'Done',range:'2026-04-28 - 2026-05-01'},
-  {owner:'KT',stage:'Design',status:'Done',range:'2026-05-04 - 2026-05-08'},
-  {owner:'KT',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-29'},
-  {owner:'KT',stage:'Testing',status:'In Progress',range:'2026-06-01 - 2026-08-31'},
-  {owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
-  {owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
+  {groupKey:'g11',owner:'KT',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-05-01'},
+  {groupKey:'g11',owner:'KT',stage:'Feasibility',status:'Done',range:'2026-04-28 - 2026-05-01'},
+  {groupKey:'g11',owner:'KT',stage:'Design',status:'Done',range:'2026-05-04 - 2026-05-08'},
+  {groupKey:'g11',owner:'KT',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-29'},
+  {groupKey:'g11',owner:'KT',stage:'Testing',status:'In Progress',range:'2026-06-01 - 2026-08-31'},
+  {groupKey:'g11',owner:'KT',stage:'Deployment',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {groupKey:'g11',owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
   // 12. Client Servicing Dashboard (Sonika Bisht) — Build In Progress
-  {owner:'Sonika Bisht',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-04-28'},
-  {owner:'Sonika Bisht',stage:'Feasibility',status:'Done',range:'2026-04-29 - 2026-05-15'},
-  {owner:'Sonika Bisht',stage:'Design',status:'Done',range:'2026-05-18 - 2026-06-05'},
-  {owner:'Sonika Bisht',stage:'Build',status:'In Progress',range:'2026-06-08 - 2026-06-16'},
-  {owner:'Sonika Bisht',stage:'Testing',status:'Not Started',range:'2026-06-17 - 2026-06-26'},
-  {owner:'Sonika Bisht',stage:'Deployment',status:'Not Started',range:'2026-06-26 - 2026-07-03'},
-  {owner:'Sonika Bisht',stage:'Monitoring',status:'Not Started',range:'2026-07-03 - 2026-07-07'},
+  {groupKey:'g12',owner:'Sonika Bisht',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-04-28'},
+  {groupKey:'g12',owner:'Sonika Bisht',stage:'Feasibility',status:'Done',range:'2026-04-29 - 2026-05-15'},
+  {groupKey:'g12',owner:'Sonika Bisht',stage:'Design',status:'Done',range:'2026-05-18 - 2026-06-05'},
+  {groupKey:'g12',owner:'Sonika Bisht',stage:'Build',status:'In Progress',range:'2026-06-08 - 2026-06-16'},
+  {groupKey:'g12',owner:'Sonika Bisht',stage:'Testing',status:'Not Started',range:'2026-06-17 - 2026-06-26'},
+  {groupKey:'g12',owner:'Sonika Bisht',stage:'Deployment',status:'Not Started',range:'2026-06-26 - 2026-07-03'},
+  {groupKey:'g12',owner:'Sonika Bisht',stage:'Monitoring',status:'Not Started',range:'2026-07-03 - 2026-07-07'},
   // 13. Client Communication Tool (Girija Kanade) — Build+Testing In Progress
-  {owner:'Girija Kanade',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-15'},
-  {owner:'Girija Kanade',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {owner:'Girija Kanade',stage:'Design',status:'Done',range:'2026-05-01 - 2026-05-04'},
-  {owner:'Girija Kanade',stage:'Build',status:'In Progress',range:'2026-05-05 - 2026-06-10'},
-  {owner:'Girija Kanade',stage:'Testing',status:'In Progress',range:'2026-06-11 - 2026-06-19'},
-  {owner:'Girija Kanade',stage:'Deployment',status:'Not Started',range:'2026-06-22 - 2026-06-25'},
-  {owner:'Girija Kanade',stage:'Monitoring',status:'Not Started',range:'2026-06-26 - 2026-06-30'},
+  {groupKey:'g13',owner:'Girija Kanade',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-15'},
+  {groupKey:'g13',owner:'Girija Kanade',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g13',owner:'Girija Kanade',stage:'Design',status:'Done',range:'2026-05-01 - 2026-05-04'},
+  {groupKey:'g13',owner:'Girija Kanade',stage:'Build',status:'In Progress',range:'2026-05-05 - 2026-06-10'},
+  {groupKey:'g13',owner:'Girija Kanade',stage:'Testing',status:'In Progress',range:'2026-06-11 - 2026-06-19'},
+  {groupKey:'g13',owner:'Girija Kanade',stage:'Deployment',status:'Not Started',range:'2026-06-22 - 2026-06-25'},
+  {groupKey:'g13',owner:'Girija Kanade',stage:'Monitoring',status:'Not Started',range:'2026-06-26 - 2026-06-30'},
   // 14. Ops Issue Tracker (Bela Mascrene 3) — Monitoring In Progress (fully live)
-  {owner:'Bela Mascrene (3)',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-16'},
-  {owner:'Bela Mascrene (3)',stage:'Feasibility',status:'Done',range:'2026-04-17 - 2026-04-17'},
-  {owner:'Bela Mascrene (3)',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-21'},
-  {owner:'Bela Mascrene (3)',stage:'Build',status:'Done',range:'2026-04-22 - 2026-04-24'},
-  {owner:'Bela Mascrene (3)',stage:'Testing',status:'Done',range:'2026-04-27 - 2026-04-27'},
-  {owner:'Bela Mascrene (3)',stage:'Deployment',status:'Done',range:'2026-04-28 - 2026-04-30'},
-  {owner:'Bela Mascrene (3)',stage:'Monitoring',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
+  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-16'},
+  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Feasibility',status:'Done',range:'2026-04-17 - 2026-04-17'},
+  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-21'},
+  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Build',status:'Done',range:'2026-04-22 - 2026-04-24'},
+  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Testing',status:'Done',range:'2026-04-27 - 2026-04-27'},
+  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Deployment',status:'Done',range:'2026-04-28 - 2026-04-30'},
+  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Monitoring',status:'In Progress',range:'2026-05-01 - 2026-05-20'},
   // 15. AI-Powered CS Triage Agent (Sunil Rangpadiya) — Build In Progress
-  {owner:'Sunil Rangpadiya',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-20'},
-  {owner:'Sunil Rangpadiya',stage:'Feasibility',status:'Done',range:'2026-03-23 - 2026-03-27'},
-  {owner:'Sunil Rangpadiya',stage:'Design',status:'Done',range:'2026-03-30 - 2026-04-03'},
-  {owner:'Sunil Rangpadiya',stage:'Build',status:'In Progress',range:'2026-04-06 - 2026-05-29'},
-  {owner:'Sunil Rangpadiya',stage:'Testing',status:'In Progress',range:'2026-04-06 - 2026-04-30'},
-  {owner:'Sunil Rangpadiya',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-03'},
-  {owner:'Sunil Rangpadiya',stage:'Monitoring',status:'Not Started',range:'2026-06-04 - 2026-06-12'},
+  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-20'},
+  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Feasibility',status:'Done',range:'2026-03-23 - 2026-03-27'},
+  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Design',status:'Done',range:'2026-03-30 - 2026-04-03'},
+  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Build',status:'In Progress',range:'2026-04-06 - 2026-05-29'},
+  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Testing',status:'In Progress',range:'2026-04-06 - 2026-04-30'},
+  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-03'},
+  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Monitoring',status:'Not Started',range:'2026-06-04 - 2026-06-12'},
 ];
 
 const PROJECT_DATA = {
@@ -704,19 +704,26 @@ function calcHealth(stages, goLiveDate) {
 
 const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','deployed':'Deployed','monitoring':'Monitoring'};
 
-const owners = [...new Set(raw.map(r => r.owner))];
-const initiatives = owners.map((owner, i) => {
-  const stages = raw.filter(r => r.owner === owner);
+// Group raw by groupKey (each initiative has a unique groupKey)
+// This allows multiple initiatives with the same owner (e.g. Bela Mascrene x3)
+const groupKeys = [...new Set(raw.map(r => r.groupKey))];
+const initiatives = groupKeys.map((groupKey, i) => {
+  const stages = raw.filter(r => r.groupKey === groupKey);
   const depStage = stages.find(s => s.stage === 'Deployment');
   const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
-  const currentStage = stages.find(s => s.status === 'In Progress') || stages.find(s => s.status === 'Not Started');
+  const activeStage = stages.find(s => s.status === 'In Progress');
+  const currentStage = activeStage || stages.find(s => s.status === 'Not Started');
   const health = calcHealth(stages, goLiveDate);
-  const pd = PROJECT_DATA[owner] || {};
+  // Display owner = In Progress stage owner, fallback to Ideation owner
+  const ideationOwner = stages.find(s => s.stage === 'Ideation')?.owner || groupKey;
+  const displayOwner = (activeStage?.owner && !['Product','Product (TBC)',''].includes(activeStage.owner))
+    ? activeStage.owner : ideationOwner;
+  const pd = PROJECT_DATA[ideationOwner] || {};
   return {
     id: i,
-    name: pd.name || owner.replace(/ \([23]\)$/,'').replace('_r',''),
+    name: pd.name || ideationOwner.replace(/ \([23]\)$/,'').replace('_r',''),
     bu: pd.bu || '',
-    owner: owner.replace(/ \([23]\)$/,'').replace('_r',''),
+    owner: displayOwner.replace(/ \([23]\)$/,'').replace('_r',''),
     stages, goLiveDate, currentStage, health,
     description: pd.description || null,
     benefits: pd.benefits || null,
@@ -805,9 +812,11 @@ document.getElementById('updated-ts').textContent =
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: `{
         boards(ids: [5095125236]) {
+          groups { id title }
           items_page(limit: 200) {
             items {
               name
+              group { id title }
               column_values {
                 id text
                 ... on StatusValue { label }
@@ -827,11 +836,17 @@ document.getElementById('updated-ts').textContent =
     const STAGE_NAMES = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring'];
     const SKIP_OWNERS = ['Product (TBC)', 'Product', '', 'Avinash_r'];
 
+    // Use groupId as the unique key for each initiative — avoids duplicate owner issues
     const liveRaw = [];
-    const liveDetails = {}; // owner -> { description, benefits }
-    let currentOwner = null;
+    const liveDetails = {};  // groupId -> { description, benefits }
+    const groupNames = {};   // groupId -> group title (the real initiative name)
+    const groupOwners = {};  // groupId -> primary owner
 
     items.forEach(item => {
+      const groupId   = item.group?.id;
+      const groupTitle = item.group?.title;
+      if (groupId && groupTitle) groupNames[groupId] = groupTitle;
+
       const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
       const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
       const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
@@ -841,20 +856,22 @@ document.getElementById('updated-ts').textContent =
       const status    = statusCol?.label || 'Not Started';
       const range     = rangeCol?.text  || null;
 
-      // Initiative Details row — store description & benefits keyed to current initiative
-      if (item.name === 'Initiative Details' && currentOwner) {
-        liveDetails[currentOwner] = {
+      // Initiative Details row — store description & benefits keyed to groupId
+      if (item.name === 'Initiative Details' && groupId) {
+        liveDetails[groupId] = {
           description: descCol?.text || null,
           benefits: benfCol?.text || null,
         };
         return;
       }
 
-      if (item.name === 'Ideation' && !SKIP_OWNERS.includes(rawOwner)) {
-        currentOwner = rawOwner;
+      // Track the primary owner per group (use Ideation owner if valid)
+      if (item.name === 'Ideation' && groupId && !SKIP_OWNERS.includes(rawOwner)) {
+        groupOwners[groupId] = rawOwner;
       }
-      if (currentOwner && STAGE_NAMES.includes(item.name)) {
-        liveRaw.push({ owner: currentOwner, stage: item.name, status, range });
+
+      if (STAGE_NAMES.includes(item.name) && groupId) {
+        liveRaw.push({ groupKey: groupId, groupId, owner: rawOwner, stage: item.name, status, range });
       }
     });
 
@@ -864,35 +881,33 @@ document.getElementById('updated-ts').textContent =
     // Use PROJECT_DATA by position (keys in order) to handle duplicate owners like Bela Mascrene
     const PD_KEYS = Object.keys(PROJECT_DATA);
 
-    // Split liveRaw into initiative blocks by Ideation markers
-    const liveBlocks = [];
-    let currentBlock = null;
+    // Group liveRaw by groupId — each unique group = one initiative
+    const groupedStages = {};
     liveRaw.forEach(item => {
-      if (item.stage === 'Ideation') {
-        if (currentBlock) liveBlocks.push(currentBlock);
-        currentBlock = { owner: item.owner, stages: [item] };
-      } else if (currentBlock) {
-        currentBlock.stages.push(item);
-      }
+      if (!item.groupId) return;
+      if (!groupedStages[item.groupId]) groupedStages[item.groupId] = [];
+      groupedStages[item.groupId].push(item);
     });
-    if (currentBlock) liveBlocks.push(currentBlock);
 
-    const liveInitiatives = liveBlocks.map((block, i) => {
-      const stages    = block.stages;
-      const owner     = block.owner;
-      const depStage  = stages.find(s => s.stage === 'Deployment');
+    // Only include groups with a valid owner from Ideation
+    const validGroupIds = Object.keys(groupedStages).filter(gid => groupOwners[gid]);
+
+    const liveInitiatives = validGroupIds.map((groupId, i) => {
+      const stages     = groupedStages[groupId];
+      const owner      = groupOwners[groupId];
+      const depStage   = stages.find(s => s.stage === 'Deployment');
       const goLiveDate = depStage?.range ? depStage.range.split(' - ')[1] : null;
       const activeStage = stages.find(s => s.status === 'In Progress');
       const displayOwner = (activeStage?.owner && !['Product','Product (TBC)',''].includes(activeStage.owner))
         ? activeStage.owner : owner;
       const currentStage = activeStage || stages.find(s => s.status === 'Not Started');
       const health = calcHealth(stages, goLiveDate);
-      // Match PROJECT_DATA by position first, then by owner name as fallback
-      const pd = PROJECT_DATA[PD_KEYS[i]] || PROJECT_DATA[owner] || {};
-      const det = liveDetails[owner] || {};
+      const groupTitle = groupNames[groupId] || '';
+      const pd = PROJECT_DATA[owner] || PROJECT_DATA[PD_KEYS[i]] || {};
+      const det = liveDetails[groupId] || {};
       return {
         id: i,
-        name: pd.name || owner.replace(' (2)', ''),
+        name: groupTitle || pd.name || owner,
         bu: pd.bu || '',
         owner: displayOwner.replace(' (2)', '').replace(' (3)', '').replace('_r', ''),
         stages, goLiveDate, currentStage, health,
