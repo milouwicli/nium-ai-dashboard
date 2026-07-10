@@ -1223,21 +1223,22 @@ document.getElementById('updated-ts').textContent =
       const groupTitle = item.group?.title;
       if (groupId && groupTitle) groupNames[groupId] = groupTitle;
 
-      const ownerCol  = item.column_values.find(c => c.id === 'text_mm2p4x24');
-      const statusCol = item.column_values.find(c => c.id === 'color_mm2pefzz');
-      const rangeCol  = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
-      const descCol   = item.column_values.find(c => c.id === 'long_text_mm3hr8w4');
-      const benfCol   = item.column_values.find(c => c.id === 'long_text_mm3hkmjz');
-      const rawOwner  = ownerCol?.text || '';
-      const status    = statusCol?.label || 'Not Started';
-      const range     = rangeCol?.text  || null;
+      const ownerCol   = item.column_values.find(c => c.id === 'text_mm2p4x24');
+      const statusCol  = item.column_values.find(c => c.id === 'color_mm2pefzz');
+      const rangeCol   = item.column_values.find(c => c.id === 'timerange_mm2pkgbz');
+      const descCol    = item.column_values.find(c => c.id === 'long_text_mm3hr8w4');
+      const benfCol    = item.column_values.find(c => c.id === 'long_text_mm3hkmjz');
+      const actValCol  = item.column_values.find(c => c.id === 'long_text_mm51jqkn');
+      const rawOwner   = ownerCol?.text || '';
+      const status     = statusCol?.label || 'Not Started';
+      const range      = rangeCol?.text  || null;
 
       // Initiative Details row — store description & benefits keyed to groupId
       if (item.name === 'Initiative Details' && groupId) {
         liveDetails[groupId] = {
           description: descCol?.text || null,
           benefits: benfCol?.text || null,
-          actualValue: null,
+          actualValue: actValCol?.text || null,
           originalGoLive: null,
         };
         return;
