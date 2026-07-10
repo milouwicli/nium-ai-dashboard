@@ -371,6 +371,11 @@
     color: #2563eb;
     border: 1px solid rgba(79,142,255,0.25);
   }
+  .health-badge.on-hold {
+    background: var(--gray-bg);
+    color: var(--gray);
+    border: 1px solid rgba(138,135,128,0.3);
+  }
   .health-badge.go-live {
     background: rgba(0,245,196,0.18);
     color: var(--mint-text);
@@ -659,6 +664,20 @@
         <label class="check-option"><input type="checkbox" value="low" onchange="updateImpact()"><span class="opt-dot" style="background:var(--gray)"></span>Low</label>
       </div>
     </div>
+    <div class="custom-select" id="health-select" style="margin-left:auto;">
+      <div class="select-trigger" onclick="toggleDropdown('health-select')">
+        <span id="health-label">Health: All</span>
+        <span class="select-arrow">▾</span>
+      </div>
+      <div class="select-dropdown" style="right:0;left:auto;">
+        <label class="check-option"><input type="checkbox" value="on-track" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--green)"></span>On Track</label>
+        <label class="check-option"><input type="checkbox" value="behind-schedule" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--amber)"></span>Behind Schedule</label>
+        <label class="check-option"><input type="checkbox" value="at-risk" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--red)"></span>At Risk</label>
+        <label class="check-option"><input type="checkbox" value="not-started" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--gray)"></span>Not Started</label>
+        <label class="check-option"><input type="checkbox" value="go-live" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--mint)"></span>Live</label>
+        <label class="check-option"><input type="checkbox" value="on-hold" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--gray)"></span>On Hold</label>
+      </div>
+    </div>
   </div>
   <div class="table-head">
     <div class="th">Initiative</div>
@@ -844,7 +863,7 @@ const raw = [
 ];
 
 const PROJECT_DATA = {
-  'Ganesh Pandit': { impact:'high', name:'AI Assisted Alert Review & Backlog Prioritization', bu:'Compliance Ops - TM',
+  'Ganesh Pandit': { onHold:true, impact:'high', name:'AI Assisted Alert Review & Backlog Prioritization', bu:'Compliance Ops - TM',
     description:'Automates risk-scoring and triage of transaction monitoring alerts so analysts focus only on high-risk cases.',
     benefits:'200+ hrs/mo saved on manual triage · 0% backlog target · Faster SLA compliance · AI-generated investigation report per alert'},
   'Avinash_r': { link:'http://192.168.2.8:3005/', impact:'medium', name:'AI Based Compliance Team Rostering Automation', bu:'Compliance Ops - TM',
@@ -951,7 +970,7 @@ function calcHealth(stages, goLiveDate) {
   return 'on-track';
 }
 
-const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live'};
+const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live','on-hold':'On Hold'};
 
 // Group raw by groupKey (each initiative has a unique groupKey)
 // This allows multiple initiatives with the same owner (e.g. Bela Mascrene x3)
@@ -968,15 +987,15 @@ const initiatives = groupKeys.map((groupKey, i) => {
   const nextUp = stages.find(s => s.status === 'Not Started');
   const lastDone = [...stages].filter(s => s.status === 'Done').pop();
   const currentStage = activeStage || nextUp || lastDone || stages[stages.length - 1];
-  const health = calcHealth(stages, goLiveDate);
-  // Display owner = In Progress stage owner, fallback to Ideation owner
   const ideationOwner = stages.find(s => s.stage === 'Ideation')?.owner || groupKey;
+  const pd = PROJECT_DATA[ideationOwner] || {};
+  const health = pd.onHold ? 'on-hold' : calcHealth(stages, goLiveDate);
+  // Display owner = In Progress stage owner, fallback to Ideation owner
   const displayOwner = (activeStage?.owner && !['Product','Product (TBC)',''].includes(activeStage.owner))
     ? activeStage.owner : ideationOwner;
-  const pd = PROJECT_DATA[ideationOwner] || {};
   return {
     id: i,
-    name: pd.name || ideationOwner.replace(/ \([23]\)$/,'').replace('_r',''),
+    name: (health === 'on-hold' ? 'On-Hold: ' : '') + (pd.name || ideationOwner.replace(/ \([23]\)$/,'').replace('_r','')),
     bu: pd.bu || '',
     owner: displayOwner.replace(/ \([23]\)$/,'').replace('_r',''),
     stages, goLiveDate, currentStage, health,
@@ -1088,6 +1107,7 @@ function renderRow(ini) {
 
 let activeFilter = 'all';
 let activeImpact = 'all';
+let currentInitiatives = initiatives;
 function toggleDropdown(id) {
   const el = document.getElementById(id);
   const isOpen = el.classList.contains('open');
@@ -1106,10 +1126,22 @@ function updateImpact() {
     : checked.length === 3 ? 'Impact: All'
     : 'Impact: ' + checked.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(', ');
   document.getElementById('impact-label').textContent = label;
-  renderList(initiatives);
+  renderList(currentInitiatives);
+}
+const HEALTH_LABELS = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live','on-hold':'On Hold'};
+function updateHealthFilter() {
+  const checked = [...document.querySelectorAll('#health-select input:checked')].map(c => c.value);
+  activeFilter = checked.length === 0 ? 'all' : checked;
+  const label = checked.length === 0 ? 'Health: All'
+    : checked.length === 6 ? 'Health: All'
+    : 'Health: ' + checked.map(c => HEALTH_LABELS[c]).join(', ');
+  document.getElementById('health-label').textContent = label;
+  renderList(currentInitiatives);
 }
 function renderList(list) {
-  let filtered = activeFilter === 'all' ? list : list.filter(i => i.health === activeFilter);
+  let filtered = activeFilter === 'all' ? list
+    : Array.isArray(activeFilter) ? list.filter(i => activeFilter.includes(i.health))
+    : list.filter(i => i.health === activeFilter);
   if (activeImpact !== 'all' && Array.isArray(activeImpact)) filtered = filtered.filter(i => activeImpact.includes(i.impact));
   else if (activeImpact !== 'all') filtered = filtered.filter(i => i.impact === activeImpact);
   // Go Live floats first, then Deployed, then everything else — within each group sorted by impact
@@ -1117,12 +1149,13 @@ function renderList(list) {
   const byImpact = (a,b) => (IMPACT_ORDER[a.impact]||1) - (IMPACT_ORDER[b.impact]||1);
   const sorted = [
     ...filtered.filter(i => i.health === 'go-live').sort(byImpact),
-    ...filtered.filter(i => i.health !== 'go-live').sort(byImpact),
+    ...filtered.filter(i => i.health !== 'go-live' && i.health !== 'on-hold').sort(byImpact),
+    ...filtered.filter(i => i.health === 'on-hold').sort(byImpact),
   ];
   document.getElementById('ini-list').innerHTML = sorted.map(renderRow).join('');
 }
 
-renderList(initiatives);
+renderList(currentInitiatives);
 
 const now = new Date();
 document.getElementById('updated-ts').textContent =
@@ -1232,13 +1265,13 @@ document.getElementById('updated-ts').textContent =
       const nextUp = stages.find(s => s.status === 'Not Started');
   const lastDone = [...stages].filter(s => s.status === 'Done').pop();
   const currentStage = activeStage || nextUp || lastDone || stages[stages.length - 1];
-      const health = calcHealth(stages, goLiveDate);
-      const groupTitle = groupNames[groupId] || '';
+      const health = /on[\s-]?hold/i.test(groupNames[groupId] || '') ? 'on-hold' : calcHealth(stages, goLiveDate);
+      const groupTitle = (groupNames[groupId] || '').replace(/^on[\s-]?hold\s*:?\s*-?\s*/i, '').replace(/^abandoned\s*-?\s*/i, '');
       const pd = PROJECT_DATA[owner] || PROJECT_DATA[PD_KEYS[i]] || {};
       const det = liveDetails[groupId] || {};
       return {
         id: i,
-        name: groupTitle || pd.name || owner,
+        name: (health === 'on-hold' ? 'On-Hold: ' : '') + (groupTitle || pd.name || owner),
         bu: pd.bu || '',
         owner: displayOwner.replace(' (2)', '').replace(' (3)', '').replace('_r', ''),
         stages, goLiveDate, currentStage, health,
@@ -1284,14 +1317,9 @@ document.getElementById('updated-ts').textContent =
       if (avEl) avEl.innerHTML = avList || '<div style="font-size:11px;color:var(--text-muted);padding:8px 0;">TBC — populate via monday.com Actual Value column</div>';
     }
 
-    // Update table
-    const IMPACT_ORDER2 = {'high':0,'medium':1,'low':2};
-    const byImpact2 = (a,b) => (IMPACT_ORDER2[a.impact]||1) - (IMPACT_ORDER2[b.impact]||1);
-    const liveSorted = [
-      ...liveInitiatives.filter(i => i.health === 'go-live').sort(byImpact2),
-      ...liveInitiatives.filter(i => i.health !== 'go-live').sort(byImpact2),
-    ];
-    document.getElementById('ini-list').innerHTML = liveSorted.map(renderRow).join('');
+    // Update table — use the same filter/sort logic as static render
+    currentInitiatives = liveInitiatives;
+    renderList(currentInitiatives);
 
     // Update timestamp
     const liveNow = new Date();
