@@ -1202,6 +1202,7 @@ function renderList(list) {
 
 renderList(currentInitiatives);
 updateProjectedValue(currentInitiatives);
+const now = new Date();
 document.getElementById('updated-ts').textContent =
   `Last updated: ${now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} \u00b7 Owners & dates: monday.com \u00b7 Descriptions & benefits: AI Use Case Template`;
 
