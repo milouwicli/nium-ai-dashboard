@@ -937,10 +937,29 @@ function fmtDate(s) { if(!s) return null; const[y,mo,d]=s.split('-'); return `${
 
 function calcMonthlyValue(raw) {
   if (!raw) return null;
-  const m = raw.match(/([\d.]+)\s*Mins?\/Day/i);
-  if (!m) return raw; // not a recognized format, show as-is
-  const minsPerDay = parseFloat(m[1]);
-  const monthlyMins = minsPerDay * 20; // ~20 working days/month
+  const text = String(raw).trim();
+
+  // Try to find a number + time unit + optional period (day/week/month)
+  // Handles: "15 mins/day", "2 hrs/week", "0.5 hr per day", "45 minutes a day",
+  //          "10 hours/month", "1.5 hrs weekly", "30 min daily", etc.
+  const re = /([\d.]+)\s*(hrs?|hours?|mins?|minutes?)\s*(?:\/|per\s|a\s)?\s*(day|daily|week|weekly|month|monthly)?/i;
+  const m = text.match(re);
+  if (!m) return text; // can't parse — show raw text as-is
+
+  const amount = parseFloat(m[1]);
+  const unit = m[2].toLowerCase();
+  const period = (m[3] || 'day').toLowerCase(); // default to "per day" if no period stated
+
+  // Normalize the amount to minutes
+  let mins = unit.startsWith('h') ? amount * 60 : amount;
+
+  // Normalize to a monthly total based on the period
+  let monthlyMins;
+  if (period === 'day' || period === 'daily') monthlyMins = mins * 20;       // ~20 working days/month
+  else if (period === 'week' || period === 'weekly') monthlyMins = mins * 4.33; // ~4.33 weeks/month
+  else if (period === 'month' || period === 'monthly') monthlyMins = mins;   // already monthly
+  else monthlyMins = mins * 20; // no period stated — assume per working day (safest default)
+
   const monthlyHrs = monthlyMins / 60;
   return monthlyHrs >= 1
     ? (Math.round(monthlyHrs * 10) / 10) + ' hrs/month'
