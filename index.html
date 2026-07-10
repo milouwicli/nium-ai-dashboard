@@ -175,8 +175,8 @@
   /* Table header */
   .table-head {
     display: grid;
-    grid-template-columns: 1.8fr 2.2fr 1.8fr 1.5fr 1.2fr;
-    gap: 16px;
+    grid-template-columns: 1.6fr 2fr 1.3fr 1.1fr 1.1fr 100px;
+    gap: 24px;
     padding: 8px 20px;
     margin-bottom: 4px;
   }
@@ -194,8 +194,8 @@
   /* Initiative rows */
   .ini-row {
     display: grid;
-    grid-template-columns: 1.8fr 2.2fr 1.8fr 1.5fr 1.2fr;
-    gap: 16px;
+    grid-template-columns: 1.6fr 2fr 1.3fr 1.1fr 1.1fr 100px;
+    gap: 24px;
     padding: 18px 20px;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -272,6 +272,14 @@
 
   /* Go live col */
   .col-golive { text-align: right; }
+  .col-realisation { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+  .realisation-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .realisation-val.empty { color: var(--text-muted); font-weight: 400; }
 
   .golive-date {
     font-family: 'Space Mono', monospace;
@@ -282,6 +290,23 @@
 
   .golive-date.empty { color: var(--text-muted); font-weight: 400; }
 
+  .original-golive {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .variance {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    margin-top: 3px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .variance.late     { background: rgba(192,57,43,0.10); color: var(--red); }
+  .variance.early    { background: rgba(0,245,196,0.12); color: var(--mint-text); }
+  .variance.on-time  { background: rgba(39,174,96,0.10); color: var(--green); }
   .next-stage {
     font-size: 10px;
     color: var(--text-muted);
@@ -300,16 +325,20 @@
 
   .health-badge {
     display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    align-items: flex-start;
+    gap: 5px;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 5px 10px;
+    letter-spacing: 0.06em;
+    padding: 6px 8px;
     border-radius: 2px;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.35;
+    max-width: 90px;
   }
+  .health-badge .hpip { margin-top: 3px; flex-shrink: 0; }
 
   .health-badge.on-track {
     background: var(--green-bg);
@@ -558,17 +587,13 @@
     <div class="sbar-lbl">At Risk</div>
   </div>
   <div class="sbar-stat">
-    <div class="sbar-num" style="color:var(--mint-text);" id="h-deployed">—</div>
-    <div class="sbar-lbl">Deployed</div>
-  </div>
-  <div class="sbar-stat">
     <div class="sbar-num" style="color:var(--mint-text);font-weight:800;" id="h-golive">—</div>
     <div class="sbar-lbl">Live</div>
   </div>
   <div class="sbar-stat clickable" id="benefits-trigger" onclick="toggleBenefits(event)">
     <div class="sbar-num mint">600+ hrs/mo</div>
     <div class="sbar-lbl">Projected Value &nbsp;<span id="benefits-chevron" style="font-size:9px;background:var(--mint);color:#0a0a0a;padding:1px 6px;border-radius:2px;font-weight:700;">See all ▾</span></div>
-    <div id="benefits-panel" style="display:none;position:absolute;top:calc(100% + 1px);right:0;width:680px;background:#fff;border:1px solid var(--border-strong);border-top:3px solid var(--mint);box-shadow:0 8px 32px rgba(0,0,0,0.13);z-index:200;">
+    <div id="benefits-panel" style="display:none;position:absolute;top:calc(100% + 1px);right:-20px;width:680px;background:#fff;border:1px solid var(--border-strong);border-top:3px solid var(--mint);box-shadow:0 8px 32px rgba(0,0,0,0.13);z-index:200;">
       <div style="padding:12px 20px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;">
         <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-muted);">Total Projected Value — All Initiatives</div>
         <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs saved / month</div>
@@ -607,6 +632,18 @@
       </div>
     </div>
   </div>
+  <div class="sbar-stat clickable" id="realisation-trigger" onclick="toggleRealisation(event)">
+    <div class="sbar-num mint" style="font-size:18px;" id="h-realisation">TBC</div>
+    <div class="sbar-lbl">Value Realisation &nbsp;<span id="realisation-chevron" style="font-size:9px;background:var(--mint);color:#0a0a0a;padding:1px 6px;border-radius:2px;font-weight:700;">See all ▾</span></div>
+    <div id="realisation-panel" style="display:none;position:absolute;top:calc(100% + 1px);right:20px;width:400px;background:#fff;border:1px solid var(--border-strong);border-top:3px solid var(--mint);box-shadow:0 8px 32px rgba(0,0,0,0.13);z-index:200;">
+      <div style="padding:12px 20px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;">
+        <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-muted);">Value Realisation — Live Initiatives</div>
+      </div>
+      <div style="padding:8px 20px;" id="realisation-list-panel">
+        <div style="font-size:11px;color:var(--text-muted);padding:8px 0;">TBC — populate via monday.com Actual Value column</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="main">
@@ -628,6 +665,7 @@
     <div class="th">Objective & Description</div>
     <div class="th">Projected Value</div>
     <div class="th right">Go Live</div>
+    <div class="th" style="text-align:center;">Value Realisation</div>
     <div class="th right">Health</div>
   </div>
 
@@ -641,7 +679,6 @@ const TODAY = new Date();
 
 
 const raw = [
-  // g01: AI Alert Review (Ganesh) — Monitoring In Progress
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
@@ -649,119 +686,161 @@ const raw = [
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Testing',status:'Done',range:'2026-02-24 - 2026-02-27'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Deployment',status:'Done',range:'2026-05-15 - 2026-05-15'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Monitoring',status:'In Progress',range:'2026-05-18 - 2026-06-30'},
-  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
-  // g02: Rostering (Avinash) — Monitoring In Progress = Deployed
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g01',owner:'Ganesh Pandit',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Design',status:'Done',range:'2026-05-15 - 2026-05-15'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Build',status:'Done',range:'2026-05-19 - 2026-05-19'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Testing',status:'Done',range:'2026-05-22 - 2026-06-05'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Deployment',status:'Done',range:'2026-06-05 - 2026-06-05'},
-  {groupKey:'g02',owner:'Avinash_r',stage:'Monitoring',status:'In Progress',range:'2026-06-05 - 2026-06-30'},
-  {groupKey:'g02',owner:'Avinash_r',stage:'Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
-  // g03: Consumer Onboarding (Kavina) — Testing In Progress
+  {groupKey:'g02',owner:'Avinash_r',stage:'Monitoring',status:'In Progress',range:'2026-06-05 - 2026-07-31'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Go Live',status:'Not Started',range:'2026-06-30 - 2026-07-31'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Ideation',status:'Done',range:'2026-04-10 - 2026-04-13'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Feasibility',status:'Done',range:'2026-04-14 - 2026-04-17'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-24'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Build',status:'Done',range:'2026-04-27 - 2026-05-06'},
-  {groupKey:'g03',owner:'Kavina Shah',stage:'Testing',status:'In Progress',range:'2026-05-07 - 2026-06-09'},
-  {groupKey:'g03',owner:'Kavina Shah',stage:'Deployment',status:'Not Started',range:'2026-06-09 - 2026-06-12'},
-  {groupKey:'g03',owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:'2026-06-12 - 2026-06-17'},
-  {groupKey:'g03',owner:'Kavina Shah',stage:'Go Live',status:'Not Started',range:'2026-06-17 - 2026-06-17'},
-  // g04: Bank Statement (Bela) — Ideation In Progress
-  {groupKey:'g04',owner:'Bela Mascrene',stage:'Ideation',status:'In Progress',range:'2026-06-01 - 2026-06-15'},
-  {groupKey:'g04',owner:'Bela Mascrene',stage:'Feasibility',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
-  {groupKey:'g04',owner:'Bela Mascrene',stage:'Design',status:'Not Started',range:'2026-07-01 - 2026-07-15'},
-  {groupKey:'g04',owner:'Bela Mascrene',stage:'Build',status:'Not Started',range:'2026-07-16 - 2026-07-31'},
-  {groupKey:'g04',owner:'Bela Mascrene',stage:'Testing',status:'Not Started',range:'2026-08-03 - 2026-08-14'},
-  {groupKey:'g04',owner:'Bela Mascrene',stage:'Deployment',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
-  {groupKey:'g04',owner:'Bela Mascrene',stage:'Monitoring',status:'Not Started',range:'2026-08-17 - 2026-08-31'},
-  // g05: Bank Charges (Bela 2) — Testing In Progress
-  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Ideation',status:'Done',range:'2026-04-15 - 2026-04-20'},
-  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Feasibility',status:'Done',range:'2026-04-21 - 2026-04-29'},
-  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Design',status:'Done',range:'2026-04-30 - 2026-05-08'},
-  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-20'},
-  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Testing',status:'In Progress',range:'2026-05-21 - 2026-05-25'},
-  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Deployment',status:'Not Started',range:'2026-05-26 - 2026-06-01'},
-  {groupKey:'g05',owner:'Bela Mascrene (2)',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-06-15'},
-  // g06: Invoice Audit (Rohan) — Build In Progress, Go Live 30 Sep
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-07-30'},
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-07-01 - 2026-07-30'},
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-08-03 - 2026-08-31'},
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
-  {groupKey:'g06',owner:'Rohan Dass',stage:'Go Live',status:'Not Started',range:'2026-09-30 - 2026-09-30'},
-  // g07: Zendesk (Vimal) — Deployment In Progress, Go Live 30 Jun
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Testing',status:'Done',range:'2026-03-31 - 2026-05-29'},
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Deployment',status:'In Progress',range:'2026-06-12 - 2026-06-12'},
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Monitoring',status:'Not Started',range:'2026-06-15 - 2026-06-30'},
-  {groupKey:'g07',owner:'Vimal Kumar',stage:'Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
-  // g08: Card Ops (Saranesh) — Deployment In Progress, Go Live 31 Jul
-  {groupKey:'g08',owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g08',owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g08',owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g08',owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
-  {groupKey:'g08',owner:'Saranesh K',stage:'Testing',status:'Done',range:'2026-04-01 - 2026-05-29'},
-  {groupKey:'g08',owner:'Saranesh K',stage:'Deployment',status:'In Progress',range:'2026-06-01 - 2026-06-30'},
-  {groupKey:'g08',owner:'Saranesh K',stage:'Monitoring',status:'Not Started',range:'2026-06-01 - 2026-07-31'},
-  {groupKey:'g08',owner:'Saranesh K',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
-  // g10: CE Chats (Karan) — Deployment In Progress, Go Live 15 Oct
-  {groupKey:'g10',owner:'Karan Patel',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-17'},
-  {groupKey:'g10',owner:'Karan Patel',stage:'Feasibility',status:'Done',range:'2026-04-20 - 2026-05-01'},
-  {groupKey:'g10',owner:'Karan Patel',stage:'Design',status:'Done',range:'2026-05-04 - 2026-06-30'},
-  {groupKey:'g10',owner:'Karan Patel',stage:'Build',status:'Done',range:'2026-07-01 - 2026-08-31'},
-  {groupKey:'g10',owner:'Karan Patel',stage:'Testing',status:'Done',range:'2026-09-01 - 2026-09-30'},
-  {groupKey:'g10',owner:'Karan Patel',stage:'Deployment',status:'In Progress',range:'2026-10-01 - 2026-10-30'},
-  {groupKey:'g10',owner:'Karan Patel',stage:'Monitoring',status:'Not Started',range:'2026-10-01 - 2026-10-30'},
-  {groupKey:'g10',owner:'Karan Patel',stage:'Go Live',status:'Not Started',range:'2026-10-15 - 2026-10-15'},
-  // g11: PPUI (KT) — Deployment In Progress, Go Live 16 Jun
-  {groupKey:'g11',owner:'KT',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-05-01'},
-  {groupKey:'g11',owner:'KT',stage:'Feasibility',status:'Done',range:'2026-04-28 - 2026-05-01'},
-  {groupKey:'g11',owner:'KT',stage:'Design',status:'Done',range:'2026-05-04 - 2026-05-08'},
-  {groupKey:'g11',owner:'KT',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-29'},
-  {groupKey:'g11',owner:'KT',stage:'Testing',status:'Done',range:'2026-06-01 - 2026-06-05'},
-  {groupKey:'g11',owner:'KT',stage:'Deployment',status:'In Progress',range:'2026-06-08 - 2026-06-16'},
-  {groupKey:'g11',owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-10-15'},
-  {groupKey:'g11',owner:'KT',stage:'Go Live',status:'Not Started',range:'2026-10-15 - 2026-10-15'},
-  // g12: Client Servicing Dashboard (Sonika) — Build In Progress
-  {groupKey:'g12',owner:'Sonika Bisht',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-04-28'},
-  {groupKey:'g12',owner:'Sonika Bisht',stage:'Feasibility',status:'Done',range:'2026-04-29 - 2026-05-15'},
-  {groupKey:'g12',owner:'Sonika Bisht',stage:'Design',status:'Done',range:'2026-05-18 - 2026-06-05'},
-  {groupKey:'g12',owner:'Sonika Bisht',stage:'Build',status:'In Progress',range:'2026-06-08 - 2026-06-16'},
-  {groupKey:'g12',owner:'Sonika Bisht',stage:'Testing',status:'Not Started',range:'2026-06-17 - 2026-06-26'},
-  {groupKey:'g12',owner:'Sonika Bisht',stage:'Deployment',status:'Not Started',range:'2026-06-26 - 2026-07-03'},
-  {groupKey:'g12',owner:'Sonika Bisht',stage:'Monitoring',status:'Not Started',range:'2026-07-03 - 2026-07-07'},
-  // g13: Client Communication Tool (Girija) — ALL DONE = Deployed! Go Live 9 Jun
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-15'},
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Design',status:'Done',range:'2026-05-01 - 2026-05-04'},
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Build',status:'Done',range:'2026-05-05 - 2026-06-10'},
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Testing',status:'Done',range:'2026-06-11 - 2026-06-19'},
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Deployment',status:'Done',range:'2026-06-22 - 2026-06-25'},
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Monitoring',status:'Done',range:'2026-06-26 - 2026-06-30'},
-  {groupKey:'g13',owner:'Girija Kanade',stage:'Go Live',status:'Done',range:'2026-06-09 - 2026-06-09'},
-  // g14: Ops Issue Tracker (Bela 3) — ALL DONE = Deployed
-  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-16'},
-  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Feasibility',status:'Done',range:'2026-04-17 - 2026-04-17'},
-  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-21'},
-  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Build',status:'Done',range:'2026-04-22 - 2026-04-24'},
-  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Testing',status:'Done',range:'2026-04-27 - 2026-04-27'},
-  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Deployment',status:'Done',range:'2026-04-28 - 2026-04-30'},
-  {groupKey:'g14',owner:'Bela Mascrene (3)',stage:'Monitoring',status:'Done',range:'2026-05-01 - 2026-05-20'},
-  // g15: CS Triage Agent (Sunil) — Monitoring In Progress = Deployed
-  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-20'},
-  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Feasibility',status:'Done',range:'2026-03-23 - 2026-03-27'},
-  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Design',status:'Done',range:'2026-03-30 - 2026-04-03'},
-  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Build',status:'Done',range:'2026-04-06 - 2026-05-29'},
-  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Testing',status:'Done',range:'2026-04-06 - 2026-05-29'},
-  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Deployment',status:'Done',range:'2026-06-01 - 2026-06-03'},
-  {groupKey:'g15',owner:'Sunil Rangpadiya',stage:'Monitoring',status:'In Progress',range:'2026-06-04 - 2026-06-12'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Testing',status:'Done',range:'2026-05-07 - 2026-07-07'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Deployment',status:'In Progress',range:'2026-07-01 - 2026-07-15'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:'2026-06-12 - 2026-07-31'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Go Live',status:'Not Started',range:'2026-08-03 - 2026-08-03'},
+  {groupKey:'g03',owner:'Kavina Shah',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Build',status:'In Progress',range:'2026-05-01 - 2026-07-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Testing',status:'Not Started',range:'2026-07-01 - 2026-07-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Deployment',status:'Not Started',range:'2026-08-03 - 2026-08-31'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Go Live',status:'Not Started',range:'2026-09-30 - 2026-09-30'},
+  {groupKey:'g04',owner:'Rohan Dass',stage:'Original Go Live',status:'Not Started',range:'2026-09-01 - 2026-09-01'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Testing',status:'Done',range:'2026-03-31 - 2026-05-29'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Deployment',status:'Done',range:'2026-06-12 - 2026-06-12'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Monitoring',status:'Done',range:'2026-06-15 - 2026-06-30'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Go Live',status:'Done',range:'2026-06-30 - 2026-06-30'},
+  {groupKey:'g05',owner:'Vimal Kumar',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Testing',status:'Done',range:'2026-04-01 - 2026-05-29'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Monitoring',status:'In Progress',range:'2026-06-01 - 2026-07-31'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g06',owner:'Saranesh K',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g07',owner:'KT',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-05-01'},
+  {groupKey:'g07',owner:'KT',stage:'Feasibility',status:'Done',range:'2026-04-28 - 2026-05-01'},
+  {groupKey:'g07',owner:'KT',stage:'Design',status:'Done',range:'2026-05-04 - 2026-05-08'},
+  {groupKey:'g07',owner:'KT',stage:'Build',status:'Done',range:'2026-05-11 - 2026-05-29'},
+  {groupKey:'g07',owner:'KT',stage:'Testing',status:'Done',range:'2026-06-01 - 2026-06-05'},
+  {groupKey:'g07',owner:'KT',stage:'Deployment',status:'In Progress',range:'2026-06-26 - 2026-07-07'},
+  {groupKey:'g07',owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-06-19 - 2026-10-15'},
+  {groupKey:'g07',owner:'KT',stage:'Go Live',status:'Not Started',range:'2026-10-15 - 2026-10-15'},
+  {groupKey:'g07',owner:'KT',stage:'Original Go Live',status:'Not Started',range:'2026-09-30 - 2026-09-30'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-04-28'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Feasibility',status:'Done',range:'2026-04-29 - 2026-05-15'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Design',status:'Done',range:'2026-05-18 - 2026-06-05'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Build',status:'Done',range:'2026-06-08 - 2026-06-16'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Testing',status:'Done',range:'2026-06-17 - 2026-07-07'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Deployment',status:'In Progress',range:'2026-07-07 - 2026-07-13'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Monitoring',status:'Not Started',range:'2026-07-07 - 2026-07-13'},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Go Live',status:'Not Started',range:null},
+  {groupKey:'g08',owner:'Sonika Bisht',stage:'Original Go Live',status:'Not Started',range:'2026-07-13 - 2026-07-13'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-15'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Design',status:'Done',range:'2026-05-01 - 2026-05-04'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Build',status:'Done',range:'2026-05-05 - 2026-06-10'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Testing',status:'Done',range:'2026-06-11 - 2026-06-19'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Deployment',status:'Done',range:'2026-06-22 - 2026-06-25'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Monitoring',status:'Done',range:'2026-06-26 - 2026-06-30'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Go Live',status:'Done',range:'2026-06-09 - 2026-06-09'},
+  {groupKey:'g09',owner:'Girija Kanade',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-16'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Feasibility',status:'Done',range:'2026-04-17 - 2026-04-17'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-21'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Build',status:'Done',range:'2026-04-22 - 2026-04-24'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Testing',status:'Done',range:'2026-04-27 - 2026-04-27'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Deployment',status:'Done',range:'2026-04-28 - 2026-04-30'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Monitoring',status:'Done',range:'2026-05-01 - 2026-05-20'},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Go Live',status:'Done',range:null},
+  {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Original Go Live',status:'Not Started',range:'2026-05-20 - 2026-05-20'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-20'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Feasibility',status:'Done',range:'2026-03-23 - 2026-03-27'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Design',status:'Done',range:'2026-03-30 - 2026-04-03'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Build',status:'Done',range:'2026-04-06 - 2026-05-29'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Testing',status:'Done',range:'2026-04-06 - 2026-05-29'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Deployment',status:'Done',range:'2026-06-01 - 2026-06-03'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Monitoring',status:'In Progress',range:'2026-06-04 - 2026-08-31'},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Go Live',status:'Not Started',range:null},
+  {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Original Go Live',status:'Not Started',range:'2026-08-31 - 2026-08-31'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Ideation',status:'Done',range:'2026-06-15 - 2026-06-15'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Feasibility',status:'Done',range:'2026-06-16 - 2026-06-16'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Design',status:'Done',range:'2026-06-17 - 2026-06-17'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Build',status:'Done',range:'2026-06-17 - 2026-06-17'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Testing',status:'Done',range:'2026-06-18 - 2026-06-18'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Deployment',status:'Done',range:'2026-06-19 - 2026-06-19'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Monitoring',status:'Done',range:'2026-06-22 - 2026-06-22'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Go Live',status:'Done',range:'2026-06-22 - 2026-06-22'},
+  {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Original Go Live',status:'Not Started',range:'2026-07-07 - 2026-07-07'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-22'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Feasibility',status:'Done',range:'2026-06-23 - 2026-06-23'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Design',status:'Done',range:'2026-06-24 - 2026-06-25'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Build',status:'Done',range:'2026-06-26 - 2026-06-29'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Testing',status:'Done',range:'2026-06-30 - 2026-06-30'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Deployment',status:'Done',range:'2026-07-01 - 2026-07-02'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Monitoring',status:'Done',range:'2026-07-03 - 2026-07-03'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Go Live',status:'Done',range:'2026-07-03 - 2026-07-03'},
+  {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Original Go Live',status:'Not Started',range:'2026-07-07 - 2026-07-07'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-22'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Feasibility',status:'Done',range:'2026-06-23 - 2026-06-23'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Design',status:'Done',range:'2026-06-24 - 2026-06-25'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Build',status:'Done',range:'2026-06-26 - 2026-06-29'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Testing',status:'Done',range:'2026-06-30 - 2026-06-30'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Deployment',status:'Done',range:'2026-07-01 - 2026-07-02'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Monitoring',status:'Done',range:'2026-07-03 - 2026-07-10'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Go Live',status:'Done',range:'2026-07-10 - 2026-07-10'},
+  {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Original Go Live',status:'Not Started',range:'2026-07-10 - 2026-07-10'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-22'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Feasibility',status:'Done',range:'2026-06-23 - 2026-06-23'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Design',status:'Done',range:'2026-06-24 - 2026-06-25'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Build',status:'In Progress',range:'2026-06-26 - 2026-06-29'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Testing',status:'Not Started',range:'2026-07-13 - 2026-07-13'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Deployment',status:'Not Started',range:'2026-07-13 - 2026-07-13'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Monitoring',status:'Not Started',range:'2026-07-14 - 2026-07-14'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Go Live',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
+  {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Original Go Live',status:'Not Started',range:'2026-07-10 - 2026-07-10'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-24'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Feasibility',status:'Done',range:'2026-06-25 - 2026-06-25'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Design',status:'Done',range:'2026-06-26 - 2026-06-29'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Build',status:'In Progress',range:'2026-06-26 - 2026-07-07'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Testing',status:'Not Started',range:'2026-07-13 - 2026-07-13'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Deployment',status:'Not Started',range:'2026-07-14 - 2026-07-14'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Monitoring',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Go Live',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
+  {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Original Go Live',status:'Not Started',range:'2026-07-10 - 2026-07-10'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Ideation',status:'Done',range:'2026-07-01 - 2026-07-02'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Feasibility',status:'In Progress',range:'2026-07-03 - 2026-07-08'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Design',status:'Not Started',range:'2026-07-09 - 2026-07-14'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Build',status:'Not Started',range:'2026-07-15 - 2026-07-24'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Testing',status:'Not Started',range:'2026-07-27 - 2026-07-29'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Deployment',status:'Not Started',range:'2026-07-29 - 2026-07-29'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Monitoring',status:'Not Started',range:'2026-07-30 - 2026-07-30'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Ideation',status:'Done',range:'2026-06-24 - 2026-06-30'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Feasibility',status:'Done',range:'2026-06-24 - 2026-06-30'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Design',status:'In Progress',range:'2026-07-01 - 2026-07-15'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Build',status:'In Progress',range:'2026-07-01 - 2026-07-15'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Testing',status:'Not Started',range:'2026-07-16 - 2026-07-28'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Deployment',status:'Not Started',range:'2026-07-27 - 2026-07-30'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Monitoring',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
 ];
 
 const PROJECT_DATA = {
@@ -810,11 +889,44 @@ const PROJECT_DATA = {
   'Sunil Rangpadiya': { impact:'high', name:'AI-Powered CS Triage Agent', bu:'Customer Experience',
     description:'Auto-classify Zendesk tickets, fetch live transaction data, and generate a policy-compliant draft reply within seconds. Agent reviews and sends — no manual lookup or drafting needed.',
     benefits:'Automates ~40–50% of CS ticket volume · Saves 5–8 min per ticket · First response: hrs → under 5 min · No manual lookup or drafting needed'},
+  'Bela Mascrene (4)': { impact:'medium', name:'Bank Parser - CFSB Macro', bu:'Fin Recon', actualValue:'15 Mins/Day',
+    description:'Reduce manual effort and time. Initially took 20 mins, post-macro 4-5 mins, saving 15 mins per day.',
+    benefits:'15 mins/day saved · Manual effort eliminated · Faster report turnaround'},
+  'Bela Mascrene (5)': { impact:'medium', name:'Bank Parser - Cuscal Macro', bu:'Fin Recon', actualValue:'30 Mins/Day',
+    description:'Reduce manual effort and time. Initially took 35 mins, post-macro 4-5 mins, saving 30 mins per day.',
+    benefits:'30 mins/day saved · Manual effort eliminated · Faster report turnaround'},
+  'Bela Mascrene (6)': { impact:'medium', name:'Bank Parser - Gocardless Macro', bu:'Fin Recon', actualValue:'15 Mins/Day',
+    description:'Reduce manual effort and time. Initially took 20 mins, post-macro 4-5 mins, saving 15 mins per day.',
+    benefits:'15 mins/day saved · Manual effort eliminated · Faster report turnaround'},
+  'Bela Mascrene (7)': { impact:'medium', name:'Bank Parser - CIMB Macro', bu:'Fin Recon',
+    description:'Reduce manual effort and time. Initially took 20 mins, post-macro 4-5 mins, saving 15 mins per day.',
+    benefits:'15 mins/day saved · Manual effort eliminated · Faster report turnaround'},
+  'Bela Mascrene (8)': { impact:'medium', name:'Bank Parser - LHV Macro', bu:'Fin Recon',
+    description:'Reduce manual effort and time. Initially took 20 mins, post-macro 4-5 mins, saving 30 mins per day.',
+    benefits:'30 mins/day saved · Manual effort eliminated · Faster report turnaround'},
+  'Bela Mascrene (9)': { impact:'medium', name:'Bank Parser - OA Parsing Macro', bu:'Fin Recon',
+    description:'Reduce manual effort and save time. Initially took 50-60 mins, post-macro 5 mins, saving 45 mins per day.',
+    benefits:'45 mins/day saved · Manual effort eliminated · Faster processing'},
+  'Rohan Dass (2)': { impact:'medium', name:'Regional Invoice Report Automation', bu:'Setup & Invoicing Ops',
+    description:'Automates region-wise reporting for outstanding invoices, replacing a fully manual process. Saves 45 mins per day.',
+    benefits:'45 mins/day saved · Manual reporting eliminated · Faster regional invoice tracking'},
 };
 
 const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function parseDate(s) { if(!s) return null; const[y,mo,d]=s.split('-'); return new Date(+y,+mo-1,+d); }
 function fmtDate(s) { if(!s) return null; const[y,mo,d]=s.split('-'); return `${parseInt(d)} ${M[parseInt(mo)-1]} ${y}`; }
+
+function calcMonthlyValue(raw) {
+  if (!raw) return null;
+  const m = raw.match(/([\d.]+)\s*Mins?\/Day/i);
+  if (!m) return raw; // not a recognized format, show as-is
+  const minsPerDay = parseFloat(m[1]);
+  const monthlyMins = minsPerDay * 20; // ~20 working days/month
+  const monthlyHrs = monthlyMins / 60;
+  return monthlyHrs >= 1
+    ? (Math.round(monthlyHrs * 10) / 10) + ' hrs/month'
+    : Math.round(monthlyMins) + ' mins/month';
+}
 
 function calcHealth(stages, goLiveDate) {
   const allNS = stages.every(s => s.status === 'Not Started') && stages.every(s => !s.range);
@@ -824,20 +936,10 @@ function calcHealth(stages, goLiveDate) {
   const goLiveStageRow = stages.find(s => s.stage === 'Go Live');
   if (goLiveStageRow && goLiveStageRow.status === 'Done') return 'go-live';
 
-  // Monitoring in progress = Deployed
-  const monStage = stages.find(s => s.stage === 'Monitoring');
-  if (monStage && monStage.status === 'In Progress') return 'deployed';
+  // At Risk: go-live date has passed and not yet live
+  if (goLiveDate && parseDate(goLiveDate) < TODAY) return 'at-risk';
 
-  // Fully deployed (Deployment Done)
-  const depStage = stages.find(s => s.stage === 'Deployment');
-  if (depStage && depStage.status === 'Done') return 'deployed';
-
-  // At Risk: go-live date has passed and not deployed
-  if (goLiveDate) {
-    if (parseDate(goLiveDate) < TODAY && depStage && depStage.status !== 'Done') return 'at-risk';
-  }
-
-  // Behind Schedule: any stage end date has passed and the stage is not Done
+  // Behind Schedule: any non-Done stage has an end date in the past
   for (const s of stages) {
     if (s.status === 'Done') continue;
     if (s.range) {
@@ -849,7 +951,7 @@ function calcHealth(stages, goLiveDate) {
   return 'on-track';
 }
 
-const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','deployed':'Deployed','monitoring':'Monitoring','go-live':'Live'};
+const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live'};
 
 // Group raw by groupKey (each initiative has a unique groupKey)
 // This allows multiple initiatives with the same owner (e.g. Bela Mascrene x3)
@@ -880,19 +982,40 @@ const initiatives = groupKeys.map((groupKey, i) => {
     stages, goLiveDate, currentStage, health,
     description: pd.description || null,
     benefits: pd.benefits || null,
+    actualValue: pd.actualValue || null,
+    originalGoLive: (() => {
+      const origStage = stages.find(s => s.stage === 'Original Go Live');
+      return origStage?.range ? origStage.range.split(' - ')[1] : null;
+    })(),
     link: pd.link || null,
     impact: pd.impact || 'medium',
   };
 });
 
-const counts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0,'deployed':0,'monitoring':0,'go-live':0};
+const counts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0,'go-live':0};
 initiatives.forEach(i => counts[i.health]++);
 document.getElementById('h-total').textContent    = initiatives.length;
 document.getElementById('h-ontrack').textContent  = counts['on-track'];
 document.getElementById('h-behind').textContent   = counts['behind-schedule'];
 document.getElementById('h-atrisk').textContent   = counts['at-risk'];
-document.getElementById('h-deployed').textContent = (counts['deployed'] || 0);
 document.getElementById('h-golive').textContent = (counts['go-live'] || 0);
+{
+  const withActual = initiatives.filter(i => i.actualValue);
+  const totalMonthlyHrs = withActual.reduce((sum, v) => {
+    const m = String(v.actualValue).match(/([\d.]+)\s*Mins?\/Day/i);
+    if (!m) return sum;
+    return sum + (parseFloat(m[1]) * 20 / 60);
+  }, 0);
+  document.getElementById('h-realisation').textContent = totalMonthlyHrs > 0
+    ? (Math.round(totalMonthlyHrs * 10) / 10) + ' hrs/mo'
+    : 'TBC';
+  const listEl = document.getElementById('realisation-list-panel');
+  if (listEl && withActual.length > 0) {
+    listEl.innerHTML = withActual
+      .map(i => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">${i.name}</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);white-space:nowrap;margin-left:12px;">${calcMonthlyValue(i.actualValue)}</span></div>`)
+      .join('');
+  }
+}
 
 function renderBullets(benefits) {
   if (!benefits) return '<span style="color:var(--text-muted);font-style:italic;font-size:12px;">To be added</span>';
@@ -936,8 +1059,23 @@ function renderRow(ini) {
       <div class="col-benefits">${renderBullets(ini.benefits)}</div>
       <div class="col-golive">
         <div class="golive-date ${!goLive?'empty':''}">${goLive||'\u2014'}</div>
+        ${ini.originalGoLive ? `<div class="original-golive">Planned: ${fmtDate(ini.originalGoLive)}</div>${(() => {
+          if (!goLive || !ini.originalGoLive) return '';
+          try {
+            const actual = new Date(ini.goLiveDate);
+            const orig = new Date(ini.originalGoLive);
+            const diffDays = Math.round((actual - orig) / 86400000);
+            const prefix = ini.health === 'go-live' ? '' : 'Est. ';
+            if (diffDays === 0) return '<div class="variance on-time">'+prefix+'No Slippage</div>';
+            if (diffDays > 0) return '<div class="variance late">'+prefix+diffDays+' days late</div>';
+            return '<div class="variance early">'+prefix+Math.abs(diffDays)+' days early</div>';
+          } catch(e) { return ''; }
+        })()}` : '<div class="original-golive" style="font-style:italic;">Original Go Live not yet set</div>'}
         <div class="current-stage">Stage: ${curStageName}</div>
         ${nextStageName && nextStageName !== curStageName ? `<div class="next-stage">${nextStageName} target ${nextStageStart}</div>` : ''}
+      </div>
+      <div class="col-realisation">
+        <div class="realisation-val ${!ini.actualValue?'empty':''}">${ini.actualValue ? calcMonthlyValue(ini.actualValue) : 'TBC'}</div>
       </div>
       <div class="col-health">
         <span class="health-badge ${ini.health}">
@@ -979,8 +1117,7 @@ function renderList(list) {
   const byImpact = (a,b) => (IMPACT_ORDER[a.impact]||1) - (IMPACT_ORDER[b.impact]||1);
   const sorted = [
     ...filtered.filter(i => i.health === 'go-live').sort(byImpact),
-    ...filtered.filter(i => i.health === 'deployed').sort(byImpact),
-    ...filtered.filter(i => i.health !== 'go-live' && i.health !== 'deployed').sort(byImpact),
+    ...filtered.filter(i => i.health !== 'go-live').sort(byImpact),
   ];
   document.getElementById('ini-list').innerHTML = sorted.map(renderRow).join('');
 }
@@ -1020,7 +1157,7 @@ document.getElementById('updated-ts').textContent =
     if (!items || items.length === 0) return;
 
     // Map live items to raw format
-    const STAGE_NAMES = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring','Go Live'];
+    const STAGE_NAMES = ['Ideation','Feasibility','Design','Build','Testing','Deployment','Monitoring','Go Live','Original Go Live'];
     const SKIP_OWNERS = ['Product (TBC)', 'Product', '', 'Avinash_r'];
 
     // Use groupId as the unique key for each initiative — avoids duplicate owner issues
@@ -1048,6 +1185,8 @@ document.getElementById('updated-ts').textContent =
         liveDetails[groupId] = {
           description: descCol?.text || null,
           benefits: benfCol?.text || null,
+          actualValue: null,
+          originalGoLive: null,
         };
         return;
       }
@@ -1105,6 +1244,12 @@ document.getElementById('updated-ts').textContent =
         stages, goLiveDate, currentStage, health,
         description: det.description || pd.description || null,
         benefits: det.benefits || pd.benefits || null,
+        actualValue: det.actualValue || null,
+        originalGoLive: det.originalGoLive || (() => {
+          // Fall back to reading from the stage row
+          const origStage = stages.find(s => s.stage === 'Original Go Live');
+          return origStage?.range ? origStage.range.split(' - ')[1] : null;
+        })(),
         link: pd.link || null,
         impact: pd.impact || 'medium',
       };
@@ -1113,22 +1258,38 @@ document.getElementById('updated-ts').textContent =
     if (liveInitiatives.length === 0) return;
 
     // Update counts
-    const liveCounts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0,'deployed':0,'monitoring':0,'go-live':0};
+    const liveCounts = {'on-track':0,'behind-schedule':0,'at-risk':0,'not-started':0,'go-live':0};
     liveInitiatives.forEach(i => liveCounts[i.health]++);
     document.getElementById('h-total').textContent    = liveInitiatives.length;
     document.getElementById('h-ontrack').textContent  = liveCounts['on-track'];
     document.getElementById('h-behind').textContent   = liveCounts['behind-schedule'];
     document.getElementById('h-atrisk').textContent   = liveCounts['at-risk'];
-    document.getElementById('h-deployed').textContent = (liveCounts['deployed'] || 0);
     document.getElementById('h-golive').textContent = (liveCounts['go-live'] || 0);
+    // Update Value Realisation total
+    const actualValues = liveInitiatives.map(i => i.actualValue).filter(Boolean);
+    if (actualValues.length > 0) {
+      const totalMonthlyHrs = actualValues.reduce((sum, v) => {
+        const m = String(v).match(/([\d.]+)\s*Mins?\/Day/i);
+        if (!m) return sum;
+        return sum + (parseFloat(m[1]) * 20 / 60);
+      }, 0);
+      document.getElementById('h-realisation').textContent = totalMonthlyHrs > 0
+        ? (Math.round(totalMonthlyHrs * 10) / 10) + ' hrs/mo'
+        : 'TBC';
+      const avList = liveInitiatives
+        .filter(i => i.actualValue)
+        .map(i => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">${i.name}</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);white-space:nowrap;margin-left:12px;">${calcMonthlyValue(i.actualValue)}</span></div>`)
+        .join('');
+      const avEl = document.getElementById('realisation-list-panel');
+      if (avEl) avEl.innerHTML = avList || '<div style="font-size:11px;color:var(--text-muted);padding:8px 0;">TBC — populate via monday.com Actual Value column</div>';
+    }
 
     // Update table
     const IMPACT_ORDER2 = {'high':0,'medium':1,'low':2};
     const byImpact2 = (a,b) => (IMPACT_ORDER2[a.impact]||1) - (IMPACT_ORDER2[b.impact]||1);
     const liveSorted = [
       ...liveInitiatives.filter(i => i.health === 'go-live').sort(byImpact2),
-      ...liveInitiatives.filter(i => i.health === 'deployed').sort(byImpact2),
-      ...liveInitiatives.filter(i => i.health !== 'go-live' && i.health !== 'deployed').sort(byImpact2),
+      ...liveInitiatives.filter(i => i.health !== 'go-live').sort(byImpact2),
     ];
     document.getElementById('ini-list').innerHTML = liveSorted.map(renderRow).join('');
 
@@ -1153,10 +1314,21 @@ function toggleBenefits(e) {
   panel.style.display = open ? 'none' : 'block';
   chevron.textContent = open ? '▼' : '▲';
 }
+function toggleRealisation(e) {
+  e.stopPropagation();
+  const panel = document.getElementById('realisation-panel');
+  const chevron = document.getElementById('realisation-chevron');
+  const open = panel.style.display === 'block';
+  panel.style.display = open ? 'none' : 'block';
+  chevron.textContent = open ? '▼' : '▲';
+}
 document.addEventListener('click', function() {
   const panel = document.getElementById('benefits-panel');
   const chevron = document.getElementById('benefits-chevron');
   if (panel) { panel.style.display = 'none'; chevron.textContent = '▼'; }
+  const rpanel = document.getElementById('realisation-panel');
+  const rchevron = document.getElementById('realisation-chevron');
+  if (rpanel) { rpanel.style.display = 'none'; rchevron.textContent = '▼'; }
 });
 </script>
 </body>
