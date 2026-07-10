@@ -596,24 +596,17 @@
     <div class="sbar-lbl">Live</div>
   </div>
   <div class="sbar-stat clickable" id="benefits-trigger" onclick="toggleBenefits(event)">
-    <div class="sbar-num mint">600+ hrs/mo</div>
+    <div class="sbar-num mint" id="h-projected">—</div>
     <div class="sbar-lbl">Projected Value &nbsp;<span id="benefits-chevron" style="font-size:9px;background:var(--mint);color:#0a0a0a;padding:1px 6px;border-radius:2px;font-weight:700;">See all ▾</span></div>
     <div id="benefits-panel" style="display:none;position:absolute;top:calc(100% + 1px);right:-20px;width:680px;background:#fff;border:1px solid var(--border-strong);border-top:3px solid var(--mint);box-shadow:0 8px 32px rgba(0,0,0,0.13);z-index:200;">
       <div style="padding:12px 20px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;">
         <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-muted);">Total Projected Value — All Initiatives</div>
-        <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs saved / month</div>
+        <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);" id="benefits-total-label">—</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
         <div style="padding:12px 20px;border-right:1px solid var(--border);">
           <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⏱ Time Saved / Month</div>
-          <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:11px;color:var(--text-dim);">Alert review &amp; TM triage</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200+ hrs</span></div>
-          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank statement workflows</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
-          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">KYC onboarding</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">200 hrs</span></div>
-          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Zendesk tickets</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">80-100 hrs</span></div>
-          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Card Ops settlements</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~30 hrs</span></div>
-          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Bank charges report</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">4 hrs</span></div>
-          <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">Compliance rostering</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);">~2 hrs</span></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 0 2px;border-top:2px solid var(--border-strong);margin-top:2px;"><span style="font-size:11px;font-weight:700;color:var(--text);">Total</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">600+ hrs</span></div>
+          <div id="projected-value-list"><div style="font-size:11px;color:var(--text-muted);padding:6px 0;">Loading…</div></div>
         </div>
         <div style="padding:12px 20px;border-right:1px solid var(--border);">
           <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">⚡ Speed &amp; Quality</div>
@@ -863,13 +856,13 @@ const raw = [
 ];
 
 const PROJECT_DATA = {
-  'Ganesh Pandit': { onHold:true, impact:'high', name:'AI Assisted Alert Review & Backlog Prioritization', bu:'Compliance Ops - TM',
+  'Ganesh Pandit': { projectedValue:'200 hrs/month', onHold:true, impact:'high', name:'AI Assisted Alert Review & Backlog Prioritization', bu:'Compliance Ops - TM',
     description:'Automates risk-scoring and triage of transaction monitoring alerts so analysts focus only on high-risk cases.',
     benefits:'200+ hrs/mo saved on manual triage · 0% backlog target · Faster SLA compliance · AI-generated investigation report per alert'},
-  'Avinash_r': { link:'http://192.168.2.8:3005/', impact:'medium', name:'AI Based Compliance Team Rostering Automation', bu:'Compliance Ops - TM',
+  'Avinash_r': { projectedValue:'2 hrs/month', link:'http://192.168.2.8:3005/', impact:'medium', name:'AI Based Compliance Team Rostering Automation', bu:'Compliance Ops - TM',
     description:'Generates optimised monthly rosters automatically, replacing a manual Excel process done 4 weeks in advance.',
     benefits:'90% reduction in rostering effort · 2 hrs/mo saved · Better shift coverage & distribution · 1 month ahead scheduling maintained automatically'},
-  'Kavina Shah': { impact:'medium', name:'Consumer Onboarding AI Project', bu:'KYC Operations',
+  'Kavina Shah': { projectedValue:'200 hrs/month', impact:'medium', name:'Consumer Onboarding AI Project', bu:'KYC Operations',
     description:'Reads and makes automated pass/fail decisions on ID and address documents submitted during consumer onboarding.',
     benefits:'200 hrs/mo saved for KYC Ops agents · Faster customer onboarding · Semi-automated pass/fail decisions · Daily processing cadence'},
   'Bela Mascrene': { impact:'medium', name:'Auto Download & Upload Bank Statements from Portal', bu:'Fin Recon',
@@ -881,10 +874,10 @@ const PROJECT_DATA = {
   'Rohan Dass': { impact:'medium', name:'AI-Powered Invoice Audit Across Contract & Invoice', bu:'Setup & Invoicing Ops',
     description:'Cross-references contracts, invoices, and FX setup to flag mismatches and overbilling automatically.',
     benefits:'Hours → minutes per audit · Stops revenue leakage from overbilling · Catches FX setup mismatches automatically · Covers 4 monthly pilot clients'},
-  'Vimal Kumar': { impact:'high', name:'Zendesk AI Ticket Automation', bu:'CSM',
+  'Vimal Kumar': { projectedValue:'90 hrs/month', impact:'high', name:'Zendesk AI Ticket Automation', bu:'CSM',
     description:'Automatically triages, eligibility-checks, and drafts responses for cancellation tickets. Agents review only — no manual lookups.',
     benefits:'80–100 hrs/mo saved across support & ops · 15 min → 2 min handling time per ticket · Standardised response templates · Zero manual database lookups'},
-  'Saranesh K': { impact:'high', name:'Card Ops Settlement Automation', bu:'Card Ops / Funding Ops',
+  'Saranesh K': { projectedValue:'30 hrs/month', impact:'high', name:'Card Ops Settlement Automation', bu:'Card Ops / Funding Ops',
     description:'Automates Mastercard & Visa settlement parsing, JPMC balance checks, Excel logging, reconciliation, and Slack alerts across 4 daily windows.',
     benefits:'60–90 min/day of manual work eliminated · 0 settlement errors · Same-day exception detection · Real-time JPMC balance alerts'},
   'Avinash': { name:'RAYO – Agentic AI for Transaction Monitoring', bu:'Compliance Ops - TM',
@@ -966,6 +959,35 @@ function calcMonthlyValue(raw) {
     : Math.round(monthlyMins) + ' mins/month';
 }
 
+// Recalculates the Projected Value total + breakdown from whichever initiatives currently exist
+function updateProjectedValue(list) {
+  const withProjected = list.filter(i => i.projectedValue);
+  const totalHrs = withProjected.reduce((sum, i) => {
+    const parsed = calcMonthlyValue(i.projectedValue);
+    const hrsMatch = String(parsed).match(/([\d.]+)\s*hrs\/month/i);
+    const minsMatch = String(parsed).match(/([\d.]+)\s*mins\/month/i);
+    if (hrsMatch) return sum + parseFloat(hrsMatch[1]);
+    if (minsMatch) return sum + parseFloat(minsMatch[1]) / 60;
+    return sum;
+  }, 0);
+  const totalLabel = totalHrs > 0 ? (Math.round(totalHrs * 10) / 10) + ' hrs/mo' : 'TBC';
+  const topEl = document.getElementById('h-projected');
+  if (topEl) topEl.textContent = totalLabel;
+  const totalLabelEl = document.getElementById('benefits-total-label');
+  if (totalLabelEl) totalLabelEl.textContent = totalHrs > 0 ? (Math.round(totalHrs * 10) / 10) + ' hrs saved / month' : 'TBC';
+  const listEl = document.getElementById('projected-value-list');
+  if (listEl) {
+    if (withProjected.length === 0) {
+      listEl.innerHTML = '<div style="font-size:11px;color:var(--text-muted);padding:6px 0;">TBC — populate via monday.com Projected Value column</div>';
+    } else {
+      listEl.innerHTML = withProjected
+        .map(i => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--border);"><span style="font-size:11px;color:var(--text-dim);">${i.name}</span><span style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--mint-text);white-space:nowrap;margin-left:12px;">${calcMonthlyValue(i.projectedValue)}</span></div>`)
+        .join('')
+        + `<div style="display:flex;justify-content:space-between;padding:6px 0 2px;border-top:2px solid var(--border-strong);margin-top:2px;"><span style="font-size:11px;font-weight:700;color:var(--text);">Total</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--mint-text);">${totalLabel}</span></div>`;
+    }
+  }
+}
+
 function calcHealth(stages, goLiveDate) {
   const allNS = stages.every(s => s.status === 'Not Started') && stages.every(s => !s.range);
   if (allNS) return 'not-started';
@@ -1021,6 +1043,7 @@ const initiatives = groupKeys.map((groupKey, i) => {
     description: pd.description || null,
     benefits: pd.benefits || null,
     actualValue: pd.actualValue || null,
+    projectedValue: pd.projectedValue || null,
     originalGoLive: (() => {
       const origStage = stages.find(s => s.stage === 'Original Go Live');
       return origStage?.range ? origStage.range.split(' - ')[1] : null;
@@ -1040,9 +1063,12 @@ document.getElementById('h-golive').textContent = (counts['go-live'] || 0);
 {
   const withActual = initiatives.filter(i => i.actualValue);
   const totalMonthlyHrs = withActual.reduce((sum, v) => {
-    const m = String(v.actualValue).match(/([\d.]+)\s*Mins?\/Day/i);
-    if (!m) return sum;
-    return sum + (parseFloat(m[1]) * 20 / 60);
+    const parsed = calcMonthlyValue(v.actualValue);
+    const hrsMatch = String(parsed).match(/([\d.]+)\s*hrs\/month/i);
+    const minsMatch = String(parsed).match(/([\d.]+)\s*mins\/month/i);
+    if (hrsMatch) return sum + parseFloat(hrsMatch[1]);
+    if (minsMatch) return sum + parseFloat(minsMatch[1]) / 60;
+    return sum;
   }, 0);
   document.getElementById('h-realisation').textContent = totalMonthlyHrs > 0
     ? (Math.round(totalMonthlyHrs * 10) / 10) + ' hrs/mo'
@@ -1175,8 +1201,7 @@ function renderList(list) {
 }
 
 renderList(currentInitiatives);
-
-const now = new Date();
+updateProjectedValue(currentInitiatives);
 document.getElementById('updated-ts').textContent =
   `Last updated: ${now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} \u00b7 Owners & dates: monday.com \u00b7 Descriptions & benefits: AI Use Case Template`;
 
@@ -1229,6 +1254,7 @@ document.getElementById('updated-ts').textContent =
       const descCol    = item.column_values.find(c => c.id === 'long_text_mm3hr8w4');
       const benfCol    = item.column_values.find(c => c.id === 'long_text_mm3hkmjz');
       const actValCol  = item.column_values.find(c => c.id === 'long_text_mm51jqkn');
+      const projValCol = item.column_values.find(c => c.id === 'long_text_mm54wad6');
       const rawOwner   = ownerCol?.text || '';
       const status     = statusCol?.label || 'Not Started';
       const range      = rangeCol?.text  || null;
@@ -1239,6 +1265,7 @@ document.getElementById('updated-ts').textContent =
           description: descCol?.text || null,
           benefits: benfCol?.text || null,
           actualValue: actValCol?.text || null,
+          projectedValue: projValCol?.text || null,
           originalGoLive: null,
         };
         return;
@@ -1298,6 +1325,7 @@ document.getElementById('updated-ts').textContent =
         description: det.description || pd.description || null,
         benefits: det.benefits || pd.benefits || null,
         actualValue: det.actualValue || null,
+        projectedValue: det.projectedValue || null,
         originalGoLive: det.originalGoLive || (() => {
           // Fall back to reading from the stage row
           const origStage = stages.find(s => s.stage === 'Original Go Live');
@@ -1322,9 +1350,12 @@ document.getElementById('updated-ts').textContent =
     const actualValues = liveInitiatives.map(i => i.actualValue).filter(Boolean);
     if (actualValues.length > 0) {
       const totalMonthlyHrs = actualValues.reduce((sum, v) => {
-        const m = String(v).match(/([\d.]+)\s*Mins?\/Day/i);
-        if (!m) return sum;
-        return sum + (parseFloat(m[1]) * 20 / 60);
+        const parsed = calcMonthlyValue(v);
+        const hrsMatch = String(parsed).match(/([\d.]+)\s*hrs\/month/i);
+        const minsMatch = String(parsed).match(/([\d.]+)\s*mins\/month/i);
+        if (hrsMatch) return sum + parseFloat(hrsMatch[1]);
+        if (minsMatch) return sum + parseFloat(minsMatch[1]) / 60;
+        return sum; // couldn't parse this one — skip it from the total
       }, 0);
       document.getElementById('h-realisation').textContent = totalMonthlyHrs > 0
         ? (Math.round(totalMonthlyHrs * 10) / 10) + ' hrs/mo'
@@ -1340,6 +1371,7 @@ document.getElementById('updated-ts').textContent =
     // Update table — use the same filter/sort logic as static render
     currentInitiatives = liveInitiatives;
     renderList(currentInitiatives);
+    updateProjectedValue(currentInitiatives);
 
     // Update timestamp
     const liveNow = new Date();
