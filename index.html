@@ -371,6 +371,12 @@
     color: #2563eb;
     border: 1px solid rgba(79,142,255,0.25);
   }
+  .health-badge.abandoned {
+    background: rgba(192,57,43,0.06);
+    color: var(--gray);
+    border: 1px solid rgba(138,135,128,0.3);
+    text-decoration: line-through;
+  }
   .health-badge.on-hold {
     background: var(--gray-bg);
     color: var(--gray);
@@ -669,6 +675,7 @@
         <label class="check-option"><input type="checkbox" value="not-started" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--gray)"></span>Not Started</label>
         <label class="check-option"><input type="checkbox" value="go-live" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--mint)"></span>Live</label>
         <label class="check-option"><input type="checkbox" value="on-hold" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--gray)"></span>On Hold</label>
+        <label class="check-option"><input type="checkbox" value="abandoned" onchange="updateHealthFilter()"><span class="opt-dot" style="background:var(--gray)"></span>Abandoned</label>
       </div>
     </div>
   </div>
@@ -691,6 +698,7 @@ const TODAY = new Date();
 
 
 const raw = [
+  // g01: Ganesh Pandit — AI Assisted Alert Review & Backlog Prioritization (ON-HOLD)
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Ideation',status:'Done',range:'2026-02-20 - 2026-02-23'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Feasibility',status:'Done',range:'2026-02-24 - 2026-02-27'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Design',status:'Done',range:'2026-02-24 - 2026-02-27'},
@@ -700,6 +708,7 @@ const raw = [
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Monitoring',status:'In Progress',range:'2026-05-18 - 2026-06-30'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
   {groupKey:'g01',owner:'Ganesh Pandit',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
+  // g02: Avinash_r — Ops Roster Application
   {groupKey:'g02',owner:'Avinash_r',stage:'Ideation',status:'Done',range:'2026-03-25 - 2026-03-26'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Feasibility',status:'Done',range:'2026-03-27 - 2026-03-27'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Design',status:'Done',range:'2026-05-15 - 2026-05-15'},
@@ -707,8 +716,9 @@ const raw = [
   {groupKey:'g02',owner:'Avinash_r',stage:'Testing',status:'Done',range:'2026-05-22 - 2026-06-05'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Deployment',status:'Done',range:'2026-06-05 - 2026-06-05'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Monitoring',status:'In Progress',range:'2026-06-05 - 2026-07-31'},
-  {groupKey:'g02',owner:'Avinash_r',stage:'Go Live',status:'Not Started',range:'2026-06-30 - 2026-07-31'},
+  {groupKey:'g02',owner:'Avinash_r',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
   {groupKey:'g02',owner:'Avinash_r',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  // g03: Kavina Shah — Consumer Onboarding AI project
   {groupKey:'g03',owner:'Kavina Shah',stage:'Ideation',status:'Done',range:'2026-04-10 - 2026-04-13'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Feasibility',status:'Done',range:'2026-04-14 - 2026-04-17'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-24'},
@@ -718,6 +728,7 @@ const raw = [
   {groupKey:'g03',owner:'Kavina Shah',stage:'Monitoring',status:'Not Started',range:'2026-06-12 - 2026-07-31'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Go Live',status:'Not Started',range:'2026-08-03 - 2026-08-03'},
   {groupKey:'g03',owner:'Kavina Shah',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
+  // g04: Rohan Dass — AI-powered invoice audit across contract & invoice
   {groupKey:'g04',owner:'Rohan Dass',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-30'},
   {groupKey:'g04',owner:'Rohan Dass',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
   {groupKey:'g04',owner:'Rohan Dass',stage:'Design',status:'Done',range:'2026-04-16 - 2026-04-30'},
@@ -727,6 +738,7 @@ const raw = [
   {groupKey:'g04',owner:'Rohan Dass',stage:'Monitoring',status:'Not Started',range:'2026-09-01 - 2026-09-30'},
   {groupKey:'g04',owner:'Rohan Dass',stage:'Go Live',status:'Not Started',range:'2026-09-30 - 2026-09-30'},
   {groupKey:'g04',owner:'Rohan Dass',stage:'Original Go Live',status:'Not Started',range:'2026-09-01 - 2026-09-01'},
+  // g05: Vimal Kumar — ADAM For Nium (Zendesk N8N AI) — LIVE
   {groupKey:'g05',owner:'Vimal Kumar',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {groupKey:'g05',owner:'Vimal Kumar',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {groupKey:'g05',owner:'Vimal Kumar',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
@@ -736,15 +748,16 @@ const raw = [
   {groupKey:'g05',owner:'Vimal Kumar',stage:'Monitoring',status:'Done',range:'2026-06-15 - 2026-06-30'},
   {groupKey:'g05',owner:'Vimal Kumar',stage:'Go Live',status:'Done',range:'2026-06-30 - 2026-06-30'},
   {groupKey:'g05',owner:'Vimal Kumar',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
+  // g06: Saranesh K — Card Ops Settlement Automation
   {groupKey:'g06',owner:'Saranesh K',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {groupKey:'g06',owner:'Saranesh K',stage:'Feasibility',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {groupKey:'g06',owner:'Saranesh K',stage:'Design',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {groupKey:'g06',owner:'Saranesh K',stage:'Build',status:'Done',range:'2026-03-16 - 2026-03-31'},
   {groupKey:'g06',owner:'Saranesh K',stage:'Testing',status:'Done',range:'2026-04-01 - 2026-05-29'},
-  {groupKey:'g06',owner:'Saranesh K',stage:'Deployment',status:'Not Started',range:'2026-06-01 - 2026-06-30'},
   {groupKey:'g06',owner:'Saranesh K',stage:'Monitoring',status:'In Progress',range:'2026-06-01 - 2026-07-31'},
   {groupKey:'g06',owner:'Saranesh K',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
   {groupKey:'g06',owner:'Saranesh K',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  // g07: KT — Rule Based PPUI processing
   {groupKey:'g07',owner:'KT',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-05-01'},
   {groupKey:'g07',owner:'KT',stage:'Feasibility',status:'Done',range:'2026-04-28 - 2026-05-01'},
   {groupKey:'g07',owner:'KT',stage:'Design',status:'Done',range:'2026-05-04 - 2026-05-08'},
@@ -754,6 +767,7 @@ const raw = [
   {groupKey:'g07',owner:'KT',stage:'Monitoring',status:'Not Started',range:'2026-06-19 - 2026-10-15'},
   {groupKey:'g07',owner:'KT',stage:'Go Live',status:'Not Started',range:'2026-10-15 - 2026-10-15'},
   {groupKey:'g07',owner:'KT',stage:'Original Go Live',status:'Not Started',range:'2026-09-30 - 2026-09-30'},
+  // g08: Sonika Bisht — Client Servicing Dashboard
   {groupKey:'g08',owner:'Sonika Bisht',stage:'Ideation',status:'Done',range:'2026-04-08 - 2026-04-28'},
   {groupKey:'g08',owner:'Sonika Bisht',stage:'Feasibility',status:'Done',range:'2026-04-29 - 2026-05-15'},
   {groupKey:'g08',owner:'Sonika Bisht',stage:'Design',status:'Done',range:'2026-05-18 - 2026-06-05'},
@@ -763,6 +777,7 @@ const raw = [
   {groupKey:'g08',owner:'Sonika Bisht',stage:'Monitoring',status:'Not Started',range:'2026-07-07 - 2026-07-13'},
   {groupKey:'g08',owner:'Sonika Bisht',stage:'Go Live',status:'Not Started',range:null},
   {groupKey:'g08',owner:'Sonika Bisht',stage:'Original Go Live',status:'Not Started',range:'2026-07-13 - 2026-07-13'},
+  // g09: Girija Kanade — Nium Mailer — LIVE
   {groupKey:'g09',owner:'Girija Kanade',stage:'Ideation',status:'Done',range:'2026-04-01 - 2026-04-15'},
   {groupKey:'g09',owner:'Girija Kanade',stage:'Feasibility',status:'Done',range:'2026-04-16 - 2026-04-30'},
   {groupKey:'g09',owner:'Girija Kanade',stage:'Design',status:'Done',range:'2026-05-01 - 2026-05-04'},
@@ -772,6 +787,7 @@ const raw = [
   {groupKey:'g09',owner:'Girija Kanade',stage:'Monitoring',status:'Done',range:'2026-06-26 - 2026-06-30'},
   {groupKey:'g09',owner:'Girija Kanade',stage:'Go Live',status:'Done',range:'2026-06-09 - 2026-06-09'},
   {groupKey:'g09',owner:'Girija Kanade',stage:'Original Go Live',status:'Not Started',range:'2026-06-30 - 2026-06-30'},
+  // g10: Bela Mascrene (3) — Ops Issue Tracker — LIVE
   {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Ideation',status:'Done',range:'2026-04-16 - 2026-04-16'},
   {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Feasibility',status:'Done',range:'2026-04-17 - 2026-04-17'},
   {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Design',status:'Done',range:'2026-04-20 - 2026-04-21'},
@@ -781,6 +797,7 @@ const raw = [
   {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Monitoring',status:'Done',range:'2026-05-01 - 2026-05-20'},
   {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Go Live',status:'Done',range:null},
   {groupKey:'g10',owner:'Bela Mascrene (3)',stage:'Original Go Live',status:'Not Started',range:'2026-05-20 - 2026-05-20'},
+  // g11: Sunil Rangpadiya — ABANDONED - Phase 1 AI-Powered CS Triage Agent
   {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Ideation',status:'Done',range:'2026-03-16 - 2026-03-20'},
   {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Feasibility',status:'Done',range:'2026-03-23 - 2026-03-27'},
   {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Design',status:'Done',range:'2026-03-30 - 2026-04-03'},
@@ -790,6 +807,7 @@ const raw = [
   {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Monitoring',status:'In Progress',range:'2026-06-04 - 2026-08-31'},
   {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Go Live',status:'Not Started',range:null},
   {groupKey:'g11',owner:'Sunil Rangpadiya',stage:'Original Go Live',status:'Not Started',range:'2026-08-31 - 2026-08-31'},
+  // g12: Bela Mascrene (4) — Bank Parser - CFSB Macro — LIVE
   {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Ideation',status:'Done',range:'2026-06-15 - 2026-06-15'},
   {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Feasibility',status:'Done',range:'2026-06-16 - 2026-06-16'},
   {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Design',status:'Done',range:'2026-06-17 - 2026-06-17'},
@@ -799,6 +817,7 @@ const raw = [
   {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Monitoring',status:'Done',range:'2026-06-22 - 2026-06-22'},
   {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Go Live',status:'Done',range:'2026-06-22 - 2026-06-22'},
   {groupKey:'g12',owner:'Bela Mascrene (4)',stage:'Original Go Live',status:'Not Started',range:'2026-07-07 - 2026-07-07'},
+  // g13: Bela Mascrene (5) — Bank Parser - Cuscal Macro — LIVE
   {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-22'},
   {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Feasibility',status:'Done',range:'2026-06-23 - 2026-06-23'},
   {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Design',status:'Done',range:'2026-06-24 - 2026-06-25'},
@@ -808,6 +827,7 @@ const raw = [
   {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Monitoring',status:'Done',range:'2026-07-03 - 2026-07-03'},
   {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Go Live',status:'Done',range:'2026-07-03 - 2026-07-03'},
   {groupKey:'g13',owner:'Bela Mascrene (5)',stage:'Original Go Live',status:'Not Started',range:'2026-07-07 - 2026-07-07'},
+  // g14: Bela Mascrene (6) — Bank Parser - Gocardless Macro — LIVE
   {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-22'},
   {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Feasibility',status:'Done',range:'2026-06-23 - 2026-06-23'},
   {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Design',status:'Done',range:'2026-06-24 - 2026-06-25'},
@@ -817,6 +837,7 @@ const raw = [
   {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Monitoring',status:'Done',range:'2026-07-03 - 2026-07-10'},
   {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Go Live',status:'Done',range:'2026-07-10 - 2026-07-10'},
   {groupKey:'g14',owner:'Bela Mascrene (6)',stage:'Original Go Live',status:'Not Started',range:'2026-07-10 - 2026-07-10'},
+  // g15: Bela Mascrene (7) — Bank Parser - CIMB Macro
   {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-22'},
   {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Feasibility',status:'Done',range:'2026-06-23 - 2026-06-23'},
   {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Design',status:'Done',range:'2026-06-24 - 2026-06-25'},
@@ -826,6 +847,7 @@ const raw = [
   {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Monitoring',status:'Not Started',range:'2026-07-14 - 2026-07-14'},
   {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Go Live',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
   {groupKey:'g15',owner:'Bela Mascrene (7)',stage:'Original Go Live',status:'Not Started',range:'2026-07-10 - 2026-07-10'},
+  // g16: Bela Mascrene (8) — Bank Parser - LHV Macro
   {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Ideation',status:'Done',range:'2026-06-22 - 2026-06-24'},
   {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Feasibility',status:'Done',range:'2026-06-25 - 2026-06-25'},
   {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Design',status:'Done',range:'2026-06-26 - 2026-06-29'},
@@ -835,70 +857,80 @@ const raw = [
   {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Monitoring',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
   {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Go Live',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
   {groupKey:'g16',owner:'Bela Mascrene (8)',stage:'Original Go Live',status:'Not Started',range:'2026-07-10 - 2026-07-10'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Ideation',status:'Done',range:'2026-07-01 - 2026-07-02'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Feasibility',status:'In Progress',range:'2026-07-03 - 2026-07-08'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Design',status:'Not Started',range:'2026-07-09 - 2026-07-14'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Build',status:'Not Started',range:'2026-07-15 - 2026-07-24'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Testing',status:'Not Started',range:'2026-07-27 - 2026-07-29'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Deployment',status:'Not Started',range:'2026-07-29 - 2026-07-29'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Monitoring',status:'Not Started',range:'2026-07-30 - 2026-07-30'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Ideation',status:'Done',range:'2026-06-24 - 2026-06-30'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Feasibility',status:'Done',range:'2026-06-24 - 2026-06-30'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Design',status:'In Progress',range:'2026-07-01 - 2026-07-15'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Build',status:'In Progress',range:'2026-07-01 - 2026-07-15'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Testing',status:'Not Started',range:'2026-07-16 - 2026-07-28'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Deployment',status:'Not Started',range:'2026-07-27 - 2026-07-30'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Monitoring',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
-  {groupKey:'g18',owner:'Rohan Dass (2)',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  // g17: Bela Mascrene (9) — BOL Returns to Identify Possible Match
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Ideation',status:'Done',range:'2026-06-15 - 2026-06-19'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Feasibility',status:'Done',range:'2026-06-22 - 2026-06-26'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Design',status:'Done',range:'2026-06-26 - 2026-07-01'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Build',status:'In Progress',range:'2026-07-02 - 2026-07-15'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Testing',status:'Not Started',range:'2026-07-15 - 2026-07-22'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Deployment',status:'Not Started',range:'2026-07-23 - 2026-07-24'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Monitoring',status:'Not Started',range:'2026-07-27 - 2026-07-29'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Go Live',status:'Not Started',range:'2026-07-30 - 2026-07-31'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Original Go Live',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
+  // g18: Bela Mascrene (10) — Bank Parser - OA Parsing Macro
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Ideation',status:'Done',range:'2026-07-01 - 2026-07-02'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Feasibility',status:'In Progress',range:'2026-07-03 - 2026-07-08'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Design',status:'Not Started',range:'2026-07-09 - 2026-07-14'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Build',status:'Not Started',range:'2026-07-15 - 2026-07-24'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Testing',status:'Not Started',range:'2026-07-27 - 2026-07-29'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Deployment',status:'Not Started',range:'2026-07-29 - 2026-07-29'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Monitoring',status:'Not Started',range:'2026-07-30 - 2026-07-30'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g18',owner:'Bela Mascrene (10)',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  // g19: Rohan Dass (2) — Manual Regional Outstanding reports
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Ideation',status:'Done',range:'2026-06-24 - 2026-06-30'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Feasibility',status:'Done',range:'2026-06-24 - 2026-06-30'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Design',status:'In Progress',range:'2026-07-01 - 2026-07-15'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Build',status:'In Progress',range:'2026-07-01 - 2026-07-15'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Testing',status:'Not Started',range:'2026-07-16 - 2026-07-28'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Deployment',status:'Not Started',range:'2026-07-27 - 2026-07-30'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Monitoring',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  {groupKey:'g19',owner:'Rohan Dass (2)',stage:'Original Go Live',status:'Not Started',range:'2026-07-31 - 2026-07-31'},
+  // g20: ADAM For Instarem (Zendesk N8N AI) — Bela Mascrene / Munazza
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Ideation',status:'Done',range:'2026-06-02 - 2026-06-12'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Feasibility',status:'Done',range:'2026-06-15 - 2026-06-19'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Design',status:'Done',range:'2026-06-22 - 2026-07-10'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Build',status:'In Progress',range:'2026-07-13 - 2026-07-29'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Testing',status:'In Progress',range:'2026-07-30 - 2026-08-18'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Deployment',status:'Not Started',range:'2026-08-19 - 2026-08-27'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Monitoring',status:'Not Started',range:'2026-08-28 - 2026-08-31'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Go Live',status:'Not Started',range:'2026-08-31 - 2026-08-31'},
+  {groupKey:'g20',owner:'Bela Mascrene (11)',stage:'Original Go Live',status:'Not Started',range:'2026-08-31 - 2026-08-31'},
 ];
 
 const PROJECT_DATA = {
   'Ganesh Pandit': { projectedValue:'200 hrs/month', onHold:true, impact:'high', name:'AI Assisted Alert Review & Backlog Prioritization', bu:'Compliance Ops - TM',
     description:'Automates risk-scoring and triage of transaction monitoring alerts so analysts focus only on high-risk cases.',
     benefits:'200+ hrs/mo saved on manual triage · 0% backlog target · Faster SLA compliance · AI-generated investigation report per alert'},
-  'Avinash_r': { projectedValue:'2 hrs/month', link:'http://192.168.2.8:3005/', impact:'medium', name:'AI Based Compliance Team Rostering Automation', bu:'Compliance Ops - TM',
+  'Avinash_r': { projectedValue:'2 hrs/month', link:'http://192.168.2.8:3005/', impact:'medium', name:'Ops Roster Application', bu:'Compliance Ops - TM',
     description:'Generates optimised monthly rosters automatically, replacing a manual Excel process done 4 weeks in advance.',
     benefits:'90% reduction in rostering effort · 2 hrs/mo saved · Better shift coverage & distribution · 1 month ahead scheduling maintained automatically'},
   'Kavina Shah': { projectedValue:'200 hrs/month', impact:'medium', name:'Consumer Onboarding AI Project', bu:'KYC Operations',
     description:'Reads and makes automated pass/fail decisions on ID and address documents submitted during consumer onboarding.',
     benefits:'200 hrs/mo saved for KYC Ops agents · Faster customer onboarding · Semi-automated pass/fail decisions · Daily processing cadence'},
-  'Bela Mascrene': { impact:'medium', name:'Auto Download & Upload Bank Statements from Portal', bu:'Fin Recon',
-    description:'Logs into bank portals, downloads statements, and uploads them to SPOC — replacing a fully manual daily process.',
-    benefits:'200 hrs/mo saved · Improved SLA & accuracy · Auto-filing to correct bank folders · Eliminates manual portal logins'},
-  'Bela Mascrene (2)': { impact:'medium', name:'Bank Charges and Interest Report Automation', bu:'Fin Recon',
-    description:'Downloads charges data from SPOC, generates a summary analysis, and emails the report — no manual pivot tables.',
-    benefits:'4 hrs/mo saved · Same-day report delivery · No manual pivot tables · Auto email dispatch to stakeholders'},
   'Rohan Dass': { impact:'medium', name:'AI-Powered Invoice Audit Across Contract & Invoice', bu:'Setup & Invoicing Ops',
     description:'Cross-references contracts, invoices, and FX setup to flag mismatches and overbilling automatically.',
     benefits:'Hours → minutes per audit · Stops revenue leakage from overbilling · Catches FX setup mismatches automatically · Covers 4 monthly pilot clients'},
-  'Vimal Kumar': { projectedValue:'90 hrs/month', impact:'high', name:'Zendesk AI Ticket Automation', bu:'CSM',
+  'Vimal Kumar': { projectedValue:'90 hrs/month', impact:'high', name:'ADAM For Nium (Zendesk N8N AI)', bu:'CSM',
     description:'Automatically triages, eligibility-checks, and drafts responses for cancellation tickets. Agents review only — no manual lookups.',
     benefits:'80–100 hrs/mo saved across support & ops · 15 min → 2 min handling time per ticket · Standardised response templates · Zero manual database lookups'},
   'Saranesh K': { projectedValue:'30 hrs/month', impact:'high', name:'Card Ops Settlement Automation', bu:'Card Ops / Funding Ops',
     description:'Automates Mastercard & Visa settlement parsing, JPMC balance checks, Excel logging, reconciliation, and Slack alerts across 4 daily windows.',
     benefits:'60–90 min/day of manual work eliminated · 0 settlement errors · Same-day exception detection · Real-time JPMC balance alerts'},
-  'Avinash': { name:'RAYO – Agentic AI for Transaction Monitoring', bu:'Compliance Ops - TM',
-    description:'Captures real analyst desktop workflows, spots inefficiencies, and deploys AI agents to handle data gathering, form filling, and drafting.',
-    benefits:'↓ 20–40% case handling time · ↑ 15–25% analyst productivity · Reduced SOP deviations · Human-in-the-loop control maintained'},
-  'Karan Patel': { impact:'low', name:'Agentic AI for CE Chats', bu:'Customer Experience',
-    description:'Live agentic AI handles customer queries end-to-end — transaction status, SLAs, and issue resolution — reducing agent workload.',
-    benefits:'↑ CSAT score · Faster first response time · 19 agents supported · Fewer repetitive tickets reaching agents'},
-  'KT': { impact:'high', name:'Agentic AI for PPUI Processing', bu:'Payment Operations',
+  'KT': { impact:'high', name:'Rule Based PPUI Processing', bu:'Payment Operations',
     description:'Phase 1: AI highlights recommended actions on PPUI errors. Phase 2: Fully auto-resolves known error types, removing the maker-checker delay.',
     benefits:'Maker step eliminated for known errors · Faster payment processing TAT · Reduced ops team dependency · Phase 2: full auto-resolution of confirmed errors'},
   'Sonika Bisht': { link:'http://192.168.2.8:3008/login', impact:'medium', name:'Client Servicing Dashboard', bu:'Customer Servicing',
     description:'Centralizes all key client information in one place for better visibility, faster information retrieval, reduced investigation time, and smoother shift handovers.',
     benefits:'Centralized client information access · Faster information retrieval · Reduced investigation time · Smoother shift handovers · Easy access to case updates & follow-ups'},
-  'Girija Kanade': { actualValue:'200 hours per month', link:'http://192.168.2.8:3010/', impact:'high', name:'Nium Mailer', bu:'Client Servicing',
+  'Girija Kanade': { actualValue:'300 hours per month', link:'http://192.168.2.8:3010/', impact:'high', name:'Nium Mailer', bu:'Client Servicing',
     description:'Centralises communication processes, helping the client servicing team schedule, track and monitor email communications.',
     benefits:'200 hrs/mo saved · Centralized client communication · Full audit trail & tracking · Reduces manual effort to seconds · Improved accuracy'},
   'Bela Mascrene (3)': { link:'http://192.168.2.8:3004/', impact:'high', name:'Ops Issue Tracker', bu:'Fin Recon',
     description:'Eliminates Excel-based issue tracking with a streamlined system that improves visibility, follow-up management, collaboration, and operational efficiency.',
     benefits:'Eliminates manual issue tracker maintenance · No longer requires Excel-based tracking · Centralized issue management · Improved visibility & follow-up tracking'},
-  'Sunil Rangpadiya': { impact:'high', name:'AI-Powered CS Triage Agent', bu:'Customer Experience',
+  'Sunil Rangpadiya': { abandoned:true, impact:'high', name:'AI-Powered CS Triage Agent — Remittance Query Auto-Draft', bu:'Customer Experience',
     description:'Auto-classify Zendesk tickets, fetch live transaction data, and generate a policy-compliant draft reply within seconds. Agent reviews and sends — no manual lookup or drafting needed.',
     benefits:'Automates ~40–50% of CS ticket volume · Saves 5–8 min per ticket · First response: hrs → under 5 min · No manual lookup or drafting needed'},
   'Bela Mascrene (4)': { impact:'medium', name:'Bank Parser - CFSB Macro', bu:'Fin Recon', actualValue:'15 Mins/Day',
@@ -914,14 +946,20 @@ const PROJECT_DATA = {
     description:'Reduce manual effort and time. Initially took 20 mins, post-macro 4-5 mins, saving 15 mins per day.',
     benefits:'15 mins/day saved · Manual effort eliminated · Faster report turnaround'},
   'Bela Mascrene (8)': { impact:'medium', name:'Bank Parser - LHV Macro', bu:'Fin Recon',
-    description:'Reduce manual effort and time. Initially took 20 mins, post-macro 4-5 mins, saving 30 mins per day.',
-    benefits:'30 mins/day saved · Manual effort eliminated · Faster report turnaround'},
-  'Bela Mascrene (9)': { impact:'medium', name:'Bank Parser - OA Parsing Macro', bu:'Fin Recon',
+    description:'Reduce manual effort and time. Initially took 20 mins, post-macro 4-5 mins, saving 15 mins per day.',
+    benefits:'15 mins/day saved · Manual effort eliminated · Faster report turnaround'},
+  'Bela Mascrene (9)': { impact:'medium', name:'BOL Returns to Identify Possible Match', bu:'Fin Recon',
+    description:'Reduce manual effort and save time.',
+    benefits:'30 mins/day saved · Manual effort eliminated · Faster processing'},
+  'Bela Mascrene (10)': { impact:'medium', name:'Bank Parser - OA Parsing Macro', bu:'Fin Recon',
     description:'Reduce manual effort and save time. Initially took 50-60 mins, post-macro 5 mins, saving 45 mins per day.',
     benefits:'45 mins/day saved · Manual effort eliminated · Faster processing'},
-  'Rohan Dass (2)': { impact:'medium', name:'Regional Invoice Report Automation', bu:'Setup & Invoicing Ops',
+  'Rohan Dass (2)': { impact:'medium', name:'Manual Regional Outstanding Reports', bu:'Setup & Invoicing Ops',
     description:'Automates region-wise reporting for outstanding invoices, replacing a fully manual process. Saves 45 mins per day.',
     benefits:'45 mins/day saved · Manual reporting eliminated · Faster regional invoice tracking'},
+  'Bela Mascrene (11)': { impact:'medium', name:'ADAM For Instarem (Zendesk N8N AI)', bu:'CSM',
+    description:'Reduce manual effort and save time.',
+    benefits:'45 mins/day saved · Manual effort eliminated · Faster processing'},
 };
 
 const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -1011,7 +1049,7 @@ function calcHealth(stages, goLiveDate) {
   return 'on-track';
 }
 
-const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live','on-hold':'On Hold'};
+const healthLabel = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live','on-hold':'On Hold','abandoned':'Abandoned'};
 
 // Group raw by groupKey (each initiative has a unique groupKey)
 // This allows multiple initiatives with the same owner (e.g. Bela Mascrene x3)
@@ -1030,13 +1068,13 @@ const initiatives = groupKeys.map((groupKey, i) => {
   const currentStage = activeStage || nextUp || lastDone || stages[stages.length - 1];
   const ideationOwner = stages.find(s => s.stage === 'Ideation')?.owner || groupKey;
   const pd = PROJECT_DATA[ideationOwner] || {};
-  const health = pd.onHold ? 'on-hold' : calcHealth(stages, goLiveDate);
+  const health = pd.onHold ? 'on-hold' : pd.abandoned ? 'abandoned' : calcHealth(stages, goLiveDate);
   // Display owner = In Progress stage owner, fallback to Ideation owner
   const displayOwner = (activeStage?.owner && !['Product','Product (TBC)',''].includes(activeStage.owner))
     ? activeStage.owner : ideationOwner;
   return {
     id: i,
-    name: (health === 'on-hold' ? 'On-Hold: ' : '') + (pd.name || ideationOwner.replace(/ \([23]\)$/,'').replace('_r','')),
+    name: (health === 'on-hold' ? 'On-Hold: ' : health === 'abandoned' ? 'Abandoned: ' : '') + (pd.name || ideationOwner.replace(/ \(\d+\)$/,'').replace('_r','')),
     bu: pd.bu || '',
     owner: displayOwner.replace(/ \([23]\)$/,'').replace('_r',''),
     stages, goLiveDate, currentStage, health,
@@ -1173,7 +1211,7 @@ function updateImpact() {
   document.getElementById('impact-label').textContent = label;
   renderList(currentInitiatives);
 }
-const HEALTH_LABELS = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live','on-hold':'On Hold'};
+const HEALTH_LABELS = {'on-track':'On Track','behind-schedule':'Behind Schedule','at-risk':'At Risk','not-started':'Not Started','go-live':'Live','on-hold':'On Hold','abandoned':'Abandoned'};
 function updateHealthFilter() {
   const checked = [...document.querySelectorAll('#health-select input:checked')].map(c => c.value);
   activeFilter = checked.length === 0 ? 'all' : checked;
@@ -1194,8 +1232,9 @@ function renderList(list) {
   const byImpact = (a,b) => (IMPACT_ORDER[a.impact]||1) - (IMPACT_ORDER[b.impact]||1);
   const sorted = [
     ...filtered.filter(i => i.health === 'go-live').sort(byImpact),
-    ...filtered.filter(i => i.health !== 'go-live' && i.health !== 'on-hold').sort(byImpact),
+    ...filtered.filter(i => i.health !== 'go-live' && i.health !== 'on-hold' && i.health !== 'abandoned').sort(byImpact),
     ...filtered.filter(i => i.health === 'on-hold').sort(byImpact),
+    ...filtered.filter(i => i.health === 'abandoned').sort(byImpact),
   ];
   document.getElementById('ini-list').innerHTML = sorted.map(renderRow).join('');
 }
@@ -1313,13 +1352,13 @@ document.getElementById('updated-ts').textContent =
       const nextUp = stages.find(s => s.status === 'Not Started');
   const lastDone = [...stages].filter(s => s.status === 'Done').pop();
   const currentStage = activeStage || nextUp || lastDone || stages[stages.length - 1];
-      const health = /on[\s-]?hold/i.test(groupNames[groupId] || '') ? 'on-hold' : calcHealth(stages, goLiveDate);
+      const health = /on[\s-]?hold/i.test(groupNames[groupId] || '') ? 'on-hold' : /abandoned/i.test(groupNames[groupId] || '') ? 'abandoned' : calcHealth(stages, goLiveDate);
       const groupTitle = (groupNames[groupId] || '').replace(/^on[\s-]?hold\s*:?\s*-?\s*/i, '').replace(/^abandoned\s*-?\s*/i, '');
       const pd = PROJECT_DATA[owner] || PROJECT_DATA[PD_KEYS[i]] || {};
       const det = liveDetails[groupId] || {};
       return {
         id: i,
-        name: (health === 'on-hold' ? 'On-Hold: ' : '') + (groupTitle || pd.name || owner),
+        name: (health === 'on-hold' ? 'On-Hold: ' : health === 'abandoned' ? 'Abandoned: ' : '') + (groupTitle || pd.name || owner),
         bu: pd.bu || '',
         owner: displayOwner.replace(' (2)', '').replace(' (3)', '').replace('_r', ''),
         stages, goLiveDate, currentStage, health,
