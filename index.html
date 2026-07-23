@@ -861,9 +861,9 @@ const raw = [
   {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Ideation',status:'Done',range:'2026-06-15 - 2026-06-19'},
   {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Feasibility',status:'Done',range:'2026-06-22 - 2026-06-26'},
   {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Design',status:'Done',range:'2026-06-26 - 2026-07-01'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Build',status:'In Progress',range:'2026-07-02 - 2026-07-15'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Testing',status:'Not Started',range:'2026-07-15 - 2026-07-22'},
-  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Deployment',status:'Not Started',range:'2026-07-23 - 2026-07-24'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Build',status:'Done',range:'2026-07-02 - 2026-07-15'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Testing',status:'Done',range:'2026-07-15 - 2026-07-22'},
+  {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Deployment',status:'In Progress',range:'2026-07-23 - 2026-07-24'},
   {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Monitoring',status:'Not Started',range:'2026-07-27 - 2026-07-29'},
   {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Go Live',status:'Not Started',range:'2026-07-30 - 2026-07-31'},
   {groupKey:'g17',owner:'Bela Mascrene (9)',stage:'Original Go Live',status:'Not Started',range:'2026-07-15 - 2026-07-15'},
@@ -1311,12 +1311,21 @@ document.getElementById('updated-ts').textContent =
         return;
       }
 
-      // Track the primary owner per group (use Ideation owner if valid)
-      if (item.name === 'Ideation' && groupId && !SKIP_OWNERS.includes(rawOwner)) {
-        groupOwners[groupId] = rawOwner;
+      // Track the primary owner per group — prefer the 'Ideation' stage owner if present,
+      // but fall back to the FIRST valid owner encountered for groups that use custom stage
+      // names (e.g. 'Scope Sign-Off' instead of 'Ideation'). This lets any new monday.com
+      // group get picked up automatically regardless of its stage naming convention.
+      if (groupId && !SKIP_OWNERS.includes(rawOwner) && rawOwner) {
+        if (item.name === 'Ideation') {
+          groupOwners[groupId] = rawOwner; // Ideation owner always takes priority
+        } else if (!groupOwners[groupId]) {
+          groupOwners[groupId] = rawOwner; // first valid owner seen, as a fallback
+        }
       }
 
-      if (STAGE_NAMES.includes(item.name) && groupId) {
+      // Include every stage row for the group (not just the standard STAGE_NAMES list)
+      // so initiatives with custom pipelines (different stage names) still render correctly.
+      if (groupId && item.name !== 'Initiative Details') {
         liveRaw.push({ groupKey: groupId, groupId, owner: rawOwner, stage: item.name, status, range });
       }
     });
